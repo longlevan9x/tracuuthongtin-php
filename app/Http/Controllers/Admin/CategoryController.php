@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Commons\Facade\CFile;
 use App\Http\Requests\CategoryRequest;
-use App\Http\Requests\StoreRequest;
 use App\Models\Category;
-use App\Models\Store;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller

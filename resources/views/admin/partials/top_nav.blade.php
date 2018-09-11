@@ -37,18 +37,12 @@
                 </li>
 
                 <li role="presentation" class="" title="Tư vấn">
-                    <a href="{{url_admin('website/subscribe')}}" class=" info-number" data-toggle="" aria-expanded="false">
+                    <a href="#" class=" info-number" data-toggle="" aria-expanded="false">
                         <i class="fa fa-bell-o"></i>
-                        <span class="badge bg-green">{{$totalNewSubscribe}}</span>
+                        <span class="badge bg-green">{{0}}</span>
                     </a>
                 </li>
 
-                <li role="presentation" class="" title="Liên hệ">
-                    <a href="{{url_admin('website/contact')}}" class=" info-number" data-toggle="" aria-expanded="false">
-                        <i class="fa fa-linode"></i>
-                        <span class="badge bg-green">{{$totalNewContact}}</span>
-                    </a>
-                </li>
             </ul>
 
         </nav>

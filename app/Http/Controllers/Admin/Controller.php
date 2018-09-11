@@ -52,11 +52,6 @@ class Controller extends \App\Http\Controllers\Controller
 
 			return $next($request);
 		});
-
-		$totalNewContact   = Post::whereType(Post::TYPE_CONTACT)->whereIsActive(1)->count();
-		$totalNewSubscribe = Post::whereType(Post::TYPE_SUBSCRIBE)->whereIsActive(1)->count();
-
-		view()->share(compact('totalNewSubscribe', 'totalNewContact'));
 	}
 
 	/**
