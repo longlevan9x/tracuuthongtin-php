@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Ho_Chi_Minh',
 
     /*
     |--------------------------------------------------------------------------
@@ -164,6 +164,7 @@ return [
          * Packages Providers
          */
         Collective\Html\HtmlServiceProvider::class,
+	    Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /**
          * Custom Provider
@@ -174,7 +175,9 @@ return [
         App\Models\Providers\StudentScheduleServiceProvider::class,
         App\Models\Providers\ScheduleExamServiceProvider::class,
         App\Models\Providers\StudentScheduleExamServiceProvider::class,
-        App\Models\Providers\SemesterServiceProvider::class
+        App\Models\Providers\SemesterServiceProvider::class,
+	    App\Commons\Providers\CommonServiceProvider::class,
+	    App\Models\Providers\ModelServiceProvider::class
     ],
 
     /*

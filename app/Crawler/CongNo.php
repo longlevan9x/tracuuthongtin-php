@@ -24,10 +24,12 @@ class CongNo extends Crawler
 	 */
 	public function getUrl() {
 		// TODO: Implement getUrl() method.
-	}/**
- * @param string $url
- * @return Crawler
- */
+	}
+
+	/**
+    * @param string $url
+    * @return Crawler
+    */
 	public function setUrl($url) {
 		// TODO: Implement setUrl() method.
 	}
