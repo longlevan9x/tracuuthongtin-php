@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.38 on 2018-09-11 09:52:14.
+ * Generated for Laravel 5.6.38 on 2018-09-13 10:54:51.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -14642,7 +14642,7 @@ namespace App\Models\Facade {
         /**
          * 
          *
-         * @return \Illuminate\Database\Eloquent\Collection 
+         * @return \App\Models\Collection 
          * @static 
          */ 
         public static function getSchedulesAttribute()
@@ -14653,7 +14653,7 @@ namespace App\Models\Facade {
         /**
          * 
          *
-         * @return \Illuminate\Database\Eloquent\Collection 
+         * @return \App\Models\Collection 
          * @static 
          */ 
         public static function getScheduleExamsAttribute()
@@ -14664,7 +14664,7 @@ namespace App\Models\Facade {
         /**
          * 
          *
-         * @return \Illuminate\Database\Eloquent\Collection 
+         * @return \App\Models\Collection 
          * @static 
          */ 
         public static function schedules()
@@ -14675,7 +14675,7 @@ namespace App\Models\Facade {
         /**
          * 
          *
-         * @return \Illuminate\Database\Eloquent\Collection 
+         * @return \App\Models\Collection 
          * @static 
          */ 
         public static function scheduleExams()

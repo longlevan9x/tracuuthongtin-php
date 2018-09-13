@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class SyncHistory
+ *
  * @property string name
  * @property integer status
  * @property string total_record
  * @property string type
  * @package App\Models
+ * @mixin \Eloquent
  */
 class SyncHistory extends Model
 {

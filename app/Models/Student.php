@@ -6,6 +6,7 @@ use App\Commons\CConstant;
 use App\Commons\CRequest;
 use App\Crawler\ThongTinSinhVien;
 use App\Helpers\Facade\Helper;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\FileHelpers;
 use Illuminate\Support\Facades\DB;
@@ -14,22 +15,25 @@ use Yadakhov\InsertOnDuplicateKey;
 /**
  * Class Student
  * @package App\Models
- * @property string     code
- * @property string     name
- * @property string     class
- * @property int        id_department
- * @property string     branch_group
- * @property string     branch
- * @property string     status
- * @property string     day_admission
- * @property string     school_year
- * @property int        course
- * @property int        gender
- * @property string     type_education
- * @property int        area
- * @property string     average_cumulative
- * @property int        total_term
- * @property Department department
+ * @property string          code
+ * @property string          name
+ * @property string          class
+ * @property int             id_department
+ * @property string          branch_group
+ * @property string          branch
+ * @property string          status
+ * @property string          day_admission
+ * @property string          school_year
+ * @property int             course
+ * @property int             gender
+ * @property string          type_education
+ * @property int             area
+ * @property string          average_cumulative
+ * @property int             total_term
+ * @property-read Department $department
+ * @property-read Collection $schedule_exams
+ * @property-read Collection $schedules
+ * @mixin \Eloquent
  */
 class Student extends Model
 {
@@ -68,37 +72,35 @@ class Student extends Model
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Collection
+	 * @return Collection
 	 */
 	public function getSchedulesAttribute() {
 		return $this->schedules();
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Collection
+	 * @return Collection
 	 */
 	public function getScheduleExamsAttribute() {
 		return $this->scheduleExams();
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Collection
+	 * @return Collection
 	 */
 	public function schedules() {
-		$semester = $this->getSemester()->name;
+		$semester = $this->getSemester()->name ?? '';
 
-		return $this->belongsToMany(Schedule::class, StudentSchedule::getTableName())->where(['semester' => $semester])
-		            ->get();
+		return $this->belongsToMany(Schedule::class, StudentSchedule::getTableName())->where(['semester' => $semester])->get();
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Collection
+	 * @return Collection
 	 */
 	public function scheduleExams() {
-		$semester = $this->getSemester()->name;
+		$semester = $this->getSemester()->name ?? '';
 
-		return $this->belongsToMany(ScheduleExam::class, StudentScheduleExam::getTableName())
-		            ->where(['semester' => $semester])->get();
+		return $this->belongsToMany(ScheduleExam::class, StudentScheduleExam::getTableName())->where(['semester' => $semester])->get();
 	}
 
 	public function getArea() {
@@ -157,7 +159,8 @@ class Student extends Model
 				if (!empty($student_info)) {
 					if ($student_info['co_so'] == 'Hà Nội') {
 						$coso = 10;
-					} else {
+					}
+					else {
 						$coso = 20;
 					}
 
@@ -211,7 +214,8 @@ class Student extends Model
 		if (!empty($student_info)) {
 			if ($student_info['co_so'] == 'Hà Nội') {
 				$coso = 10;
-			} else {
+			}
+			else {
 				$coso = 20;
 			}
 

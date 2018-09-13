@@ -9,9 +9,11 @@ use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * Class Semester
+ *
  * @package App\Models
  * @property string $name
  * @property int $is_active
+ * @mixin \Eloquent
  */
 class Semester extends Model
 {

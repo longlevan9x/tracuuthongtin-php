@@ -11,7 +11,9 @@ use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * Class StudentSchedule
+ *
  * @package App\Models
+ * @mixin \Eloquent
  */
 class StudentSchedule extends Model
 {

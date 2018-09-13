@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Yadakhov\InsertOnDuplicateKey;
 
+/**
+ * App\Models\ScheduleExam
+ *
+ * @mixin \Eloquent
+ */
 class ScheduleExam extends Model
 {
     use InsertOnDuplicateKey;

@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Course
+ *
  * @package App\Models
+ * @property-read \App\Models\Department $department
+ * @mixin \Eloquent
  */
 class Course extends Model
 {

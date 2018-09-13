@@ -10,6 +10,11 @@ use Illuminate\Http\FileHelpers;
 use Illuminate\Support\Facades\DB;
 use Yadakhov\InsertOnDuplicateKey;
 
+/**
+ * App\Models\Schedule
+ *
+ * @mixin \Eloquent
+ */
 class Schedule extends Model
 {
     use InsertOnDuplicateKey;

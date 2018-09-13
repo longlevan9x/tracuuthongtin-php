@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class User
+ *
  * @package App
  * @property string  $username
  * @property string  $name
@@ -25,6 +26,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property mixed   $last_logout
  * @property mixed   $created_at
  * @property mixed   $updated_at
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @mixin \Eloquent
  */
 class User extends Authenticatable
 {

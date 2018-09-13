@@ -17,6 +17,7 @@ use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * Class Setting
+ *
  * @package App\Models
  * @property string                  $website_name
  * @property string                  $website_description
@@ -54,6 +55,8 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static Builder|Setting whereUpdatedAt($value)
  * @method static Builder|Setting whereValue($value)
  * @mixin Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting active($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting inActive()
  */
 class Setting extends Model
 {

@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Department
+ *
  * @package App\Models
  * @property int    code
  * @property string name
  * @property int    total_student
  * @property int    id
+ * @mixin \Eloquent
  */
 class Department extends Model
 {
