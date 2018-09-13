@@ -84,7 +84,7 @@ class SemesterController extends Controller
 	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
 	 */
 	public function syncSemester() {
-		\App\Models\Facade\Semester::syncSemester();
+		\App\Models\Facade\SemesterFacade::syncSemester();
 
 		return redirect(route('semester.index'));
 	}

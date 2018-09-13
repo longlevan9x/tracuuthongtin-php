@@ -236,7 +236,7 @@ return [
          * Custom Facade
         */
 	    'Helper' => App\Helpers\Facade\Helper::class,
-	    'Student' => \App\Models\Facade\Student::class
+	    'Student' => \App\Models\Facade\StudentFacade::class
     ],
 
 ];

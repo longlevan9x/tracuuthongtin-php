@@ -12,7 +12,6 @@ use Illuminate\Support\Collection;
 
 /**
  * Class Category
- *
  * @package App\Models
  * @property string      $type
  * @property int         $is_active
@@ -48,7 +47,10 @@ use Illuminate\Support\Collection;
  * @property string      seo_keyword
  * @property string      seo_description
  * \Illuminate\Database\Eloquent\Builder|\App\Models\Category whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category inActive()
+ * @method static Builder|Category inActive()
+ * @method static Builder|Category whereSeoDescription($value)
+ * @method static Builder|Category whereSeoKeyword($value)
+ * @method static Builder|Category whereSeoTitle($value)
  */
 class Category extends Model
 {

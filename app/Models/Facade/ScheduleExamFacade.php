@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: LongPC
- * Date: 5/12/2018
- * Time: 12:20 AM
+ * Date: 5/18/2018
+ * Time: 2:23 PM
  */
 
 namespace App\Models\Facade;
@@ -12,18 +12,18 @@ namespace App\Models\Facade;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class Student
+ * Class ScheduleExam
  * @package App\Models\Facade
- * @method static string syncScheduleByDepartment(string $department_code)
- * @see \App\Models\Schedule
+ * @method static string syncScheduleExamByDepartment(string $department_code)
+ * @see \App\Models\ScheduleExam
  */
-class Schedule extends Facade
+class ScheduleExamFacade extends Facade
 {
     /**
      * @return string
      */
     protected static function getFacadeAccessor()
     {
-        return 'schedule';
+        return 'schedule-exam';
     }
 }

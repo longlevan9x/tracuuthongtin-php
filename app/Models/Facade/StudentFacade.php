@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string syncStudent(int $msv)
  * @see \App\Models\Student
  */
-class Student extends Facade
+class StudentFacade extends Facade
 {
     /**
      * @return string

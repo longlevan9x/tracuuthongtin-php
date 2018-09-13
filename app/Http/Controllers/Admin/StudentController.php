@@ -93,7 +93,7 @@ class StudentController extends Controller
      * @throws \Exception
      */
     public function syncInformationStudentByDepartment(Request $request) {
-        \App\Models\Facade\Student::syncStudentByDepartment($request->get('id_department'));
+        \App\Models\Facade\StudentFacade::syncStudentByDepartment($request->get('id_department'));
         return redirect(url('admin/student'));
     }
 }

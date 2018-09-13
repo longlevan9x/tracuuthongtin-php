@@ -89,7 +89,7 @@ class ScheduleController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function syncScheduleByDepartment (Request  $request) {
-        \App\Models\Facade\Schedule::syncScheduleByDepartment($request->get('id_department'));
+        \App\Models\Facade\ScheduleFacade::syncScheduleByDepartment($request->get('id_department'));
         return redirect(url('admin/schedule'));
     }
 }

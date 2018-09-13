@@ -14,16 +14,16 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Class Student
  * @package App\Models\Facade
- * @method static string syncStudentScheduleExamByDepartment($department_code)
- * @see \App\Models\StudentScheduleExam
+ * @method static string syncStudentScheduleByDepartment($department_code)
+ * @see \App\Models\StudentSchedule
  */
-class StudentScheduleExam extends Facade
+class StudentScheduleFacade extends Facade
 {
     /**
      * @return string
      */
     protected static function getFacadeAccessor()
     {
-        return 'student-schedule-exam';
+        return 'student-schedule';
     }
 }

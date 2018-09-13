@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Admin\Controller;
-use App\Models\Facade\Student;
+use App\Models\Facade\StudentFacade;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -14,7 +14,7 @@ class StudentController extends Controller
      */
     public function syncStudent($msv)
     {
-        Student::syncStudent($msv);
+        StudentFacade::syncStudent($msv);
     }
 
     /**
@@ -23,7 +23,7 @@ class StudentController extends Controller
      */
     public function syncStudents($department_code = 141031)
     {
-        Student::syncStudentByDepartment(141031);
+        StudentFacade::syncStudentByDepartment(141031);
     }
 
     /**
@@ -32,7 +32,7 @@ class StudentController extends Controller
      */
     public function getStudent($msv)
     {
-        $student = Student::where(['code' => $msv])->first();
+        $student = StudentFacade::where(['code' => $msv])->first();
         if (!isset($student) || empty($student)) {
             return response()->json([
                 'message' => 'student not found',

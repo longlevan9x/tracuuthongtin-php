@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Facade\StudentSchedule;
-use App\Models\Facade\StudentScheduleExam;
+use App\Models\Facade\StudentScheduleFacade;
+use App\Models\Facade\StudentScheduleExamFacade;
 use Illuminate\Http\Request;
 
 /**
@@ -24,13 +24,13 @@ class SyncController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function syncStudentScheduleByDepartment(Request $request) {
-        StudentSchedule::syncStudentScheduleByDepartment($request->get('id_department'));
+        StudentScheduleFacade::syncStudentScheduleByDepartment($request->get('id_department'));
         return redirect('admin/sync');
     }
 
 
     public function syncStudentScheduleExamByDepartment(Request $request){
-        StudentScheduleExam::syncStudentScheduleExamByDepartment($request->get('id_department'));
+        StudentScheduleExamFacade::syncStudentScheduleExamByDepartment($request->get('id_department'));
         return redirect('admin/sync');
     }
 }

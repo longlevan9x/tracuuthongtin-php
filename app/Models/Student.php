@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Commons\CConstant;
 use App\Commons\CRequest;
 use App\Crawler\ThongTinSinhVien;
-use App\Helpers\Facade\Helper;
+use Helper;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\FileHelpers;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use Yadakhov\InsertOnDuplicateKey;
 
 /**
@@ -34,6 +34,44 @@ use Yadakhov\InsertOnDuplicateKey;
  * @property-read Collection $schedule_exams
  * @property-read Collection $schedules
  * @mixin \Eloquent
+ * @property int             $id
+ * @property string          $code
+ * @property string          $name
+ * @property string|null     $class
+ * @property int|null        $id_course          khoa hoc
+ * @property string|null     $branch_group       Nganh
+ * @property string|null     $branch             Chuyen nganh
+ * @property string|null     $status             trang thai
+ * @property string|null     $day_admission      ngay vao truong
+ * @property string|null     $school_year        nien khoa
+ * @property int|null        $id_department      khoa
+ * @property string|null     $education_level    bac dao tao
+ * @property string|null     $gender             gioi tinh
+ * @property string|null     $type_education     Loai hinh dao tao
+ * @property int|null        $area               Co so:10->hanoi, 20->namdinh
+ * @property string|null     $average_cumulative trung binh tich luy
+ * @property int|null        $total_term         tong so tin chi
+ * @property Carbon|null     $created_at
+ * @property Carbon|null     $updated_at
+ * @method static Builder|Student whereArea($value)
+ * @method static Builder|Student whereAverageCumulative($value)
+ * @method static Builder|Student whereBranch($value)
+ * @method static Builder|Student whereBranchGroup($value)
+ * @method static Builder|Student whereClass($value)
+ * @method static Builder|Student whereCode($value)
+ * @method static Builder|Student whereCreatedAt($value)
+ * @method static Builder|Student whereDayAdmission($value)
+ * @method static Builder|Student whereEducationLevel($value)
+ * @method static Builder|Student whereGender($value)
+ * @method static Builder|Student whereId($value)
+ * @method static Builder|Student whereIdCourse($value)
+ * @method static Builder|Student whereIdDepartment($value)
+ * @method static Builder|Student whereName($value)
+ * @method static Builder|Student whereSchoolYear($value)
+ * @method static Builder|Student whereStatus($value)
+ * @method static Builder|Student whereTotalTerm($value)
+ * @method static Builder|Student whereTypeEducation($value)
+ * @method static Builder|Student whereUpdatedAt($value)
  */
 class Student extends Model
 {

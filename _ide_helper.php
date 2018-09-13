@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.38 on 2018-09-13 10:54:51.
+ * Generated for Laravel 5.6.38 on 2018-09-13 11:13:40.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -14626,7 +14626,7 @@ namespace App\Models\Facade {
      * @method static string syncStudent(int $msv)
      * @see \App\Models\Student
      */ 
-    class Student {
+    class StudentFacade {
         
         /**
          * 
@@ -20019,7 +20019,7 @@ namespace  {
 
     class Helper extends \App\Helpers\Facade\Helper {}
 
-    class Student extends \App\Models\Facade\Student {}
+    class Student extends \App\Models\Facade\StudentFacade {}
 
     class Debugbar extends \Barryvdh\Debugbar\Facade {}
  

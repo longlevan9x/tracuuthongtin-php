@@ -19,19 +19,17 @@ use Yadakhov\InsertOnDuplicateKey;
  * Class Setting
  *
  * @package App\Models
- * @property string                  $website_name
- * @property string                  $website_description
- * @property string                  $admin_email
- * @property string                  $lang_default
- * @property string                  $format_time
- * @property string                  $format_date
- * @property string                  $format_datetime
- * @property string                  $blog_charset
- * @property string                  _message_order
- * @property string                  _message_order_success
- * @property string                  _message_order_fail
- * @property mixed                   value
- * @property mixed                   key
+ * @property string      $website_name
+ * @property string      $website_description
+ * @property string      $admin_email
+ * @property string      $lang_default
+ * @property string      $format_time
+ * @property string      $format_date
+ * @property string      $format_datetime
+ * @property string      $blog_charset
+ * @property string      _message_order
+ * @property string      _message_order_success
+ * @property string      _message_order_fail
  * ======= method defined in ModelBaseTrait with function __call, __get, __set =======
  * @method setMaxLogoHeight(int $maxImageHeight)
  * @method setMaxLogoWidth(int $maxImageWidth)
@@ -39,12 +37,12 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method setMax_expert_imageWidth(int $maxImageWidth)
  * @method setMax_expert_thumbnailWidth(int $maxImageHeight)
  * @method setMax_expert_thumbnailHeight(int $maxImageWidth)
- * @property int                     $id
- * @property int|null                $autoload
- * @property int|null                $is_active
- * @property Carbon|null             $created_at
- * @property Carbon|null             $updated_at
- * @property-read \App\Models\Admins $authorUpdated
+ * @property int         $id
+ * @property int|null    $autoload
+ * @property int|null    $is_active
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Admins $authorUpdated
  * @method static Builder|Setting findSimilarSlugs($attribute, $config, $slug)
  * @method static Builder|Setting whereAutoload($value)
  * @method static Builder|Setting whereCreatedAt($value)
@@ -55,8 +53,10 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static Builder|Setting whereUpdatedAt($value)
  * @method static Builder|Setting whereValue($value)
  * @mixin Eloquent
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting active($value = 1)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting inActive()
+ * @method static Builder|Setting active($value = 1)
+ * @method static Builder|Setting inActive()
+ * @property string|null $key
+ * @property string|null $value
  */
 class Setting extends Model
 {

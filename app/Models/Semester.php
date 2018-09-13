@@ -4,16 +4,25 @@ namespace App\Models;
 
 use App\Commons\CConstant;
 use App\Crawler\LichHoc;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * Class Semester
- *
  * @package App\Models
  * @property string $name
  * @property int $is_active
  * @mixin \Eloquent
+ * @property int $id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Semester whereCreatedAt($value)
+ * @method static Builder|Semester whereId($value)
+ * @method static Builder|Semester whereIsActive($value)
+ * @method static Builder|Semester whereName($value)
+ * @method static Builder|Semester whereUpdatedAt($value)
  */
 class Semester extends Model
 {

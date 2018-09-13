@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string syncSemester()
  * @see \App\Models\Semester
  */
-class Semester extends Facade
+class SemesterFacade extends Facade
 {
 	/**
 	 * @return string
