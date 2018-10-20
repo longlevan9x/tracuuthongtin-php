@@ -8,7 +8,6 @@ use App\Models\Traits\ModelTrait;
 use App\Models\Traits\ModelUploadTrait;
 use Cache;
 use Carbon\Carbon;
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -19,17 +18,17 @@ use Yadakhov\InsertOnDuplicateKey;
  * Class Setting
  *
  * @package App\Models
- * @property string      $website_name
- * @property string      $website_description
- * @property string      $admin_email
- * @property string      $lang_default
- * @property string      $format_time
- * @property string      $format_date
- * @property string      $format_datetime
- * @property string      $blog_charset
- * @property string      _message_order
- * @property string      _message_order_success
- * @property string      _message_order_fail
+ * @property string                  $website_name
+ * @property string                  $website_description
+ * @property string                  $admin_email
+ * @property string                  $lang_default
+ * @property string                  $format_time
+ * @property string                  $format_date
+ * @property string                  $format_datetime
+ * @property string                  $blog_charset
+ * @property string                  _message_order
+ * @property string                  _message_order_success
+ * @property string                  _message_order_fail
  * ======= method defined in ModelBaseTrait with function __call, __get, __set =======
  * @method setMaxLogoHeight(int $maxImageHeight)
  * @method setMaxLogoWidth(int $maxImageWidth)
@@ -37,12 +36,12 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method setMax_expert_imageWidth(int $maxImageWidth)
  * @method setMax_expert_thumbnailWidth(int $maxImageHeight)
  * @method setMax_expert_thumbnailHeight(int $maxImageWidth)
- * @property int         $id
- * @property int|null    $autoload
- * @property int|null    $is_active
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read Admins $authorUpdated
+ * @property int                     $id
+ * @property int|null                $autoload
+ * @property int|null                $is_active
+ * @property Carbon|null             $created_at
+ * @property Carbon|null             $updated_at
+ * @property-read \App\Models\Admins $authorUpdated
  * @method static Builder|Setting findSimilarSlugs($attribute, $config, $slug)
  * @method static Builder|Setting whereAutoload($value)
  * @method static Builder|Setting whereCreatedAt($value)
@@ -52,11 +51,15 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static Builder|Setting whereSlug($slug)
  * @method static Builder|Setting whereUpdatedAt($value)
  * @method static Builder|Setting whereValue($value)
- * @mixin Eloquent
- * @method static Builder|Setting active($value = 1)
- * @method static Builder|Setting inActive()
- * @property string|null $key
- * @property string|null $value
+ * @mixin \Eloquent
+ * @property string|null             $key
+ * @property string|null             $value
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting active($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting inActive()
+ * @property-read \App\Models\Admins $author
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting orderBySortOrder()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting orderBySortOrderDesc()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Setting myPluck($column, $key = null, $title = '')
  */
 class Setting extends Model
 {
