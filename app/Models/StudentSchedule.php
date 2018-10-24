@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Commons\CConstant;
+use App\Crawler\Helper;
 use App\Crawler\LichHoc;
-use App\Helpers\Facade\Helper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -13,18 +13,19 @@ use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * Class StudentSchedule
+ *
  * @package App\Models
  * @mixin \Eloquent
  * @property int         $id
- * @property int         $student_id
- * @property int         $schedule_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @method static Builder|StudentSchedule whereCreatedAt($value)
  * @method static Builder|StudentSchedule whereId($value)
- * @method static Builder|StudentSchedule whereScheduleId($value)
- * @method static Builder|StudentSchedule whereStudentId($value)
  * @method static Builder|StudentSchedule whereUpdatedAt($value)
+ * @property string      $student_code
+ * @property string      $schedule_code
+ * @method static Builder|StudentSchedule whereScheduleCode($value)
+ * @method static Builder|StudentSchedule whereStudentCode($value)
  */
 class StudentSchedule extends Model
 {
@@ -33,7 +34,7 @@ class StudentSchedule extends Model
 	 * The attributes that are mass assignable.
 	 * @var array
 	 */
-	protected $fillable = ['student_id', 'schedule_id'];
+	protected $fillable = ['student_code', 'schedule_code'];
 
 	/**
 	 * @param $department_code
@@ -79,7 +80,7 @@ class StudentSchedule extends Model
 			//            print_r($studentSchedules);
 			//            die;
 			StudentSchedule::insertIgnore($studentSchedules);
-			$syncHistory               = new SyncHistory;
+			$syncHistory               = new CrawlHistory;
 			$syncHistory->name         = StudentSchedule::getTableName();
 			$syncHistory->type         = 'web';
 			$syncHistory->total_record = count($studentSchedules);

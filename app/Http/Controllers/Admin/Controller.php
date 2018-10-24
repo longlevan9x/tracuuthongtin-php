@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Commons\Facade\CFile;
 use App\Commons\Facade\CUser;
 use App\Models\Admins;
-use App\Models\Contact;
-use App\Models\Post;
 use App\Models\Traits\ModelMethodTrait;
 use App\Models\Traits\ModelTrait;
 use App\Models\Traits\ModelUploadTrait;

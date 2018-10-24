@@ -6,32 +6,28 @@ use Illuminate\Database\Migrations\Migration;
 
 class StudentScheduleExams extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('student_schedule_exams', function (Blueprint $table) {
-            //
-            $table->increments('id')->length(11)->unsigned();
-            $table->integer('student_id')->length(11)->unsigned();
-            $table->integer('schedule_exam_id')->length(11)->unsigned();
-            $table->foreign('student_id')->references('id')->on('students');
-            $table->timestamps();
-        });
-    }
+	/**
+	 * Run the migrations.
+	 * @return void
+	 */
+	public function up() {
+		Schema::create('student_schedule_exams', function(Blueprint $table) {
+			$table->increments('id')->length(11)->unsigned();
+			$table->string('student_code', 15);
+			$table->string('schedule_exam_code', 20);
+			$table->timestamps();
+			$table->unique(['student_code', 'schedule_exam_code']);
+			//$table->foreign('student_code')->references('code')->on('students');
+		});
+	}
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::table('student_schedule_exams', function (Blueprint $table) {
-            //
-        });
-    }
+	/**
+	 * Reverse the migrations.
+	 * @return void
+	 */
+	public function down() {
+		Schema::table('student_schedule_exams', function(Blueprint $table) {
+			//
+		});
+	}
 }

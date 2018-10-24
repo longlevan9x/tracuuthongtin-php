@@ -18,4 +18,14 @@ class Common
 	public function showAppName($app_name = '') {
 		return str_replace('_', ' ', $app_name);
 	}
+
+	/**
+	 * @param        $relate
+	 * @param        $field
+	 * @param string $default_value
+	 * @return string|int|array
+	 */
+	public function getRelateField($relate, $field, $default_value = '') {
+		return isset($relate) ? $relate->{$field} : $default_value;
+	}
 }

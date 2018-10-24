@@ -18,15 +18,16 @@ class Course extends Migration
             $table->increments('id')->unsigned();
             $table->string('code', 6)->nullable();
             $table->string('name', 100);
-            $table->integer('id_department')->nullable()->unsigned();;
+            $table->integer('department_id')->nullable()->unsigned();;
 	        $table->integer('total_student')->default(0)->nullable();
+	        $table->integer('year')->default(0)->nullable()->length(4);
 	        $table->tinyInteger('is_active')->default(0)->nullable()->comment('trang thai hoat dong');
-	        $table->foreign('id_department')->references('id')->on('departments');
+	        $table->foreign('department_id')->references('id')->on('departments');
             $table->timestamps();
         });
 
 	    Schema::table('students', function (Blueprint $table) {
-		    $table->foreign('id_course')->references('id')->on('courses');
+		    $table->foreign('course_id')->references('id')->on('courses');
 	    });
     }
 

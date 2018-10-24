@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Models\Area
+ *
  * @mixin \Eloquent
  * @property int                             $id
  * @property string                          $code

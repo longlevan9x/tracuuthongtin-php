@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
+use App\Crawler\Helper;
 use App\Crawler\LichThi;
-use App\Helpers\Facade\Helper;
+use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -12,6 +13,7 @@ use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * App\Models\ScheduleExam
+ *
  * @mixin \Eloquent
  * @property int         $id
  * @property string      $code        ma lop hoc phan
@@ -41,39 +43,19 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static Builder|ScheduleExam whereTestDay($value)
  * @method static Builder|ScheduleExam whereType($value)
  * @method static Builder|ScheduleExam whereUpdatedAt($value)
+ * @property-read \App\Models\Admins $author
+ * @property-read \App\Models\Admins $authorUpdated
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam active($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam findSimilarSlugs($attribute, $config, $slug)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam inActive()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam myPluck($column, $key = null, $title = '')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam orderBySortOrder()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam orderBySortOrderDesc()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam whereSlug($slug)
  */
 class ScheduleExam extends Model
 {
+	use ModelTrait;
 	use InsertOnDuplicateKey;
 	protected $fillable = ['code', 'name', 'group', 'test_day', 'examination', 'room', 'type', 'note', 'is_active'];
-
-	/**
-	 * @param $department_code
-	 * @throws \Exception
-	 */
-	public function syncScheduleExamByDepartment($department_code) {
-		/** @var Department $department */
-		$department = Department::where(['code' => $department_code])->first();
-		if (isset($department) && !empty($department)) {
-			set_time_limit(0);
-			$scheduleExams = [];
-
-			$lichThi       = new LichThi;
-			$msv           = $department->code;
-			$total_student = $department->total_student;
-			//            $total_student = 200;
-
-			for ($index = 1; $index <= $total_student; $index++) {
-				$lichThi->msv  = Helper::getMsv($msv, $index);
-				$scheduleExam  = $lichThi->getLichThi('3 (2017 - 2018)')->asArray();
-				$scheduleExams += $scheduleExam;
-			}
-
-			//            echo "<pre>";
-			//            print_r($scheduleExams);
-			//            print_r(array_values($scheduleExams));
-			//            die;
-			ScheduleExam::insertOnDuplicateKey(array_values($scheduleExams));
-		}
-	}
 }

@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\DepartmentRequest;
 use App\Models\Department;
-use Illuminate\Http\FileHelpers;
-use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {

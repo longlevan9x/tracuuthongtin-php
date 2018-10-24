@@ -2,27 +2,27 @@
 
 namespace App\Models;
 
+use App\Crawler\Helper;
 use App\Crawler\LichThi;
-use App\Helpers\Facade\Helper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * App\Models\StudentScheduleExam
+ *
  * @mixin \Eloquent
  * @property int         $id
- * @property int         $student_id
- * @property int         $schedule_exam_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @method static Builder|StudentScheduleExam whereCreatedAt($value)
  * @method static Builder|StudentScheduleExam whereId($value)
- * @method static Builder|StudentScheduleExam whereScheduleExamId($value)
- * @method static Builder|StudentScheduleExam whereStudentId($value)
  * @method static Builder|StudentScheduleExam whereUpdatedAt($value)
+ * @property string $student_code
+ * @property string $schedule_exam_code
+ * @method static Builder|StudentScheduleExam whereScheduleExamCode($value)
+ * @method static Builder|StudentScheduleExam whereStudentCode($value)
  */
 class StudentScheduleExam extends Model
 {
@@ -32,7 +32,7 @@ class StudentScheduleExam extends Model
 	 * The attributes that are mass assignable.
 	 * @var array
 	 */
-	protected $fillable = ['student_id', 'schedule_exam_id'];
+	protected $fillable = ['student_code', 'schedule_exam_code'];
 
 	/**
 	 * @param $department_code

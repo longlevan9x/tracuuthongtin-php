@@ -9,7 +9,6 @@
 namespace App\Crawler;
 
 
-use App\Helpers\Facade\Helper;
 use Exception;
 
 class LichHoc extends Crawler

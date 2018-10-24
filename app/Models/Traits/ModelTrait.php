@@ -22,9 +22,6 @@ use Illuminate\Support\Facades\Event;
  * @property Model  $this
  * @property int    id
  * @property string slug
- * @method  static Builder where(string $column, string $operator = null, string $value = null, string $boolean = 'and')
- * @method  static Builder orWhere(string $column, string $operator = null, string $value = null)
- * @method  static Builder|Model findOrFail(mixed | int | string $id, array $column = ['*'])
  * @see     Builder
  */
 trait ModelTrait

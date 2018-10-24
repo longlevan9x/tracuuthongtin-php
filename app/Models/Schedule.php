@@ -3,17 +3,17 @@
 namespace App\Models;
 
 use App\Commons\CConstant;
+use App\Crawler\Helper;
 use App\Crawler\LichHoc;
-use App\Helpers\Facade\Helper;
+use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\FileHelpers;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * App\Models\Schedule
+ *
  * @mixin \Eloquent
  * @property int         $id
  * @property string      $code       ma lop hoc phan
@@ -43,47 +43,20 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static Builder|Schedule whereTeacher($value)
  * @method static Builder|Schedule whereUpdatedAt($value)
  * @method static Builder|Schedule whereWeekday($value)
+ * @property-read \App\Models\Admins $author
+ * @property-read \App\Models\Admins $authorUpdated
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Schedule active($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Schedule findSimilarSlugs($attribute, $config, $slug)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Schedule inActive()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Schedule myPluck($column, $key = null, $title = '')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Schedule orderBySortOrder()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Schedule orderBySortOrderDesc()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Schedule whereSlug($slug)
  */
 class Schedule extends Model
 {
+	use ModelTrait;
 	use InsertOnDuplicateKey;
 
 	protected $fillable = ['code', 'name', 'semester', 'lesson', 'start_time', 'end_time', 'weekday', 'session', 'teacher', 'classroom', 'is_active'];
-
-	/**
-	 * @param $department_code
-	 * @throws \Exception
-	 */
-	public function syncScheduleByDepartment($department_code) {
-		/** @var Department $department */
-		$department = Department::where(['code' => $department_code])->first();
-		if (isset($department) && !empty($department)) {
-			set_time_limit(0);
-			$schedules = [];
-
-			$lichHoc       = new LichHoc;
-			$msv           = $department->code;
-			$total_student = $department->total_student;
-			//            $total_student = 200;
-
-			for ($index = 1; $index <= $total_student; $index++) {
-				$lichHoc->msv = Helper::getMsv($msv, $index);
-				$schedule     = $lichHoc->getLichHoc()->asArray();
-				$schedules    += $schedule;
-			}
-
-			//            echo "<pre>";
-			//            print_r(array_values($schedules));
-			//            print_r($schedules);
-			//            die;
-			Schedule::insertOnDuplicateKey(array_values($schedules));
-
-			$syncHistory               = new SyncHistory;
-			$syncHistory->name         = Schedule::getTableName();
-			$syncHistory->type         = 'web';
-			$syncHistory->total_record = count($schedules);
-			$syncHistory->status       = CConstant::STATE_ACTIVE;
-			$syncHistory->save();
-		}
-	}
 }

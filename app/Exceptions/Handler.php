@@ -59,6 +59,7 @@ class Handler extends ExceptionHandler
 			}
 		}
 
+
 		//if(strpos($request->server('HTTP_HOST'), 'www') == false) {
 		//	return header("Location: ". 'http://www.' . $request->server('HTTP_HOST'));
 		//}
