@@ -18,6 +18,7 @@ class StudentScheduleExams extends Migration
 			$table->timestamps();
 			$table->unique(['student_code', 'schedule_exam_code']);
 			//$table->foreign('student_code')->references('code')->on('students');
+			//$table->foreign('schedule_exam_code')->references('code')->on('schedule_exams');
 		});
 	}
 
