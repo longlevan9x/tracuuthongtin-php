@@ -94,7 +94,7 @@ class Crawl
 
 			$this->saveCrawlHistory(count($students), $time, 1);
 
-			return responseJson("Crawl Success", [
+			return responseJson(CConstant::STATUS_SUCCESS, [
 				'student' => count($students),
 				'time'    => $time
 			]);
@@ -150,7 +150,7 @@ class Crawl
 		Student::insertOnDuplicateKey($students);
 		$this->saveCrawlHistory(count($students), $time, 1);
 
-		return responseJson("Crawl Success", [
+		return responseJson(CConstant::STATUS_SUCCESS, [
 			'student' => count($students),
 			'time'    => $time
 		]);
@@ -181,7 +181,7 @@ class Crawl
 
 		$this->saveCrawlHistory(count($data), $time, 1);
 
-		return responseJson("Crawl Success", [
+		return responseJson(CConstant::STATUS_SUCCESS, [
 			'semester' => count($data),
 			'time'     => $time
 		]);
@@ -231,7 +231,7 @@ class Crawl
 
 			$this->saveCrawlHistory(count($schedules), $time, 1);
 
-			return responseJson("Crawl Success", [
+			return responseJson(CConstant::STATUS_SUCCESS, [
 				'schedule'         => count($schedules),
 				'student_schedule' => count($studentScheduleList),
 				'time'             => $time
@@ -239,7 +239,7 @@ class Crawl
 		}
 		$this->saveCrawlHistory();
 
-		return responseJson("Crawl Fail", 'Code Not Found');
+		return responseJson(CConstant::STATUS_FAIL, 'Code Not Found');
 	}
 
 	/**
@@ -278,7 +278,7 @@ class Crawl
 
 		$this->saveCrawlHistory(count($schedules), $time, 1);
 
-		return responseJson("Crawl Success", [
+		return responseJson(CConstant::STATUS_SUCCESS, [
 			'schedule'         => count($schedules),
 			'student_schedule' => count($studentScheduleList),
 			'time'             => $time
@@ -325,7 +325,7 @@ class Crawl
 			StudentScheduleExam::insertOnDuplicateKey($studentScheduleExamList);
 			$this->saveCrawlHistory(count($scheduleExams), $time, 1);
 
-			return responseJson("Crawl Success", [
+			return responseJson(CConstant::STATUS_SUCCESS, [
 				'schedule'              => count($scheduleExams),
 				'student_schedule_exam' => count($studentScheduleExamList),
 				'time'                  => $time
@@ -333,7 +333,7 @@ class Crawl
 		}
 		$this->saveCrawlHistory();
 
-		return responseJson("Crawl Fail", 'Code Not Found');
+		return responseJson(CConstant::STATUS_FAIL, 'Code Not Found');
 	}
 
 	/**
@@ -370,7 +370,7 @@ class Crawl
 		StudentScheduleExam::insertOnDuplicateKey($studentScheduleExamList);
 		$this->saveCrawlHistory($scheduleExams, $time, 1);
 
-		return responseJson("Crawl Success", [
+		return responseJson(CConstant::STATUS_SUCCESS, [
 			'schedule'              => count($scheduleExams),
 			'student_schedule_exam' => count($studentScheduleExamList),
 			'time'                  => $time
