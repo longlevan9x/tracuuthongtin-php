@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Class Student
  * @package App\Models\Facade
- * @method static string syncStudentByDepartment($department_code)
- * @method static string syncStudent(int $msv)
  * @see \App\Models\Student
  */
 class StudentFacade extends Facade

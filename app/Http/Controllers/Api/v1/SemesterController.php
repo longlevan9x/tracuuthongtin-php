@@ -10,8 +10,9 @@ namespace App\Http\Controllers\Api\V1;
 
 
 use App\Commons\CConstant;
-use App\Http\Controllers\Admin\Controller;
+use App\Http\Controllers\Api\Controller;
 use App\Models\Semester;
+use Unlu\Laravel\Api\QueryBuilder;
 
 /**
  * Class SemesterController
@@ -20,32 +21,29 @@ use App\Models\Semester;
 class SemesterController extends Controller
 {
 	/**
+	 * SemesterController constructor.
+	 * @param Semester $semester
+	 */
+	public function __construct(Semester $semester) {
+		parent::__construct($semester);
+	}
+
+	/**
 	 * @return \Illuminate\Http\JsonResponse
+	 * @throws \Exception
 	 */
 	public function index() {
-		$models = Semester::all();
-		if( ! isset($models) || empty($models)) {
-			return response()->json([
-				'message' => 'student not found',
-				'status'  => 404,
-				'result'  => $models
-			], 404);
+		if ($this->paginateQueryBuilder()->isEmpty()) {
+			return responseJson("Semester" . CConstant::STATUS_NOT_FOUND, null, 404);
 		}
 
-		return response()->json([
-			'message' => CConstant::STATUS_SUCCESS,
-			'status'  => 200,
-			'result'  => $models
-		], 200);
+		return responseJson(CConstant::STATUS_SUCCESS, $this->paginateQueryBuilder(), 200);
+
 	}
 
 	public function show(Semester $semester) {
-		if( ! isset($semester) || empty($semester)) {
-			return response()->json([
-				'message' => 'student not found',
-				'status'  => 404,
-				'result'  => $semester
-			], 404);
+		if (!isset($semester) || empty($semester)) {
+			return responseJson("Semester" . CConstant::STATUS_NOT_FOUND, null, 404);
 		}
 
 		return responseJson(CConstant::STATUS_SUCCESS, $semester, 200);

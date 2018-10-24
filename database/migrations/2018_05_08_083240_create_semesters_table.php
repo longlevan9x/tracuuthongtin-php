@@ -16,6 +16,7 @@ class CreateSemestersTable extends Migration
         Schema::create('semesters', function (Blueprint $table) {
             $table->increments('id')->length(11)->unsigned();
             $table->string('name')->unique();
+            $table->integer('sort_order')->unique();
             $table->tinyInteger('is_active')->default(0)->nullable()->comment('trang thai hoat dong');
             $table->timestamps();
         });

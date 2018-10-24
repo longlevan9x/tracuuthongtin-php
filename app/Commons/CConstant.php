@@ -42,4 +42,9 @@ class CConstant
 	const GUARD_ADMIN = 'admin';
 	const GUARD_USER  = 'user';
 	/*const Guard*/
+
+	/*HTTP STATUS CODE*/
+	const HTTP_CODE_404 = 404;
+	const HTTP_CODE_200 = 200;
+	const HTTP_CODE_201 = 201;
 }

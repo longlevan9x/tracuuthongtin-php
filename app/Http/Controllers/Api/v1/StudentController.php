@@ -2,70 +2,33 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Admin\Controller;
-use App\Models\Facade\StudentFacade;
+use App\Commons\CConstant;
+use App\Http\Controllers\Api\Controller;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
+/**
+ * Class StudentController
+ * @package App\Http\Controllers\Api\V1
+ */
 class StudentController extends Controller
 {
-    /**
-     * default is student k8
-     * @param $msv
-     */
-    public function syncStudent($msv)
-    {
-        StudentFacade::syncStudent($msv);
-    }
+	/**
+	 * StudentController constructor.
+	 * @param Student $student
+	 */
+	public function __construct(Student $student) { parent::__construct($student); }
 
-    /**
-     * default is student k8
-     * @param int $department_code
-     */
-    public function syncStudents($department_code = 141031)
-    {
-        StudentFacade::syncStudentByDepartment(141031);
-    }
+	/**
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function getStudent() {
+		$model = $this->getModel();
+		if ($model->isNotEmpty()) {
+			return responseJson(CConstant::STATUS_SUCCESS, $model, 200);
 
-    /**
-     * @param $msv
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getStudent($msv)
-    {
-        $student = StudentFacade::where(['code' => $msv])->first();
-        if (!isset($student) || empty($student)) {
-            return response()->json([
-                'message' => 'student not found',
-                'status'  => 404,
-                'result'  => $student
-            ], 404);
-        }
+		}
 
-        return response()->json([
-            'message' => 'success',
-            'status'  => 200,
-            'result'  => $student
-        ], 200);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getStudents(Request $request)
-    {
-        $limit = $request->get('per_page', 10);
-        return response()->json([
-            'message' => 'success',
-            'status'  => 200,
-            'result'  => \App\Models\Student::paginate($limit)
-        ], 200);
-    }
-
-    /**
-     * @param $department_id
-     */
-    public function getStudentByDepartment($department_id) {
-
-    }
+		return responseJson("Student" . CConstant::STATUS_NOT_FOUND, null, 404);
+	}
 }

@@ -12,7 +12,6 @@ use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * Class Semester
- *
  * @package App\Models
  * @property string      $name
  * @property int         $is_active
@@ -25,15 +24,17 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static Builder|Semester whereIsActive($value)
  * @method static Builder|Semester whereName($value)
  * @method static Builder|Semester whereUpdatedAt($value)
- * @property-read \App\Models\Admins $author
- * @property-read \App\Models\Admins $authorUpdated
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Semester active($value = 1)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Semester findSimilarSlugs($attribute, $config, $slug)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Semester inActive()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Semester myPluck($column, $key = null, $title = '')
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Semester orderBySortOrder()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Semester orderBySortOrderDesc()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Semester whereSlug($slug)
+ * @property-read Admins $author
+ * @property-read Admins $authorUpdated
+ * @method static Builder|Semester active($value = 1)
+ * @method static Builder|Semester findSimilarSlugs($attribute, $config, $slug)
+ * @method static Builder|Semester inActive()
+ * @method static Builder|Semester myPluck($column, $key = null, $title = '')
+ * @method static Builder|Semester orderBySortOrder()
+ * @method static Builder|Semester orderBySortOrderDesc()
+ * @method static Builder|Semester whereSlug($slug)
+ * @property int|null    $sort_order
+ * @method static Builder|Semester whereSortOrder($value)
  */
 class Semester extends Model
 {
@@ -42,5 +43,5 @@ class Semester extends Model
 	/**
 	 * @var array
 	 */
-	protected $fillable = ['name', 'is_active'];
+	protected $fillable = ['name', 'is_active', 'sort_order'];
 }

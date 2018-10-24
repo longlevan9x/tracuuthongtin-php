@@ -162,11 +162,13 @@ class Crawl
 	public function crawlSemester() {
 		$lichHoc = new LichHoc(false, 1);
 		$dotList = $lichHoc->getDot()->getDotList();
-		$data    = [];
-		$time    = -microtime(true);
+
+		$data = [];
+		$time = -microtime(true);
 		foreach ($dotList as $index => $item) {
 			$data[] = [
 				'name'       => $item,
+				'sort_order' => $index,
 				'is_active'  => CConstant::STATE_ACTIVE,
 				'created_at' => date('Y-m-d H:i:s'),
 				'updated_at' => date('Y-m-d H:i:s'),

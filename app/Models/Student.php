@@ -12,30 +12,13 @@ use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * Class Student
- *
  * @package App\Models
- * @property int                            course
  * @property-read Department                $department
  * @property-read Collection                $schedule_exams
  * @property-read Collection                $schedules
  * @mixin \Eloquent
  * @property int                            $id
- * @property string                         code
- * @property string                         name
- * @property string|null                    class
  * @property int|null                       id_course           khoa hoc
- * @property string|null                    branch_group        Nganh
- * @property string|null                    branch              Chuyen nganh
- * @property string|null                    status              trang thai
- * @property string|null                    day_admission       ngay vao truong
- * @property string|null                    school_year         nien khoa
- * @property int|null                       department_id       khoa
- * @property string|null                    education_level     bac dao tao
- * @property string|null                    gender              gioi tinh
- * @property string|null                    type_education      Loai hinh dao tao
- * @property int|null                       area                Co so:10->hanoi, 20->namdinh
- * @property string|null                    average_cumulative  trung binh tich luy
- * @property int|null                       total_term          tong so tin chi
  * @property Carbon|null                    $created_at
  * @property Carbon|null                    $updated_at
  * @method static Builder|Student whereArea($value)
@@ -61,24 +44,24 @@ use Yadakhov\InsertOnDuplicateKey;
  * @property-read Collection|ScheduleExam[] $scheduleExams
  * @method static Builder|Student whereCourseId($value)
  * @method static Builder|Student whereDepartmentId($value)
- * @property string $code
- * @property string $name
- * @property string|null $class
- * @property string|null $branch_group Nganh
- * @property string|null $branch Chuyen nganh
- * @property string|null $status trang thai
- * @property string|null $day_admission ngay vao truong
- * @property string|null $school_year nien khoa
- * @property int|null $department_id khoa
- * @property string|null $education_level bac dao tao
- * @property string|null $gender gioi tinh
- * @property string|null $type_education Loai hinh dao tao
- * @property int|null $area Co so:10->hanoi, 20->namdinh
- * @property string|null $average_cumulative trung binh tich luy
- * @property int|null $total_term tong so tin chi
- * @property-read \App\Models\Admins $author
- * @property-read \App\Models\Admins $authorUpdated
- * @property-read \App\Models\Course $course
+ * @property string                         $code
+ * @property string                         $name
+ * @property string|null                    $class
+ * @property string|null                    $branch_group       Nganh
+ * @property string|null                    $branch             Chuyen nganh
+ * @property string|null                    $status             trang thai
+ * @property string|null                    $day_admission      ngay vao truong
+ * @property string|null                    $school_year        nien khoa
+ * @property int|null                       $department_id      khoa
+ * @property string|null                    $education_level    bac dao tao
+ * @property string|null                    $gender             gioi tinh
+ * @property string|null                    $type_education     Loai hinh dao tao
+ * @property int|null                       $area               Co so:10->hanoi, 20->namdinh
+ * @property string|null                    $average_cumulative trung binh tich luy
+ * @property int|null                       $total_term         tong so tin chi
+ * @property-read \App\Models\Admins        $author
+ * @property-read \App\Models\Admins        $authorUpdated
+ * @property-read \App\Models\Course        $course
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student active($value = 1)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student findSimilarSlugs($attribute, $config, $slug)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student inActive()
@@ -106,7 +89,6 @@ class Student extends Model
 		'status',
 		'day_admission',
 		'school_year',
-		'course',
 		'gender',
 		'type_education',
 		'area',
@@ -114,16 +96,7 @@ class Student extends Model
 		'total_term'
 	];
 
-	protected $appends = ['department'];
-
-	/**
-	 * @return array
-	 */
-	public function getAppends() {
-		$extraFields = CRequest::prepareExtraFields(['schedules', 'scheduleExams']);
-
-		return $this->appends = $extraFields;
-	}
+	protected $appends = ['department', 'course'];
 
 	/**
 	 * @return Collection
@@ -145,7 +118,7 @@ class Student extends Model
 	public function schedules() {
 		$semester = $this->getSemester()->name ?? '';
 
-		return $this->belongsToMany(Schedule::class, StudentSchedule::getTableName())->where(['semester' => $semester]);
+		return $this->belongsToMany(Schedule::class, StudentSchedule::getTableName(), 'student_code', 'schedule_code', 'code', 'code')->where(['semester' => $semester]);
 	}
 
 	/**
@@ -154,7 +127,7 @@ class Student extends Model
 	public function scheduleExams() {
 		$semester = $this->getSemester()->name ?? '';
 
-		return $this->belongsToMany(ScheduleExam::class, StudentScheduleExam::getTableName())->where(['semester' => $semester]);
+		return $this->belongsToMany(ScheduleExam::class, StudentScheduleExam::getTableName(), 'student_code', 'schedule_exam_code', 'code', 'code')->where(['semester' => $semester]);
 	}
 
 	public function getArea() {
@@ -162,30 +135,33 @@ class Student extends Model
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function department() {
-		return $this->hasOne(Department::class);
+		return $this->belongsTo(Department::class);
 	}
 
 	public function course() {
-		return $this->hasOne(Course::class);
+		return $this->belongsTo(Course::class);
 	}
 
 	/**
 	 * @return mixed
 	 */
 	public function getDepartmentAttribute() {
-		return $this->department->name;
+		return $this->department()->first()->name ?? '';
 	}
+
+	public function getCourseAttribute() {
+		return $this->course()->first()->year ?? 0;
+	}
+
 
 	/**
 	 * @return array
 	 */
 	public function toArray() {
-		$this->getAppends();
-
-		//        $this->area = $this->getArea()->name;
+		$this->area = $this->area == 10 ? "Hà Nội" : "Nam Định";
 
 		return parent::toArray(); // TODO: Change the autogenerated stub
 	}
@@ -197,6 +173,6 @@ class Student extends Model
 			$query->whereName($name);
 		}
 
-		return $query->limit(1)->orderBy('name', 'DESC')->first();
+		return $query->limit(1)->orderBy('sort_order', 'DESC')->first();
 	}
 }
