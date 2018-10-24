@@ -29,6 +29,6 @@ class StudentController extends Controller
 
 		}
 
-		return responseJson("Student" . CConstant::STATUS_NOT_FOUND, null, 404);
+		return responseJson(CConstant::STATUS_FAIL, "Student " . CConstant::STATUS_NOT_FOUND, 404);
 	}
 }
