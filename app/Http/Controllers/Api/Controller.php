@@ -60,9 +60,16 @@ class Controller extends \App\Http\Controllers\Controller
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Collection|mixed|QueryBuilder[]
+	 * @return Model|null|object|QueryBuilder
 	 */
 	protected function getModel() {
+		return $this->getQueryBuilder()->first();
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|mixed
+	 */
+	protected function getModels() {
 		return $this->getQueryBuilder()->get();
 	}
 }
