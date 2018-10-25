@@ -25,7 +25,7 @@ class StudentController extends Controller
 	public function getStudent() {
 		$model = $this->getModel();
 		if ($model->isNotEmpty()) {
-			return responseJson(CConstant::STATUS_SUCCESS, $model, 200);
+			return responseJson(CConstant::STATUS_SUCCESS, $model->get(0), 200);
 
 		}
 
