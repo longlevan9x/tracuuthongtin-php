@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
-use Unlu\Laravel\Api\QueryBuilder;
+use Pika\Api\QueryBuilder;
 
 /**
  * Class Controller

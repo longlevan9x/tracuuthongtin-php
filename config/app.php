@@ -166,7 +166,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
 	    Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Unlu\Laravel\Api\ApiQueryBuilderServiceProvider::class,
-
+        Pika\Api\ApiQueryBuilderServiceProvider::class,
         /**
          * Custom Provider
         */
