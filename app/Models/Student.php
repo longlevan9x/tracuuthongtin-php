@@ -7,6 +7,7 @@ use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 use Pika\Api\Traits\UriParserTrait;
 use Yadakhov\InsertOnDuplicateKey;
@@ -115,7 +116,7 @@ class Student extends Model
 	}
 
 	/**
-	 * @return Collection
+	 * @return Collection|BelongsToMany
 	 */
 	public function schedules() {
 		$semester = $this->getSemester()->name ?? '';
@@ -124,7 +125,7 @@ class Student extends Model
 	}
 
 	/**
-	 * @return Collection
+	 * @return Collection|BelongsToMany
 	 */
 	public function scheduleExams() {
 		$semester = $this->getSemester()->name ?? '';

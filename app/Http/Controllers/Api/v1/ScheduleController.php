@@ -2,23 +2,34 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Crawler\LichHoc;
-use App\Crawler\ThongTinSinhVien;
-use App\Http\Controllers\Admin\Controller;
-use Illuminate\Http\Request;
+use App\Commons\CConstant;
+use App\Http\Controllers\Api\Controller;
+use App\Models\Schedule;
 
+
+/**
+ * Class ScheduleController
+ * @package App\Http\Controllers\Api\V1
+ */
 class ScheduleController extends Controller
 {
-    //
-    public function getSchedule(Request $request) {
+	/**
+	 * ScheduleController constructor.
+	 * @param Schedule $schedule
+	 */
+	public function __construct(Schedule $schedule) { parent::__construct($schedule); }
 
-    }
+	/**
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function getSchedule() {
+		$model = $this->getModel();
 
-    public function syncSchedule($msv) {
-        $thong_tin = new ThongTinSinhVien(14103100197);
-        echo '<pre>';
-        print_r($thong_tin->getThongTinSinhVien()->asArray());
-//        $lich_hoc = new LichHoc(14103100197);
-//        echo $lich_hoc->getLichHoc()->asHtml();
-    }
+		if ($this->getQueryBuilder()->getResults()->isNotEmpty()) {
+			return responseJson(CConstant::STATUS_SUCCESS, $model, 200);
+
+		}
+
+		return responseJson(CConstant::STATUS_FAIL, "Schedule " . CConstant::STATUS_NOT_FOUND, 404);
+	}
 }

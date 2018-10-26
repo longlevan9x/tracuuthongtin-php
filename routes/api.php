@@ -16,14 +16,19 @@
 //});
 
 use App\Http\Controllers\Api\V1\CrawlController;
+use App\Http\Controllers\Api\V1\ScheduleController;
+use App\Http\Controllers\Api\V1\ScheduleExamController;
 use App\Http\Controllers\Api\V1\SemesterController;
 use App\Http\Controllers\Api\V1\StudentController;
 
 Route::prefix('v1')->namespace('Api\V1')->group(function() {
 	Route::get('student', StudentController::getControllerWithAction('getStudent'));
-
+	Route::get('schedules', StudentController::getControllerWithAction('getSchedules'));
+	Route::get('schedule-exams', StudentController::getControllerWithAction('getScheduleExams'));
 	Route::resource(SemesterController::getResourceName(), SemesterController::getClassName());
 
+	Route::get('schedule', ScheduleController::getControllerWithAction('getSchedule'));
+	Route::get('schedule-exam', ScheduleController::getControllerWithAction('getScheduleExam'));
 	/*crawl*/
 	Route::prefix('crawl')->group(function() {
 		Route::get('student/{msv}', CrawlController::getControllerWithAction('crawlStudent'));
