@@ -13,10 +13,12 @@ class StudentSchedules extends Migration
 	public function up() {
 		Schema::create('student_schedules', function(Blueprint $table) {
 			$table->increments('id')->length(11)->unsigned();
-			$table->string('student_code', 15);
-			$table->string('schedule_code', 20);
+//			$table->string('student_code', 15);
+//			$table->string('schedule_code', 20);
+			$table->integer("schedule_id")->unsigned();
+			$table->integer("student_id")->unsigned();
 			$table->timestamps();
-			$table->unique(['student_code', 'schedule_code']);
+			$table->unique(['schedule_id', 'student_id']);
 			//$table->foreign('student_code')->references('code')->on('students');
 			//$table->foreign('schedule_code')->references('code')->on('schedules');
 		});

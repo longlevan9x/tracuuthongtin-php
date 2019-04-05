@@ -11,66 +11,50 @@
 |
 */
 
+use App\Http\Controllers\Website\CustomerController;
+use App\Http\Controllers\Website\HomeController;
 
-use App\Http\Controllers\Admin\AreaController;
-use App\Http\Controllers\Admin\CourseController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\DepartmentController;
-use App\Http\Controllers\Admin\ScheduleController;
-use App\Http\Controllers\Admin\ScheduleExamController;
-use App\Http\Controllers\Admin\SemesterController;
-use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\StudentController;
-use App\Http\Controllers\Admin\SyncController;
-use App\Http\Controllers\Admin\SyncHistoryController;
 use Illuminate\Support\Facades\Route;
 
+//
 Route::get('/', function() {
 	return view('welcome');
 });
 
-Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
-
-Route::prefix('admin')->namespace('Admin')->group(function() {
-	Route::get('/', DashboardController::getControllerWithAction('index'))->name(DashboardController::getAdminRouteName('dashboard'));
-	Route::get(DashboardController::getResourceName(), DashboardController::getControllerWithAction('index'))->name(DashboardController::getAdminRouteName('dashboard'));
-	Route::resource(DepartmentController::getResourceName(), DepartmentController::getClassName());
-
-	Route::resource(SemesterController::getResourceName(), SemesterController::getClassName());
-	Route::prefix(SemesterController::getResourceName())->group(function() {
-		Route::post('sync-semester', SemesterController::getControllerWithAction('syncSemester'))->name(SemesterController::getAdminRouteName('sync-semester'));
-	});
-
-	Route::resource(StudentController::getResourceName(), StudentController::getClassName());
-	Route::prefix(StudentController::getResourceName())->group(function() {
-		Route::post('sync-info-student-by-department', StudentController::getControllerWithAction('syncInformationStudentByDepartment'))->name(StudentController::getAdminRouteName('sync-info-student-by-department'));
-	});
-
-	Route::resource(ScheduleController::getResourceName(), ScheduleController::getClassName());
-	Route::prefix(ScheduleController::getResourceName())->group(function() {
-		Route::post('sync-schedule-by-department', ScheduleController::getControllerWithAction('syncScheduleByDepartment'))->name(ScheduleController::getAdminRouteName('sync-schedule-by-department'));
-	});
-
-	Route::resource(ScheduleExamController::getResourceName(), ScheduleExamController::getClassName());
-	Route::prefix(ScheduleExamController::getResourceName())->group(function() {
-		Route::post('sync-schedule-exam-by-department', ScheduleExamController::getControllerWithAction('syncScheduleExamByDepartment'))->name(ScheduleExamController::getAdminRouteName('sync-schedule-exam-by-department'));
-	});
-
-	Route::resource(SyncController::getResourceName(), SyncController::getClassName());
-	Route::prefix(SyncController::getResourceName())->group(function() {
-		Route::get('/', SyncController::getControllerWithAction('index'))->name(SyncController::getAdminRouteName('index'));
-		Route::post('/sync-student-schedule-by-department', SyncController::getControllerWithAction('syncStudentScheduleByDepartment'))->name(SyncController::getAdminRouteName('sync-student-schedule-by-department'));
-		Route::post('/sync-student-schedule-exam-by-department', SyncController::getControllerWithAction('syncStudentScheduleExamByDepartment'))->name(SyncController::getAdminRouteName('sync-student-schedule-exam-by-department'));
-	});
-
-	Route::resource(SyncHistoryController::getResourceName(), SyncHistoryController::getClassName());
-	Route::resource(SettingController::getResourceName(), SettingController::getClassName());
-	Route::resource(AreaController::getResourceName(), AreaController::getClassName());
-
-	Route::resource(CourseController::getResourceName(), CourseController::getClassName());
+Route::get('admin', function() {
+	return redirect(url_admin('login'));
 });
+
+
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth')->group(function() {
+	Route::get('/changePassword', 'Auth\ChangePassController@showChangePassword')->name('show-change-pass');
+	Route::post('changePassword', 'Auth\ChangePassController@changePassword')->name('change-pass');
+});
+
+Route::get('/verification/{email}/{authen_key}', 'Auth\VerificationController@verification')->name('auth.verification');
+
+Route::get('translation-manager/{locale?}', 'TranslationManagerController@index')->name('translation.index');
+Route::get('translation-manager/{locale}/edit/{file?}', 'TranslationManagerController@edit')->name('translation.edit');
+Route::post('translation-manager/{locale}/edit/{file?}', 'TranslationManagerController@update')->name('translation.edit');
+
+Route::namespace('Website')->group(function() {
+	//Route::get('/', 'HomeController@index')->name('home');
+
+	Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('/trang-chu', 'HomeController@index')->name('home.trang-chu');
+	Route::get('/change-locale/{locale}', HomeController::getControllerWithAction('changeLocale'))->name('home.change-locale');
+
+	Route::middleware('auth')->group(function() {
+		/*User*/
+		Route::get(CustomerController::getResourceName('profile'), CustomerController::getControllerWithAction('showProfile'))->name('customer.profile');
+		Route::post(CustomerController::getResourceName('profile'), CustomerController::getControllerWithAction('postProfile'))->name('customer.profile');
+		Route::get(CustomerController::getResourceName('change-password'), CustomerController::getControllerWithAction('showChangePassword'))->name('customer.change-password');
+		Route::Post(CustomerController::getResourceName('change-password'), CustomerController::getControllerWithAction('postChangePassword'))->name('customer.change-password');
+		/*User*/
+	});
+});
+
+
