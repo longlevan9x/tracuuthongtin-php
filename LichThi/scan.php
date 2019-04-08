@@ -13,10 +13,11 @@ require_once( __DIR__ . "/inc/LichHocCrawler.php" );
 $msv = $_GET['MSSV'];
 //$xemLichThiButton = "Xem lịch thi";
 
-$xemLichThi = new LichThiCrawler( $msv  );
-$lichThi = $xemLichThi->getLichThiHtml("1 (2017 - 2018)");
-//
-echo $lichThi != false ? $lichThi : "mã số sv ko tồn tại hoặc chưa tới lúc thi :)) ! ";
+//$xemLichThi = new LichThiCrawler( $msv  );
+//$lichThi = $xemLichThi->getLichThiHtml("1 (2017 - 2018)");
+////
+//echo $lichThi != false ? $lichThi : "mã số sv ko tồn tại hoặc chưa tới lúc thi :)) ! ";
 
 $xem_lich_hoc = new LichHocCrawler($msv);
-echo $xem_lich_hoc->getLichHocHtml();
+//echo $xem_lich_hoc->getLichHocHtml();
+echo $xem_lich_hoc->getLichHocHtmlSubmitButton("3 (2017 - 2018)");
