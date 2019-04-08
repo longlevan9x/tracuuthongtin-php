@@ -2,6 +2,17 @@
 /**
  * file required at app/Helpers/index.php
  */
+if (!function_exists('httpcode_replace')) {
+	/**
+	 * @param $str
+	 * @param $replace
+	 * @return mixed
+	 */
+	function httpcode_replace($str, $replace) {
+		return str_replace("%s", $replace, $str);
+	}
+}
+
 
 if (!function_exists('setting')) {
 	define('KEY_WEBSITE_NAME', 'website_name');

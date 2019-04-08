@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Database\Eloquent\Model;
+use PhpParser\Node\Expr\AssignOp\Mod;
 use Pika\Api\QueryBuilder;
 
 /**
@@ -12,64 +13,7 @@ use Pika\Api\QueryBuilder;
 class Controller extends \App\Http\Controllers\Controller
 {
 	/**
-	 * @var QueryBuilder
+	 * @var Model $repository
 	 */
-	protected $queryBuilder;
-
-	/**
-	 * Controller constructor.
-	 * @param Model $model
-	 */
-	public function __construct(Model $model) {
-		$this->setQueryBuilder($model);
-		$this->buildQueryBuilder();
-	}
-
-	/**
-	 * @return QueryBuilder
-	 */
-	public function getQueryBuilder(): QueryBuilder {
-		return $this->queryBuilder;
-	}
-
-	/**
-	 * @param Model $model
-	 * @return Controller
-	 */
-	public function setQueryBuilder($model): Controller {
-		$this->queryBuilder = new QueryBuilder($model, request());
-
-		return $this;
-	}
-
-	/**
-	 * @return $this
-	 */
-	protected function buildQueryBuilder() {
-		$this->queryBuilder = $this->getQueryBuilder()->build();
-
-		return $this;
-	}
-
-	/**
-	 * @return mixed|\Unlu\Laravel\Api\Paginator
-	 * @throws \Exception
-	 */
-	protected function paginateQueryBuilder() {
-		return $this->getQueryBuilder()->paginate();
-	}
-
-	/**
-	 * @return Model|null|object|QueryBuilder
-	 */
-	protected function getModel() {
-		return $this->getQueryBuilder()->first();
-	}
-
-	/**
-	 * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|mixed
-	 */
-	protected function getModels() {
-		return $this->getQueryBuilder()->get();
-	}
+	protected $repository;
 }

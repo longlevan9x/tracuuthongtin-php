@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\Controller;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Pika\Api\QueryBuilder;
+use Pika\Api\RequestCreator;
 
 /**
  * Class StudentController
@@ -15,20 +17,20 @@ use Illuminate\Http\Request;
 class StudentController extends Controller
 {
 	/**
-	 * StudentController constructor.
-	 * @param Student $student
-	 */
-	public function __construct(Student $student) { parent::__construct($student); }
-
-	/**
+	 * @param Request $request
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function getStudent() {
-		$model = $this->getModel();
+	public function getStudent(Request $request) {
+		if (empty($request->get('code'))) {
+			return responseJson('error', httpcode_replace(config('http_code.400'), 'code'), 400);
+		}
 
-		if ($model->exists()) {
+		$queryBuilder = new QueryBuilder(new Student, $request);
+
+		$model = $queryBuilder->build()->first();
+
+		if (isset($model)) {
 			return responseJson(CConstant::STATUS_SUCCESS, $model, 200);
-
 		}
 
 		return responseJson(CConstant::STATUS_FAIL, "Student " . CConstant::STATUS_NOT_FOUND, 404);

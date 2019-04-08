@@ -16,12 +16,10 @@ class CreateDepartments extends Migration
         Schema::create('departments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('school_id')->unsigned()->nullable();
-            $table->string('department_code', 10)->default(0);
             $table->string('name');
             $table->tinyInteger('is_active')->default(0);
             $table->timestamps();
 
-            $table->unique('department_code');
             $table->foreign("school_id")->references('id')->on("schools");
         });
     }
