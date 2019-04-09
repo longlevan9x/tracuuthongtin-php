@@ -21,6 +21,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Area whereIsActive($value)
  * @method static Builder|Area whereName($value)
  * @method static Builder|Area whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Area newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Area newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Area query()
  */
 class Area extends Model
 {

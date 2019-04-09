@@ -11,6 +11,7 @@
         "dimsav/laravel-translatable": "^9.2",
         "doctrine/dbal": "^2.9",
         "fabpot/goutte": "^3.2",
+        "fico7489/laravel-eloquent-join": "^4.0",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
         "hesto/multi-auth": "^2.0",

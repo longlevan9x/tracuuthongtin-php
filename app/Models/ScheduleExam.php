@@ -52,6 +52,11 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam orderBySortOrder()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam orderBySortOrderDesc()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam whereSlug($slug)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Relationship[] $relationships
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam postTime($time = '')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam query()
  */
 class ScheduleExam extends Model
 {

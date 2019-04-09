@@ -14,6 +14,7 @@ use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * Class Student
+ *
  * @package App\Models
  * @property-read Department                $department
  * @property-read Collection                $schedule_exams
@@ -71,6 +72,11 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student orderBySortOrder()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student orderBySortOrderDesc()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereSlug($slug)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Relationship[] $relationships
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student postTime($time = '')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student query()
  */
 class Student extends Model
 {

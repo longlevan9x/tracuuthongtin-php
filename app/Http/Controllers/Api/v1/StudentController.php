@@ -61,7 +61,15 @@ class StudentController extends Controller
         if (empty($request->get('code'))) {
             return responseJson('error', httpcode_replace(config('http_code.400'), 'code'), 400);
         }
-
+        $models = Schedule::joinRelations('studentSchedules')->whereJoin('studentSchedules.student_code', '=', $request->get('code'))->get();
+        return response()->json($models);
+        return view('layouts.app');
+        $models = Schedule::whereSemester('2 (2018 - 2019)')->first();
+        $models->load(['studentSchedules' => function($query) {
+            /** @var QueryBuilder $query */
+            $query->where("student_code", '15103100001');
+        }]);
+        return view('layouts.app');
 //        $queryBuilder = new QueryBuilder(new Student, $request);
 
         $uriParser = new UriParser($request);

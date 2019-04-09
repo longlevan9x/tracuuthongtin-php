@@ -26,6 +26,9 @@ use Yadakhov\InsertOnDuplicateKey;
  * @property string      $schedule_code
  * @method static Builder|StudentSchedule whereScheduleCode($value)
  * @method static Builder|StudentSchedule whereStudentCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StudentSchedule newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StudentSchedule newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StudentSchedule query()
  */
 class StudentSchedule extends Model
 {
