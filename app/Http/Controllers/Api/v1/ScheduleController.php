@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Commons\CConstant;
 use App\Http\Controllers\Api\Controller;
 use App\Models\Schedule;
+use Request;
 
 
 /**
@@ -13,16 +14,15 @@ use App\Models\Schedule;
  */
 class ScheduleController extends Controller
 {
-	/**
-	 * ScheduleController constructor.
-	 * @param Schedule $schedule
-	 */
-	public function __construct(Schedule $schedule) { parent::__construct($schedule); }
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+	public function getSchedule(Request $request) {
+        if (empty($request->get('code'))) {
+            return responseJson('error', httpcode_replace(config('http_code.400'), 'code'), 400);
+        }
 
-	/**
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function getSchedule() {
 		$model = $this->getModel();
 
 		if ($this->getQueryBuilder()->getResults()->isNotEmpty()) {

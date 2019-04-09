@@ -17,13 +17,13 @@ class CreateCourses extends Migration
             $table->increments('id');
             $table->integer('department_id')->unsigned();
             $table->string('name');
-            $table->string('course_code', 10)->default(0);
+            $table->string('code', 10)->default(0);
             $table->smallInteger('year')->default(0);
             $table->integer('total_student')->default(0)->nullable();
             $table->tinyInteger('is_active')->default(0);
             $table->timestamps();
 
-            $table->unique('course_code');
+            $table->unique('code');
             $table->foreign('department_id')->references('id')->on('departments');
         });
     }

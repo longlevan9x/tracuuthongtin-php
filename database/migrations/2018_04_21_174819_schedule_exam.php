@@ -14,7 +14,7 @@ class ScheduleExam extends Migration
 		Schema::create('schedule_exams', function(Blueprint $table) {
 			//
 			$table->increments('id')->unsigned();
-			$table->string('code', 20)->unique()->comment('ma lop hoc phan');
+			$table->string('code', 40)->unique()->comment('ma lop hoc phan');
 			$table->string('name')->comment('ten mon thi');
 			$table->integer('group')->nullable()->comment('nhom');
 			$table->string('test_day')->nullable()->comment('ngay thi');

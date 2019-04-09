@@ -8,5 +8,5 @@ return [
             'direction' => 'desc'
         ]
     ],
-    'excludedParameters' => [],
+    'excludedParameters' => ['extra_query'],
 ];

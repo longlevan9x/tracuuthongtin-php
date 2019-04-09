@@ -15,7 +15,7 @@ class CreateSchedules extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('subject_id')->unsigned();
+            $table->string('name');
             $table->string('code', 20)->unique()->comment('ma lop hoc phan');
             $table->string('semester')->nullable()->comment('hoc ky');
             $table->string('lesson', 100)->nullable()->comment('tiet hoc');

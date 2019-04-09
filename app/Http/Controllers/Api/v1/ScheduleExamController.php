@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Controller;
 use App\Models\Student;
 use App\Models\StudentScheduleExam;
 use Illuminate\Database\Eloquent\Model;
+use Request;
 
 /**
  * Class ScheduleExamController
@@ -14,16 +15,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ScheduleExamController extends Controller
 {
-	/**
-	 * ScheduleController constructor.
-	 * @param StudentScheduleExam $student_schedule_exam
-	 */
-	public function __construct(StudentScheduleExam $student_schedule_exam) { parent::__construct($student_schedule_exam); }
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+	public function getScheduleExam(Request $request) {
+        if (empty($request->get('code'))) {
+            return responseJson('error', httpcode_replace(config('http_code.400'), 'code'), 400);
+        }
 
-	/**
-	 * @return \Illuminate\Http\JsonResponse
-	 */
-	public function getScheduleExam() {
+
 		$model = $this->getModel();
 
 		if ($this->getQueryBuilder()->getResults()->isNotEmpty()) {

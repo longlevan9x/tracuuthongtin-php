@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Commons\CConstant;
 use App\Http\Controllers\Api\Controller;
+use App\Models\Schedule;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Pika\Api\QueryBuilder;
 use Pika\Api\RequestCreator;
+use Pika\Api\UriParser;
 
 /**
  * Class StudentController
@@ -36,33 +38,41 @@ class StudentController extends Controller
 		return responseJson(CConstant::STATUS_FAIL, "Student " . CConstant::STATUS_NOT_FOUND, 404);
 	}
 
-	/**
-	 * @return array|Model|\Illuminate\Http\Request|null|object|\Pika\Api\QueryBuilder|string
-	 */
-	public function getScheduleExams() {
-		/** @var Student $model */
-		$model = $this->getModel();
+    /**
+     * @return array|Model|\Illuminate\Http\Request|null|object|\Pika\Api\QueryBuilder|string
+     */
+    public function getScheduleExams() {
+        /** @var Student $model */
 
-		if ($this->getQueryBuilder()->getResults()->isNotEmpty()) {
-			return responseJson(CConstant::STATUS_SUCCESS, $model->scheduleExams()->get(), 200);
 
-		}
+        if ($this->getQueryBuilder()->getResults()->isNotEmpty()) {
+            return responseJson(CConstant::STATUS_SUCCESS, $model->scheduleExams()->get(), 200);
 
-		return responseJson(CConstant::STATUS_FAIL, "Student " . CConstant::STATUS_NOT_FOUND, 404);
-	}
+        }
 
-	/**
-	 * @return array|Model|\Illuminate\Http\Request|null|object|\Pika\Api\QueryBuilder|string
-	 */
-	public function getSchedules() {
-		/** @var Student $model */
-		$model = $this->getModel();
+        return responseJson(CConstant::STATUS_FAIL, "Student " . CConstant::STATUS_NOT_FOUND, 404);
+    }
 
-		if ($this->getQueryBuilder()->getResults()->isNotEmpty()) {
-			return responseJson(CConstant::STATUS_SUCCESS, $model->schedules()->get(), 200);
+    /**
+     * @param Request $request
+     * @return array|Model|\Illuminate\Http\Request|null|object|\Pika\Api\QueryBuilder|string
+     */
+    public function getSchedules(Request $request) {
+        if (empty($request->get('code'))) {
+            return responseJson('error', httpcode_replace(config('http_code.400'), 'code'), 400);
+        }
 
-		}
+//        $queryBuilder = new QueryBuilder(new Student, $request);
 
-		return responseJson(CConstant::STATUS_FAIL, "Student " . CConstant::STATUS_NOT_FOUND, 404);
-	}
+        $uriParser = new UriParser($request);
+
+        $model = Schedule::query()->where($uriParser->whereParameters())->get();
+        $extra_query = $request->get('extra_query');
+
+
+//        $model = $queryBuilder->build()->get();
+
+        return responseJson(CConstant::STATUS_SUCCESS, $model, 200);
+
+    }
 }
