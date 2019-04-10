@@ -63,6 +63,12 @@ class Crawl
 						$coso = 20;
 					}
 
+                    $gpa =  $student_info['diem_tb_tich_luy'];
+                    $gpa = str_replace(' ', '', $gpa);
+                    $gpas = explode('-', $gpa);
+                    $gpa_10 =  $gpas[0] ?? 0;
+                    $gpa_4 =  $gpas[1] ?? 0;
+
 					$students[] = [
 						'code'               => $infoStudent->msv,
 						'name'               => $student_info['name'],
@@ -77,8 +83,9 @@ class Crawl
 						'branch_group'       => $student_info['nganh'],
 						'branch'             => $student_info['chuyen_nganh'],
 						'class'              => $student_info['lop'],
-						'average_cumulative' => $student_info['diem_tb_tich_luy'],
-						'school_year'        => $student_info['nien_khoa'],
+                        'gpa_10'             => $gpa_10,
+                        'gpa_4'              => $gpa_4,
+                        'school_year'        => $student_info['nien_khoa'],
 						'total_term'         => $student_info['tong_so_tc_tich_luy'],
 						//'course'             => $student_info['khoa_hoc'],
 						'created_at'         => date('Y-m-d H:i:s'),
@@ -122,6 +129,11 @@ class Crawl
 				$coso = 20;
 			}
 
+            $gpa =  $student_info['diem_tb_tich_luy'];
+			$gpa = str_replace(' ', '', $gpa);
+			$gpas = explode('-', $gpa);
+			$gpa_10 =  $gpas[0] ?? 0;
+			$gpa_4 =  $gpas[1] ?? 0;
 			$students[] = [
 				'code'               => $infoStudent->msv,
 				'name'               => $student_info['name'],
@@ -136,7 +148,8 @@ class Crawl
 				'branch_group'       => $student_info['nganh'],
 				'branch'             => $student_info['chuyen_nganh'],
 				'class'              => $student_info['lop'],
-				'average_cumulative' => $student_info['diem_tb_tich_luy'],
+				'gpa_10'             => $gpa_10,
+				'gpa_4'              => $gpa_4,
 				'school_year'        => $student_info['nien_khoa'],
 				'total_term'         => $student_info['tong_so_tc_tich_luy'],
 				//'course'             => $student_info['khoa_hoc'],

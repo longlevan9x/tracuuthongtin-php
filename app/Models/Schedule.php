@@ -60,7 +60,10 @@ class Schedule extends Model
 
 	protected $fillable = ['code', 'name', 'semester', 'lesson', 'start_time', 'end_time', 'weekday', 'session', 'teacher', 'classroom', 'is_active'];
 
-	public function studentSchedules() {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function studentSchedules() {
 	    return $this->hasMany(StudentSchedule::class, 'schedule_code', 'code');
     }
 }

@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Commons\CConstant;
 use App\Http\Controllers\Api\Controller;
-use App\Models\Student;
-use App\Models\StudentScheduleExam;
-use Illuminate\Database\Eloquent\Model;
-use Request;
+use App\Models\ScheduleExam;
+use Illuminate\Http\Request;
+use Pika\Api\QueryBuilder;
 
 /**
  * Class ScheduleExamController
@@ -16,22 +14,21 @@ use Request;
 class ScheduleExamController extends Controller
 {
     /**
-     * @param Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-	public function getScheduleExam(Request $request) {
+    public function show(Request $request) {
         if (empty($request->get('code'))) {
-            return responseJson('error', httpcode_replace(config('http_code.400'), 'code'), 400);
+            return responseJson(httpcode_replace(config('api_response.http_code.400'), 'code'), null, config("api_response.status.missing_param"));
         }
 
+        $queryBuilder = new QueryBuilder(new ScheduleExam(), $request);
 
-		$model = $this->getModel();
+        $model = $queryBuilder->build()->first();
 
-		if ($this->getQueryBuilder()->getResults()->isNotEmpty()) {
-			return responseJson(CConstant::STATUS_SUCCESS, $model, 200);
-
-		}
-
-		return responseJson(CConstant::STATUS_FAIL, "Schedule Exam" . CConstant::STATUS_NOT_FOUND, 404);
-	}
+        if (isset($model)) {
+            return responseJson(config("api_response.http_code.200"), $model, config('api_response.status.success'));
+        }
+        return responseJson(config('api_response.http_code.204'), null, config('api_response.status.error'));
+    }
 }

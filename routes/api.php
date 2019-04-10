@@ -22,15 +22,18 @@ use App\Http\Controllers\Api\V1\SemesterController;
 use App\Http\Controllers\Api\V1\StudentController;
 
 Route::prefix('v1')->namespace('Api\V1')->group(function() {
-	Route::get('student', StudentController::getControllerWithAction('getStudent'));
+	Route::get('student/view', StudentController::getControllerWithAction('show'));
 	Route::get('schedules', StudentController::getControllerWithAction('getSchedules'));
 	Route::get('schedule-exams', StudentController::getControllerWithAction('getScheduleExams'));
 	Route::resource(SemesterController::getResourceName(), SemesterController::getClassName());
 
-	Route::get('schedule', ScheduleController::getControllerWithAction('getSchedule'));
-	Route::get('schedule-exam', ScheduleController::getControllerWithAction('getScheduleExam'));
+	Route::get('schedule/view', ScheduleController::getControllerWithAction('show'));
+	Route::get('schedule-exam/view', ScheduleExamController::getControllerWithAction('show'));
 
+	Route::get('semester', SemesterController::getControllerWithAction('index'));
+	Route::get('semester/view', SemesterController::getControllerWithAction('show'));
 
+	Route::get('student/ranking', StudentController::getControllerWithAction('showRanking'));
 	//test
     /*crawl*/
     Route::prefix('crawl')->group(function() {

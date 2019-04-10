@@ -177,14 +177,14 @@ if (!function_exists('responseJson')) {
 	 * @param int    $option
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	function responseJson($message = '', $data = [], $status = 200, array $header = ['Content-type' => "application/json"], $option = JSON_NUMERIC_CHECK) {
+	function responseJson($message = '', $data = [], $status = 1, array $header = ['Content-type' => "application/json"], $option = JSON_NUMERIC_CHECK) {
 		header("Content-type: application/application/json");
 
 		return response()->json([
 			'message' => $message,
 			'status'  => $status,
 			'result'  => $data
-		], $status, $header, $option);
+		], 200, $header, $option);
 	}
 }
 

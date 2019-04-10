@@ -8,11 +8,13 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-
 use App\Commons\CConstant;
 use App\Http\Controllers\Api\Controller;
 use App\Models\Semester;
-use Unlu\Laravel\Api\QueryBuilder;
+use App\Models\Student;
+use Illuminate\Http\Request;
+use Pika\Api\QueryBuilder;
+use Pika\Api\RequestCreator;
 
 /**
  * Class SemesterController
@@ -20,32 +22,39 @@ use Unlu\Laravel\Api\QueryBuilder;
  */
 class SemesterController extends Controller
 {
-	/**
-	 * SemesterController constructor.
-	 * @param Semester $semester
-	 */
-	public function __construct(Semester $semester) {
-		parent::__construct($semester);
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+	public function index(Request $request) {
+        $queryBuilder = new QueryBuilder(new Semester(), $request);
+        $queryBuilder->setDefaultUri(RequestCreator::createWithParameters(['order_by' => 'sort_order,desc']));
+
+        $models = $queryBuilder->build()->get();
+
+        if ($models->isNotEmpty()) {
+            return responseJson(config('api_response.http_code.200'), $models, config('api_response.status.success'));
+        }
+
+        return responseJson(config('api_response.http_code.204'), null, config('api_response.status.error'));
 	}
 
-	/**
-	 * @return \Illuminate\Http\JsonResponse
-	 * @throws \Exception
-	 */
-	public function index() {
-		if ($this->paginateQueryBuilder()->isEmpty()) {
-			return responseJson("Semester" . CConstant::STATUS_NOT_FOUND, null, 404);
-		}
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(Request $request) {
+	    if (empty($request->get('id'))) {
+            return responseJson(httpcode_replace(config('api_response.http_code.400'), 'id'), null, config('api_response.status.missing_param'));
+        }
 
-		return responseJson(CConstant::STATUS_SUCCESS, $this->paginateQueryBuilder(), 200);
+        $queryBuilder = new QueryBuilder(new Semester(), $request);
+        $model = $queryBuilder->build()->first();
 
-	}
+        if (isset($model)) {
+            return responseJson(config('api_response.http_code.200'), $model, config('api_response.status.success'));
+        }
 
-	public function show(Semester $semester) {
-		if (!isset($semester) || empty($semester)) {
-			return responseJson("Semester" . CConstant::STATUS_NOT_FOUND, null, 404);
-		}
-
-		return responseJson(CConstant::STATUS_SUCCESS, $semester, 200);
+        return responseJson(config('api_response.http_code.204'), null, config('api_response.status.error'));
 	}
 }

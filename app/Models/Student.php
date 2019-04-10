@@ -60,7 +60,6 @@ use Yadakhov\InsertOnDuplicateKey;
  * @property string|null                    $gender             gioi tinh
  * @property string|null                    $type_education     Loai hinh dao tao
  * @property int|null                       $area               Co so:10->hanoi, 20->namdinh
- * @property string|null                    $average_cumulative trung binh tich luy
  * @property int|null                       $total_term         tong so tin chi
  * @property-read \App\Models\Admins        $author
  * @property-read \App\Models\Admins        $authorUpdated
@@ -77,6 +76,10 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student postTime($time = '')
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student query()
+ * @property string|null $gpa_10 trung binh tich luy he 10
+ * @property string|null $gpa_4 trung binh tich luy he 4
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereGpa10($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereGpa4($value)
  */
 class Student extends Model
 {
@@ -101,7 +104,8 @@ class Student extends Model
 		'gender',
 		'type_education',
 		'area',
-		'average_cumulative',
+        'gpa_10',
+        'gpa_4',
 		'total_term'
 	];
 
