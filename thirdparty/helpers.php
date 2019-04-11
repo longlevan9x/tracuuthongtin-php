@@ -178,7 +178,7 @@ if (!function_exists('responseJson')) {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	function responseJson($message = '', $data = [], $status = 1, array $header = ['Content-type' => "application/json"], $option = JSON_NUMERIC_CHECK) {
-		header("Content-type: application/application/json");
+		//header("Content-type: application/json");
 
 		return response()->json([
 			'message' => $message,

@@ -6,10 +6,12 @@ use App\Commons\CConstant;
 use App\Http\Controllers\Api\Controller;
 use App\Models\Schedule;
 use App\Models\ScheduleExam;
+use App\Models\Semester;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Pika\Api\QueryBuilder;
+use Pika\Api\RequestCreator;
 
 
 /**
@@ -47,11 +49,14 @@ class StudentController extends Controller
             return responseJson(httpcode_replace(config('api_response.http_code.400'), 'msv'), null, config('api_response.status.missing_param'));
         }
 
+        $queryBuilder = new QueryBuilder(new ScheduleExam(), $request);
+
         if (empty($request->get('semester'))) {
-            return responseJson(httpcode_replace(config('api_response.http_code.400'), 'semester'), null, config('api_response.status.missing_param'));
+            $semester = Semester::query()->orderBySortOrderDesc()->first();
+            $semester_name = $semester->name;
+            $queryBuilder->setDefaultUri(RequestCreator::createWithParameters(['semester' => $semester_name]));
         }
 
-        $queryBuilder = new QueryBuilder(new ScheduleExam(), $request);
         $queryBuilder->setExcludedParameters(['msv']);
         $queryBuilder->setQuery(ScheduleExam::joinRelations('studentScheduleExams')->whereJoin('studentScheduleExams.student_code', '=', $request->get('msv')));
         $models = $queryBuilder->build()->get();
@@ -71,11 +76,13 @@ class StudentController extends Controller
             return responseJson(httpcode_replace(config('api_response.http_code.400'), 'msv'), null, config('api_response.status.missing_param'));
         }
 
+        $queryBuilder = new QueryBuilder(new Schedule(), $request);
         if (empty($request->get('semester'))) {
-            return responseJson(httpcode_replace(config('api_response.http_code.400'), 'semester'), null, config('api_response.status.missing_param'));
+            $semester = Semester::query()->orderBySortOrderDesc()->first();
+            $semester_name = $semester->name;
+            $queryBuilder->setDefaultUri(RequestCreator::createWithParameters(['semester' => $semester_name]));
         }
 
-        $queryBuilder = new QueryBuilder(new Schedule(), $request);
         $queryBuilder->setExcludedParameters(['msv']);
         $queryBuilder->setQuery(Schedule::joinRelations('studentSchedules')->whereJoin('studentSchedules.student_code', '=', $request->get('msv')));
         $models = $queryBuilder->build()->get();
@@ -101,6 +108,7 @@ class StudentController extends Controller
         }
         $queryBuilder = new QueryBuilder(new Student, $request);
 
+        $queryBuilder->setDefaultUri(RequestCreator::createWithParameters(['order_by' => $order_by]));
         $models = $queryBuilder->build()->get();
 
         if ($models->isNotEmpty()) {

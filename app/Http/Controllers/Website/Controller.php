@@ -63,9 +63,9 @@ class Controller extends \App\Http\Controllers\Controller
 			return $this->prefixBreadcrumb;
 		}
 
-		if ($this->prefixBreadcrumb == Post::TYPE_NEWS) {
-			$this->prefixBreadcrumb = 'tin-tuc';
-		}
+//		if ($this->prefixBreadcrumb == Post::TYPE_NEWS) {
+//			$this->prefixBreadcrumb = 'tin-tuc';
+//		}
 
 		if (strpos($this->prefixBreadcrumb, '-') === false) {
 			$this->breadcrumb[] = ['text' => $this->prefixBreadcrumb, 'url' => '#'];

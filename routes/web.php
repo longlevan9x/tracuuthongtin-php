@@ -36,9 +36,9 @@ Route::middleware('auth')->group(function() {
 
 Route::get('/verification/{email}/{authen_key}', 'Auth\VerificationController@verification')->name('auth.verification');
 
-Route::get('translation-manager/{locale?}', 'TranslationManagerController@index')->name('translation.index');
-Route::get('translation-manager/{locale}/edit/{file?}', 'TranslationManagerController@edit')->name('translation.edit');
-Route::post('translation-manager/{locale}/edit/{file?}', 'TranslationManagerController@update')->name('translation.edit');
+//Route::get('translation-manager/{locale?}', 'TranslationManagerController@index')->name('translation.index');
+//Route::get('translation-manager/{locale}/edit/{file?}', 'TranslationManagerController@edit')->name('translation.edit');
+//Route::post('translation-manager/{locale}/edit/{file?}', 'TranslationManagerController@update')->name('translation.edit');
 
 Route::namespace('Website')->group(function() {
 	//Route::get('/', 'HomeController@index')->name('home');

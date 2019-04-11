@@ -25,7 +25,7 @@ Route::prefix('v1')->namespace('Api\V1')->group(function() {
 	Route::get('student/view', StudentController::getControllerWithAction('show'));
 	Route::get('schedules', StudentController::getControllerWithAction('getSchedules'));
 	Route::get('schedule-exams', StudentController::getControllerWithAction('getScheduleExams'));
-	Route::resource(SemesterController::getResourceName(), SemesterController::getClassName());
+	//Route::resource(SemesterController::getResourceName(), SemesterController::getClassName())->except(['create', 'update']);
 
 	Route::get('schedule/view', ScheduleController::getControllerWithAction('show'));
 	Route::get('schedule-exam/view', ScheduleExamController::getControllerWithAction('show'));
