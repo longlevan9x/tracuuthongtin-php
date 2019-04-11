@@ -2482,12 +2482,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/longlevan9x/api-query-builder-laravel.git",
-                "reference": "4f061347317944a159324b83719c1067f8c5bdb4"
+                "reference": "5ae5041cc6ee5a5e3d9773980a9a46d3e3bd1e0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/longlevan9x/api-query-builder-laravel/zipball/4f061347317944a159324b83719c1067f8c5bdb4",
-                "reference": "4f061347317944a159324b83719c1067f8c5bdb4",
+                "url": "https://api.github.com/repos/longlevan9x/api-query-builder-laravel/zipball/5ae5041cc6ee5a5e3d9773980a9a46d3e3bd1e0f",
+                "reference": "5ae5041cc6ee5a5e3d9773980a9a46d3e3bd1e0f",
                 "shasum": ""
             },
             "require": {
@@ -2517,7 +2517,7 @@
                 "api",
                 "laravel"
             ],
-            "time": "2019-04-08T16:53:31+00:00"
+            "time": "2019-04-11T02:35:30+00:00"
         },
         {
             "name": "psr/container",
@@ -5209,16 +5209,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.8.1",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8"
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
-                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
                 "shasum": ""
             },
             "require": {
@@ -5253,7 +5253,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2018-06-11T23:09:50+00:00"
+            "time": "2019-04-07T13:18:21+00:00"
         },
         {
             "name": "nunomaduro/collision",
