@@ -37,12 +37,12 @@ Route::prefix('v1')->namespace('Api\V1')->group(function() {
 	//test
     /*crawl*/
     Route::prefix('crawl')->group(function() {
-        Route::get('student/{msv}', CrawlController::getControllerWithAction('crawlStudent'));
-        Route::get('student-course/{code}', CrawlController::getControllerWithAction('crawlStudentCourse'));
-        Route::get('schedule/{msv}', CrawlController::getControllerWithAction('crawlSchedule'));
-        Route::get('schedule-course/{code}', CrawlController::getControllerWithAction('crawlScheduleCourse'));
-        Route::get('schedule-exam/{msv}', CrawlController::getControllerWithAction('crawlScheduleExam'));
-        Route::get('schedule-exam-course/{code}', CrawlController::getControllerWithAction('crawlScheduleExamCourse'));
+        Route::get('student', CrawlController::getControllerWithAction('crawlStudent'));
+        Route::get('student/course', CrawlController::getControllerWithAction('crawlStudentCourse'));
+        Route::get('schedule', CrawlController::getControllerWithAction('crawlSchedule'));
+        Route::get('schedule/course', CrawlController::getControllerWithAction('crawlScheduleCourse'));
+        Route::get('schedule-exam', CrawlController::getControllerWithAction('crawlScheduleExam'));
+        Route::get('schedule-exam/course', CrawlController::getControllerWithAction('crawlScheduleExamCourse'));
         Route::get('semester', CrawlController::getControllerWithAction('crawlSemester'));
     });
     /*crawl*/

@@ -167,7 +167,8 @@ return [
 	    Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 	    Silber\Bouncer\BouncerServiceProvider::class,
 	    Dimsav\Translatable\TranslatableServiceProvider::class,
-	    /**
+        Arcanedev\LogViewer\LogViewerServiceProvider::class,
+        /**
          * Custom Provider
         */
 	    App\Commons\Providers\CommonServiceProvider::class,
