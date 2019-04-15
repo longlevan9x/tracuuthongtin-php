@@ -142,7 +142,7 @@ class Crawl
                 'status' => $student_info['trang_thai'],
                 'gender' => $student_info['gioi_tinh'],
                 'day_admission' => $student_info['ngay_vao_truong'],
-                'department_id' => $course->department->id,
+                'department_id' => 0,
                 'course_id' => $course->id,
                 'area' => $coso,
                 'education_level' => $student_info['bac_dao_tao'],
