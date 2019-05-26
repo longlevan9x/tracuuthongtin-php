@@ -6,6 +6,9 @@ return [
         "204" => "no data",
         "200" => "success"
     ],
+    'message' => [
+        'success' => 'success'
+    ],
     'status' => [
         'success' => 1,
         'error' => 2,

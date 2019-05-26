@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Commons\CConstant;
+use App\Crawler\Crawl;
 use App\Http\Controllers\Api\Controller;
 use App\Models\Schedule;
 use App\Models\ScheduleExam;
@@ -25,8 +26,8 @@ class StudentController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Request $request) {
-        if (empty($request->get('code'))) {
-            return responseJson(httpcode_replace(config('api_response.http_code.400'), 'code'), null, config('api_response.status.missing_param'));
+        if (empty($request->get('msv'))) {
+            return responseJson(httpcode_replace(config('api_response.http_code.400'), 'msv'), null, config('api_response.status.missing_param'));
         }
 
         $queryBuilder = new QueryBuilder(new Student, $request);
@@ -116,5 +117,24 @@ class StudentController extends Controller
         }
 
         return responseJson(config('api_response.http_code.204'), null, config('api_response.status.error'));
+    }
+
+    public function checkCode(Request $request) {
+	    if (empty($request->get('msv'))) {
+		    return responseJson(httpcode_replace(config('api_response.http_code.400'), 'msv'), null, config('api_response.status.missing_param'));
+	    }
+
+		$msv = $request->get('msv');
+
+	    $student = Student::whereCode($msv)->first();
+		if (!isset($student)) {
+
+		}
+	    else {
+			$crawl = new Crawl();
+			$crawl->crawlStudent($msv);
+
+			return responseJson(config('api_response.http_code.200'), $msv, config('api_response.status.success'));
+	    }
     }
 }
