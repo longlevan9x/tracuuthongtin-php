@@ -23,15 +23,12 @@ class StudentController extends Controller
 {
     /**
      * @param Request $request
+     * @param $student_code
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request) {
-        if (empty($request->get('msv'))) {
-            return responseJson(httpcode_replace(config('api_response.http_code.400'), 'msv'), null, config('api_response.status.missing_param'));
-        }
-
+    public function show(Request $request, $student_code) {
         $queryBuilder = new QueryBuilder(new Student, $request);
-
+        $queryBuilder->setExcludedParameters(['code' => $student_code]);
         $model = $queryBuilder->build()->first();
 
         if (isset($model)) {
@@ -43,13 +40,10 @@ class StudentController extends Controller
 
     /**
      * @param Request $request
+     * @param $student_code
      * @return array|Model|\Illuminate\Http\Request|null|object|\Pika\Api\QueryBuilder|string
      */
-    public function getScheduleExams(Request $request) {
-        if (empty($request->get('msv'))) {
-            return responseJson(httpcode_replace(config('api_response.http_code.400'), 'msv'), null, config('api_response.status.missing_param'));
-        }
-
+    public function getScheduleExams(Request $request, $student_code) {
         $queryBuilder = new QueryBuilder(new ScheduleExam(), $request);
 
         if (empty($request->get('semester'))) {
@@ -58,8 +52,7 @@ class StudentController extends Controller
             $queryBuilder->setDefaultUri(RequestCreator::createWithParameters(['semester' => $semester_name]));
         }
 
-        $queryBuilder->setExcludedParameters(['msv']);
-        $queryBuilder->setQuery(ScheduleExam::joinRelations('studentScheduleExams')->whereJoin('studentScheduleExams.student_code', '=', $request->get('msv')));
+        $queryBuilder->setQuery(ScheduleExam::joinRelations('studentScheduleExams')->whereJoin('studentScheduleExams.student_code', '=', $student_code));
         $models = $queryBuilder->build()->get();
 
         if ($models->isNotEmpty()) {
@@ -70,22 +63,19 @@ class StudentController extends Controller
 
     /**
      * @param Request $request
+     * @param $student_code
      * @return array|Model|\Illuminate\Http\Request|null|object|\Pika\Api\QueryBuilder|string
      */
-    public function getSchedules(Request $request) {
-        if (empty($request->get('msv'))) {
-            return responseJson(httpcode_replace(config('api_response.http_code.400'), 'msv'), null, config('api_response.status.missing_param'));
-        }
-
+    public function getSchedules(Request $request, $student_code) {
         $queryBuilder = new QueryBuilder(new Schedule(), $request);
+
         if (empty($request->get('semester'))) {
             $semester = Semester::query()->orderBySortOrderDesc()->first();
             $semester_name = $semester->name;
             $queryBuilder->setDefaultUri(RequestCreator::createWithParameters(['semester' => $semester_name]));
         }
 
-        $queryBuilder->setExcludedParameters(['msv']);
-        $queryBuilder->setQuery(Schedule::joinRelations('studentSchedules')->whereJoin('studentSchedules.student_code', '=', $request->get('msv')));
+        $queryBuilder->setQuery(Schedule::joinRelations('studentSchedules')->whereJoin('studentSchedules.student_code', '=', $student_code));
         $models = $queryBuilder->build()->get();
 
         if ($models->isNotEmpty()) {
@@ -119,22 +109,16 @@ class StudentController extends Controller
         return responseJson(config('api_response.http_code.204'), null, config('api_response.status.error'));
     }
 
-    public function checkCode(Request $request) {
-	    if (empty($request->get('msv'))) {
-		    return responseJson(httpcode_replace(config('api_response.http_code.400'), 'msv'), null, config('api_response.status.missing_param'));
-	    }
-
-		$msv = $request->get('msv');
-
-	    $student = Student::whereCode($msv)->first();
-		if (!isset($student)) {
+    public function checkCode(Request $request, $student_code) {
+	    $student = Student::whereCode($student_code)->first();
+		if (isset($student)) {
 
 		}
 	    else {
 			$crawl = new Crawl();
-			$crawl->crawlStudent($msv);
+			$crawl->crawlStudent($student_code);
 
-			return responseJson(config('api_response.http_code.200'), $msv, config('api_response.status.success'));
+			return responseJson(config('api_response.http_code.200'), $student_code, config('api_response.status.success'));
 	    }
     }
 }
