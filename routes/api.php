@@ -22,18 +22,22 @@ use App\Http\Controllers\Api\V1\SemesterController;
 use App\Http\Controllers\Api\V1\StudentController;
 
 Route::prefix('v1')->namespace('Api\V1')->group(function() {
-	Route::get('student/{student_code}', StudentController::getControllerWithAction('show'));
+
 	Route::get('student/{student_code}/schedules', StudentController::getControllerWithAction('getSchedules'));
 	Route::get('student/{student_code}/schedule-exams', StudentController::getControllerWithAction('getScheduleExams'));
+	Route::get('student/{student_code}/check', StudentController::getControllerWithAction('checkStudent'));
 	//Route::resource(SemesterController::getResourceName(), SemesterController::getClassName())->except(['create', 'update']);
+	Route::get('student/ranking', StudentController::getControllerWithAction('showRanking'));
+
+	Route::get('student/{student_code}', StudentController::getControllerWithAction('show'));
 
 	Route::get('schedule/{schedule_code}', ScheduleController::getControllerWithAction('show'));
-	Route::get('schedule-exam/{schedule-exam_code}', ScheduleExamController::getControllerWithAction('show'));
+	Route::get('schedule-exam/{schedule_exam_code}', ScheduleExamController::getControllerWithAction('show'));
 
 	Route::get('semester', SemesterController::getControllerWithAction('index'));
 	Route::get('semester/{id}', SemesterController::getControllerWithAction('show'));
 
-	Route::get('student/ranking', StudentController::getControllerWithAction('showRanking'));
+
 	//test
     /*crawl*/
     Route::prefix('crawl')->group(function() {

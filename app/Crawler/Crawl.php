@@ -91,6 +91,7 @@ class Crawl
                     'school_year' => $student_info['nien_khoa'],
                     'total_term' => $student_info['tong_so_tc_tich_luy'],
                     //'course'             => $student_info['khoa_hoc'],
+                    'is_active' => 1,
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s')
                 ];
@@ -155,20 +156,26 @@ class Crawl
                 'school_year' => $student_info['nien_khoa'],
                 'total_term' => $student_info['tong_so_tc_tich_luy'],
                 //'course'             => $student_info['khoa_hoc'],
+                'is_active' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ];
+
+	        $time += microtime(true);
+
+	        Student::insertOnDuplicateKey($students);
+	        $this->saveCrawlHistory(count($students), $time, 1);
+
+	        return responseJson(CConstant::STATUS_SUCCESS, [
+		        'student' => count($students),
+		        'time' => $time
+	        ]);
+        }
+        else {
+	        return responseJson(config('api_response.message.fail'), null, config('api_response.status.error'));
         }
 
-        $time += microtime(true);
 
-        Student::insertOnDuplicateKey($students);
-        $this->saveCrawlHistory(count($students), $time, 1);
-
-        return responseJson(CConstant::STATUS_SUCCESS, [
-            'student' => count($students),
-            'time' => $time
-        ]);
     }
 
     /**

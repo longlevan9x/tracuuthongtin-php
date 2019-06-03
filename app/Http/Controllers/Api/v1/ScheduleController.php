@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Controller;
 use App\Models\Schedule;
 use Pika\Api\QueryBuilder;
 use Illuminate\Http\Request;
+use Pika\Api\RequestCreator;
 
 
 /**
@@ -14,18 +15,16 @@ use Illuminate\Http\Request;
  */
 class ScheduleController extends Controller
 {
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-	public function show(Request $request) {
-        if (empty($request->get('code'))) {
-            return responseJson(httpcode_replace(config('api_response.http_code.400'), 'code'), null, config("api_response.status.missing_param"));
-        }
-
+	/**
+	 * @param Request $request
+	 * @param         $schedule_code
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function show(Request $request, $schedule_code) {
         $queryBuilder = new QueryBuilder(new Schedule(), $request);
 
-        $model = $queryBuilder->build()->first();
+		$queryBuilder->setDefaultUri(RequestCreator::createWithParameters(['code' => $schedule_code]));
+		$model = $queryBuilder->build()->first();
 
         if (isset($model)) {
             return responseJson(config("api_response.http_code.200"), $model, config('api_response.status.success'));

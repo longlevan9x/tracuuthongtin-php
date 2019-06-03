@@ -4,10 +4,11 @@ return [
     'http_code' => [
         "400" => "missing Parameters %s",
         "204" => "no data",
-        "200" => "success"
+        "200" => "success",
     ],
     'message' => [
-        'success' => 'success'
+        'success' => 'success',
+        'fail' => 'fail'
     ],
     'status' => [
         'success' => 1,

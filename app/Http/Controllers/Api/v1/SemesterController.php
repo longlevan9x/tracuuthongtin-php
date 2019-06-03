@@ -43,12 +43,9 @@ class SemesterController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request) {
-	    if (empty($request->get('id'))) {
-            return responseJson(httpcode_replace(config('api_response.http_code.400'), 'id'), null, config('api_response.status.missing_param'));
-        }
-
+    public function show(Request $request, $id) {
         $queryBuilder = new QueryBuilder(new Semester(), $request);
+        $queryBuilder->setDefaultUri(RequestCreator::createWithParameters(['id' => $id]));
         $model = $queryBuilder->build()->first();
 
         if (isset($model)) {
