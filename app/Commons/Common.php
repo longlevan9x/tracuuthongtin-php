@@ -9,6 +9,10 @@
 namespace App\Commons;
 
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 class Common
 {
 	/**
@@ -20,12 +24,16 @@ class Common
 	}
 
 	/**
-	 * @param        $relate
-	 * @param        $field
-	 * @param string $default_value
-	 * @return string|int|array
+	 * @param BelongsTo|HasOne|Model $relation
+	 * @param string                 $key
+	 * @param string                 $default
+	 * @return string
 	 */
-	public function getRelateField($relate, $field, $default_value = '') {
-		return isset($relate) ? $relate->{$field} : $default_value;
+	public function getRelateValue($relation, $key, $default = '') {
+		if ($relation instanceof BelongsTo || $relation instanceof HasOne) {
+			$relation = $relation->select($key)->first();
+		}
+
+		return $relation->{$key} ?? $default;
 	}
 }

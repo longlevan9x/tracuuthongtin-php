@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Commons\CConstant;
-use App\Crawler\Helper;
-use App\Crawler\LichHoc;
+
 use App\Models\Traits\ModelTrait;
+use Fico7489\Laravel\EloquentJoin\Traits\EloquentJoin;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -57,6 +56,14 @@ class Schedule extends Model
 {
 	use ModelTrait;
 	use InsertOnDuplicateKey;
+    use EloquentJoin;
 
 	protected $fillable = ['code', 'name', 'semester', 'lesson', 'start_time', 'end_time', 'weekday', 'session', 'teacher', 'classroom', 'is_active'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function studentSchedules() {
+	    return $this->hasMany(StudentSchedule::class, 'schedule_code', 'code');
+    }
 }

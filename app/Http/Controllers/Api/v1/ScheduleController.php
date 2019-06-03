@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Commons\CConstant;
 use App\Http\Controllers\Api\Controller;
 use App\Models\Schedule;
+use Pika\Api\QueryBuilder;
+use Illuminate\Http\Request;
+use Pika\Api\RequestCreator;
 
 
 /**
@@ -14,22 +16,19 @@ use App\Models\Schedule;
 class ScheduleController extends Controller
 {
 	/**
-	 * ScheduleController constructor.
-	 * @param Schedule $schedule
-	 */
-	public function __construct(Schedule $schedule) { parent::__construct($schedule); }
-
-	/**
+	 * @param Request $request
+	 * @param         $schedule_code
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	public function getSchedule() {
-		$model = $this->getModel();
+	public function show(Request $request, $schedule_code) {
+        $queryBuilder = new QueryBuilder(new Schedule(), $request);
 
-		if ($this->getQueryBuilder()->getResults()->isNotEmpty()) {
-			return responseJson(CConstant::STATUS_SUCCESS, $model, 200);
+		$queryBuilder->setDefaultUri(RequestCreator::createWithParameters(['code' => $schedule_code]));
+		$model = $queryBuilder->build()->first();
 
-		}
-
-		return responseJson(CConstant::STATUS_FAIL, "Schedule " . CConstant::STATUS_NOT_FOUND, 404);
-	}
+        if (isset($model)) {
+            return responseJson(config("api_response.http_code.200"), $model, config('api_response.status.success'));
+        }
+        return responseJson(config('api_response.http_code.204'), null, config('api_response.status.error'));
+    }
 }

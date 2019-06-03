@@ -15,14 +15,14 @@ use Yadakhov\InsertOnDuplicateKey;
 /**
  * Class Student
  * @package App\Models
- * @property-read Department                $department
- * @property-read Collection                $schedule_exams
- * @property-read Collection                $schedules
+ * @property-read Department                                                          $department
+ * @property-read Collection                                                          $schedule_exams
+ * @property-read Collection                                                          $schedules
  * @mixin \Eloquent
- * @property int                            $id
- * @property int|null                       id_course           khoa hoc
- * @property Carbon|null                    $created_at
- * @property Carbon|null                    $updated_at
+ * @property int                                                                      $id
+ * @property int|null                                                                 id_course           khoa hoc
+ * @property Carbon|null                                                              $created_at
+ * @property Carbon|null                                                              $updated_at
  * @method static Builder|Student whereArea($value)
  * @method static Builder|Student whereAverageCumulative($value)
  * @method static Builder|Student whereBranch($value)
@@ -42,28 +42,27 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static Builder|Student whereTotalTerm($value)
  * @method static Builder|Student whereTypeEducation($value)
  * @method static Builder|Student whereUpdatedAt($value)
- * @property int|null                       $course_id          khoa hoc
- * @property-read Collection|ScheduleExam[] $scheduleExams
+ * @property int|null                                                                 $course_id          khoa hoc
+ * @property-read Collection|ScheduleExam[]                                           $scheduleExams
  * @method static Builder|Student whereCourseId($value)
  * @method static Builder|Student whereDepartmentId($value)
- * @property string                         $code
- * @property string                         $name
- * @property string|null                    $class
- * @property string|null                    $branch_group       Nganh
- * @property string|null                    $branch             Chuyen nganh
- * @property string|null                    $status             trang thai
- * @property string|null                    $day_admission      ngay vao truong
- * @property string|null                    $school_year        nien khoa
- * @property int|null                       $department_id      khoa
- * @property string|null                    $education_level    bac dao tao
- * @property string|null                    $gender             gioi tinh
- * @property string|null                    $type_education     Loai hinh dao tao
- * @property int|null                       $area               Co so:10->hanoi, 20->namdinh
- * @property string|null                    $average_cumulative trung binh tich luy
- * @property int|null                       $total_term         tong so tin chi
- * @property-read \App\Models\Admins        $author
- * @property-read \App\Models\Admins        $authorUpdated
- * @property-read \App\Models\Course        $course
+ * @property string                                                                   $code
+ * @property string                                                                   $name
+ * @property string|null                                                              $class
+ * @property string|null                                                              $branch_group       Nganh
+ * @property string|null                                                              $branch             Chuyen nganh
+ * @property string|null                                                              $status             trang thai
+ * @property string|null                                                              $day_admission      ngay vao truong
+ * @property string|null                                                              $school_year        nien khoa
+ * @property int|null                                                                 $department_id      khoa
+ * @property string|null                                                              $education_level    bac dao tao
+ * @property string|null                                                              $gender             gioi tinh
+ * @property string|null                                                              $type_education     Loai hinh dao tao
+ * @property int|null                                                                 $area               Co so:10->hanoi, 20->namdinh
+ * @property int|null                                                                 $total_term         tong so tin chi
+ * @property-read \App\Models\Admins                                                  $author
+ * @property-read \App\Models\Admins                                                  $authorUpdated
+ * @property-read \App\Models\Course                                                  $course
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student active($value = 1)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student findSimilarSlugs($attribute, $config, $slug)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student inActive()
@@ -71,6 +70,15 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student orderBySortOrder()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student orderBySortOrderDesc()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereSlug($slug)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Relationship[] $relationships
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student postTime($time = '')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student query()
+ * @property string|null                                                              $gpa_10             trung binh tich luy he 10
+ * @property string|null                                                              $gpa_4              trung binh tich luy he 4
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereGpa10($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereGpa4($value)
  */
 class Student extends Model
 {
@@ -95,10 +103,12 @@ class Student extends Model
 		'gender',
 		'type_education',
 		'area',
-		'average_cumulative',
+		'gpa_10',
+		'gpa_4',
 		'total_term'
 	];
 
+	protected $hidden = ['area'];
 	//protected $appends = ['department', 'course'];
 
 	/**
@@ -156,19 +166,42 @@ class Student extends Model
 	}
 
 	public function getCourseAttribute() {
-		return $this->course()->first()->year ?? 0;
+		return (int) $this->course()->first()->year ?? 0;
 	}
-
 
 	/**
-	 * @return array
+	 * The attributes that should be cast to native types.
+	 * @var array
 	 */
-	public function toArray() {
-		//$this->area = $this->area == 10 ? "Hà Nội" : "Nam Định";
-		$this->setUriApiAppends(['department', 'course']);
+	protected $casts = [
+		'code'       => 'string',
+		'course'     => 'integer',
+		'area'       => 'integer',
+		'gpa_10'     => 'float',
+		'gpa_4'      => 'float',
+		'total_term' => 'integer',
+		'course_id' => 'integer',
+		'department_id' => 'integer',
+		'is_active' => 'integer',
+	];
 
-		return parent::toArray(); // TODO: Change the autogenerated stub
+	protected $area_name = '';
+	public function getAreaNameAttribute() {
+
+		return $this->area == 10 ? "Hà Nội" : "Nam Định";
 	}
+
+	protected $appends = ['area_name'];
+
+//	/**
+//	 * @return array
+//	 */
+//	public function toArray() {
+//
+//		$this->setUriApiAppends(['department', 'course']);
+//
+//		return parent::toArray(); // TODO: Change the autogenerated stub
+//	}
 
 	public function getSemester($name = '') {
 		/** @var Semester $query */

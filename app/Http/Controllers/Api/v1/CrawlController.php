@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Crawler\Crawl;
 use App\Http\Controllers\Api\Controller;
+use Illuminate\Http\Request;
 
 class CrawlController extends Controller
 {
@@ -31,15 +32,15 @@ class CrawlController extends Controller
 	}
 
 
-	/**
-	 * get student with code of course
-	 * return list student
-	 * @param $code
-	 * @return \Illuminate\Http\JsonResponse
-	 * @throws \Exception
-	 */
-	public function crawlStudentCourse($code) {
-		return $this->crawl->crawlStudentCourse($code);
+    /**
+     * get student with code of course
+     * return list student
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+	public function crawlStudentCourse(Request $request) {
+		return $this->crawl->crawlStudentCourse($request->get("course_code"), $request->get('total_student', 0));
 	}
 
 	/**
@@ -53,15 +54,15 @@ class CrawlController extends Controller
 		return $this->crawl->crawlSchedule($msv);
 	}
 
-	/**
-	 * get schedule with code of course
-	 * return list student & schedule of student
-	 * @param $code
-	 * @return \Illuminate\Http\JsonResponse
-	 * @throws \Exception
-	 */
-	public function crawlScheduleCourse($code) {
-		return $this->crawl->crawlScheduleCourse($code);
+    /**
+     * get schedule with code of course
+     * return list student & schedule of student
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+	public function crawlScheduleCourse(Request $request) {
+		return $this->crawl->crawlScheduleCourse($request->get("course_code"), $request->get('total_student', 0));
 	}
 
 	/**
@@ -75,15 +76,15 @@ class CrawlController extends Controller
 		return $this->crawl->crawlScheduleExam($msv);
 	}
 
-	/**
-	 * get schedule exam with code of course
-	 * return list student & schedule exam of student
-	 * @param $code
-	 * @return \Illuminate\Http\JsonResponse
-	 * @throws \Exception
-	 */
-	public function crawlScheduleExamCourse($code) {
-		return $this->crawl->crawlScheduleExamCourse($code);
+    /**
+     * get schedule exam with code of course
+     * return list student & schedule exam of student
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+	public function crawlScheduleExamCourse(Request $request) {
+		return $this->crawl->crawlScheduleExamCourse($request->get("course_code"), $request->get('total_student', 0));
 	}
 
 	/**

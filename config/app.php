@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Laravel base'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://localhost/vias_website'),
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'vi',
 
     /*
     |--------------------------------------------------------------------------
@@ -91,7 +91,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'vi',
 
     /*
     |--------------------------------------------------------------------------
@@ -121,61 +121,56 @@ return [
 
     'providers' => [
 
-        /*
-         * Laravel Framework Service Providers...
-         */
-        Illuminate\Auth\AuthServiceProvider::class,
-        Illuminate\Broadcasting\BroadcastServiceProvider::class,
-        Illuminate\Bus\BusServiceProvider::class,
-        Illuminate\Cache\CacheServiceProvider::class,
-        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        Illuminate\Cookie\CookieServiceProvider::class,
-        Illuminate\Database\DatabaseServiceProvider::class,
-        Illuminate\Encryption\EncryptionServiceProvider::class,
-        Illuminate\Filesystem\FilesystemServiceProvider::class,
-        Illuminate\Foundation\Providers\FoundationServiceProvider::class,
-        Illuminate\Hashing\HashServiceProvider::class,
-        Illuminate\Mail\MailServiceProvider::class,
-        Illuminate\Notifications\NotificationServiceProvider::class,
-        Illuminate\Pagination\PaginationServiceProvider::class,
-        Illuminate\Pipeline\PipelineServiceProvider::class,
-        Illuminate\Queue\QueueServiceProvider::class,
-        Illuminate\Redis\RedisServiceProvider::class,
-        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-        Illuminate\Session\SessionServiceProvider::class,
-        Illuminate\Translation\TranslationServiceProvider::class,
-        Illuminate\Validation\ValidationServiceProvider::class,
-        Illuminate\View\ViewServiceProvider::class,
+	    /*
+		 * Laravel Framework Service Providers...
+		 */
+	    Illuminate\Auth\AuthServiceProvider::class,
+	    Illuminate\Broadcasting\BroadcastServiceProvider::class,
+	    Illuminate\Bus\BusServiceProvider::class,
+	    Illuminate\Cache\CacheServiceProvider::class,
+	    Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+	    Illuminate\Cookie\CookieServiceProvider::class,
+	    Illuminate\Database\DatabaseServiceProvider::class,
+	    Illuminate\Encryption\EncryptionServiceProvider::class,
+	    Illuminate\Filesystem\FilesystemServiceProvider::class,
+	    Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+	    Illuminate\Hashing\HashServiceProvider::class,
+	    Illuminate\Mail\MailServiceProvider::class,
+	    Illuminate\Notifications\NotificationServiceProvider::class,
+	    Illuminate\Pagination\PaginationServiceProvider::class,
+	    Illuminate\Pipeline\PipelineServiceProvider::class,
+	    Illuminate\Queue\QueueServiceProvider::class,
+	    Illuminate\Redis\RedisServiceProvider::class,
+	    Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+	    Illuminate\Session\SessionServiceProvider::class,
+	    Illuminate\Translation\TranslationServiceProvider::class,
+	    Illuminate\Validation\ValidationServiceProvider::class,
+	    Illuminate\View\ViewServiceProvider::class,
 
-        /*
-         * Package Service Providers...
-         */
+	    /*
+		 * Package Service Providers...
+		 */
 
-        /*
-         * Application Service Providers...
-         */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+	    /*
+		 * Application Service Providers...
+		 */
+	    App\Providers\AppServiceProvider::class,
+	    App\Providers\AuthServiceProvider::class,
+	    // App\Providers\BroadcastServiceProvider::class,
+	    App\Providers\EventServiceProvider::class,
+	    App\Providers\RouteServiceProvider::class,
 
-        /**
+	    /**
          * Packages Providers
          */
-        Collective\Html\HtmlServiceProvider::class,
+	    Collective\Html\HtmlServiceProvider::class,
 	    Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Unlu\Laravel\Api\ApiQueryBuilderServiceProvider::class,
-        Pika\Api\ApiQueryBuilderServiceProvider::class,
+	    Silber\Bouncer\BouncerServiceProvider::class,
+	    Dimsav\Translatable\TranslatableServiceProvider::class,
+        Arcanedev\LogViewer\LogViewerServiceProvider::class,
         /**
          * Custom Provider
         */
-        App\Models\Providers\StudentServiceProvider::class,
-        App\Models\Providers\ScheduleServiceProvider::class,
-        App\Models\Providers\StudentScheduleServiceProvider::class,
-        App\Models\Providers\ScheduleExamServiceProvider::class,
-        App\Models\Providers\StudentScheduleExamServiceProvider::class,
-        App\Models\Providers\SemesterServiceProvider::class,
 	    App\Commons\Providers\CommonServiceProvider::class,
 	    App\Models\Providers\ModelServiceProvider::class
     ],
@@ -231,10 +226,10 @@ return [
          */
 	    'Form' => Collective\Html\FormFacade::class,
 	    'Html' => Collective\Html\HtmlFacade::class,
+	    'Bouncer' => Silber\Bouncer\BouncerFacade::class,
 	    /**
          * Custom Facade
         */
-	    'Student' => \App\Models\Facade\StudentFacade::class
     ],
 
 ];

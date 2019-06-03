@@ -35,6 +35,13 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Department orderBySortOrder()
  * @method static Builder|Department orderBySortOrderDesc()
  * @method static Builder|Department whereSlug($slug)
+ * @property int|null $school_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Relationship[] $relationships
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Department newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Department newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Department postTime($time = '')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Department query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Department whereSchoolId($value)
  */
 class Department extends Model
 {

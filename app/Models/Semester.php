@@ -12,6 +12,7 @@ use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * Class Semester
+ *
  * @package App\Models
  * @property string      $name
  * @property int         $is_active
@@ -35,6 +36,11 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static Builder|Semester whereSlug($slug)
  * @property int|null    $sort_order
  * @method static Builder|Semester whereSortOrder($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Relationship[] $relationships
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Semester newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Semester newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Semester postTime($time = '')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Semester query()
  */
 class Semester extends Model
 {

@@ -38,6 +38,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder|CrawlHistory whereSlug($slug)
  * @property float|null $time
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CrawlHistory whereTime($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Relationship[] $relationships
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CrawlHistory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CrawlHistory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CrawlHistory postTime($time = '')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CrawlHistory query()
  */
 class CrawlHistory extends Model
 {

@@ -13,8 +13,9 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
+use Silber\Bouncer\Database\Ability;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
+use Silber\Bouncer\Database\Role;
 
 /**
  * Class Admins
@@ -34,10 +35,10 @@ use Illuminate\Support\Facades\Storage;
  * @property integer                                                    $is_active
  * @property integer                                                    $is_online
  * @property integer                                                    $gender
- * @property mixed                                                      $last_login
- * @property mixed                                                      $last_logout
- * @property mixed                                                      $created_at
- * @property mixed                                                      $updated_at
+ * @property string                                                     $last_login
+ * @property string                                                     $last_logout
+ * @property string                                                     $created_at
+ * @property string                                                     $updated_at
  * @property int|null                                                   $author_id
  * @property string|null                                                $remember_token
  * @property-read Admins                                                $authorUpdated
@@ -70,6 +71,17 @@ use Illuminate\Support\Facades\Storage;
  * @method static Builder|Admins orderBySortOrder()
  * @method static Builder|Admins orderBySortOrderDesc()
  * @method static Builder|Admins myPluck($column, $key = null, $title = '')
+ * @property-read \Illuminate\Database\Eloquent\Collection|Ability[]    $abilities
+ * @property-read \Illuminate\Database\Eloquent\Collection|Role[]       $roles
+ * @method static Builder|Admins newModelQuery()
+ * @method static Builder|Admins newQuery()
+ * @method static Builder|Admins query()
+ * @method static Builder|Admins whereIs($role)
+ * @method static Builder|Admins whereIsAll($role)
+ * @method static Builder|Admins whereIsNot($role)
+ * @method static Builder|Admins withTranslations()
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Relationship[] $relationships
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Admins postTime($time = '')
  */
 class Admins extends Authenticatable
 {
@@ -77,25 +89,13 @@ class Admins extends Authenticatable
 	use ModelTrait;
 	use ModelUploadTrait;
 	use ModelAuthTrait;
+	use HasRolesAndAbilities;
 
 	const ROLE_SUPER_ADMIN = 30;
 	const ROLE_ADMIN       = 25;
 	const ROLE_MANAGEMENT  = 20;
 	const ROLE_AUTHOR      = 5;
 	const ROLE_ALL         = "*";
-
-	public static $roles = [
-		25 => 'Administrator',
-		20 => 'Management',
-		/*10 => 'Staff',*/
-		5  => 'Author'
-	];
-
-	public static function getCollectionRoles() {
-		$roles = [0 => __('admin.select') . " " . __('admin/user.role')] + self::$roles;
-
-		return new Collection($roles);
-	}
 
 	/**
 	 * The attributes that are mass assignable.
@@ -131,6 +131,13 @@ class Admins extends Authenticatable
 		'password',
 		'remember_token',
 	];
+
+	/**
+	 * @param $author_id
+	 */
+	public function setAuthorIdAttribute($author_id) {
+		$this->attributes['author_id'] = CUser::userAdmin()->id;
+	}
 
 	public function setAuthor_id() {
 		return $this->author_id = CUser::userAdmin()->id;
@@ -176,13 +183,6 @@ class Admins extends Authenticatable
 		}
 
 		return false;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getRoleText() {
-		return self::$roles[$this->role];
 	}
 
 	public function getGenderLabel() {

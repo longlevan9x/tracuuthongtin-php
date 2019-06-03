@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Crawler\Helper;
 use App\Crawler\LichThi;
 use App\Models\Traits\ModelTrait;
+use Fico7489\Laravel\EloquentJoin\Traits\EloquentJoin;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -15,10 +16,10 @@ use Yadakhov\InsertOnDuplicateKey;
  * App\Models\ScheduleExam
  *
  * @mixin \Eloquent
- * @property int         $id
- * @property string      $code        ma lop hoc phan
- * @property string      $name        ten mon thi
- * @property int|null    $group       nhom
+ * @property int $id
+ * @property string $code        ma lop hoc phan
+ * @property string $name        ten mon thi
+ * @property int|null $group       nhom
  * @property string|null $test_day    ngay thi
  * @property string|null $serial      si so
  * @property string|null $semester    ky thi
@@ -26,7 +27,7 @@ use Yadakhov\InsertOnDuplicateKey;
  * @property string|null $room        phong thi
  * @property string|null $type        loai thi
  * @property string|null $note        ghi chu
- * @property int|null    $is_active   trang thai hoat dong
+ * @property int|null $is_active   trang thai hoat dong
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @method static Builder|ScheduleExam whereCode($value)
@@ -52,10 +53,21 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam orderBySortOrder()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam orderBySortOrderDesc()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam whereSlug($slug)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Relationship[] $relationships
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam postTime($time = '')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam query()
  */
 class ScheduleExam extends Model
 {
-	use ModelTrait;
-	use InsertOnDuplicateKey;
-	protected $fillable = ['code', 'name', 'group', 'test_day', 'examination', 'room', 'type', 'note', 'is_active'];
+    use ModelTrait;
+    use InsertOnDuplicateKey;
+    use EloquentJoin;
+
+    protected $fillable = ['code', 'name', 'group', 'test_day', 'examination', 'room', 'type', 'note', 'is_active'];
+
+    public function studentScheduleExams() {
+        return $this->hasMany(StudentScheduleExam::class, 'schedule_exam_code', 'code');
+    }
 }

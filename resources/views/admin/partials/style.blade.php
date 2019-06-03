@@ -41,9 +41,13 @@
     <link href="{{asset_admin_vendors('select2/dist/css/select2.min.css')}}" rel="stylesheet">
     <!-- Custom Theme Style -->
 
+    <link rel="stylesheet" href="{{asset('plugins/jquery-confirm/jquery-confirm.min.css')}}" type="text/css">
 
     <link href="{{asset_admin('build/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('css/custom.css')}}" rel="stylesheet" type="text/css" />
+
+    <link rel="icon" href="{{\App\Commons\Facade\CFile::getImageUrl('settings', setting(KEY_LOGO))}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{\App\Commons\Facade\CFile::getImageUrl('settings', setting(KEY_LOGO))}}" type="image/x-icon">
 
     <style type="text/css" rel="stylesheet">
         .box-header.with-border {

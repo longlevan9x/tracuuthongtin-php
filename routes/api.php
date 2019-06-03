@@ -22,22 +22,32 @@ use App\Http\Controllers\Api\V1\SemesterController;
 use App\Http\Controllers\Api\V1\StudentController;
 
 Route::prefix('v1')->namespace('Api\V1')->group(function() {
-	Route::get('student', StudentController::getControllerWithAction('getStudent'));
-	Route::get('schedules', StudentController::getControllerWithAction('getSchedules'));
-	Route::get('schedule-exams', StudentController::getControllerWithAction('getScheduleExams'));
-	Route::resource(SemesterController::getResourceName(), SemesterController::getClassName());
 
-	Route::get('schedule', ScheduleController::getControllerWithAction('getSchedule'));
-	Route::get('schedule-exam', ScheduleController::getControllerWithAction('getScheduleExam'));
-	/*crawl*/
-	Route::prefix('crawl')->group(function() {
-		Route::get('student/{msv}', CrawlController::getControllerWithAction('crawlStudent'));
-		Route::get('student-course/{code}', CrawlController::getControllerWithAction('crawlStudentCourse'));
-		Route::get('schedule/{msv}', CrawlController::getControllerWithAction('crawlSchedule'));
-		Route::get('schedule-course/{code}', CrawlController::getControllerWithAction('crawlScheduleCourse'));
-		Route::get('schedule-exam/{msv}', CrawlController::getControllerWithAction('crawlScheduleExam'));
-		Route::get('schedule-exam-course/{code}', CrawlController::getControllerWithAction('crawlScheduleExamCourse'));
-		Route::get('semester', CrawlController::getControllerWithAction('crawlSemester'));
-	});
-	/*crawl*/
+	Route::get('student/{student_code}/schedules', StudentController::getControllerWithAction('getSchedules'));
+	Route::get('student/{student_code}/schedule-exams', StudentController::getControllerWithAction('getScheduleExams'));
+	Route::get('student/{student_code}/check', StudentController::getControllerWithAction('checkStudent'));
+	//Route::resource(SemesterController::getResourceName(), SemesterController::getClassName())->except(['create', 'update']);
+	Route::get('student/ranking', StudentController::getControllerWithAction('showRanking'));
+
+	Route::get('student/{student_code}', StudentController::getControllerWithAction('show'));
+
+	Route::get('schedule/{schedule_code}', ScheduleController::getControllerWithAction('show'));
+	Route::get('schedule-exam/{schedule_exam_code}', ScheduleExamController::getControllerWithAction('show'));
+
+	Route::get('semester', SemesterController::getControllerWithAction('index'));
+	Route::get('semester/{id}', SemesterController::getControllerWithAction('show'));
+
+
+	//test
+    /*crawl*/
+    Route::prefix('crawl')->group(function() {
+        Route::get('student', CrawlController::getControllerWithAction('crawlStudent'));
+        Route::get('student/course', CrawlController::getControllerWithAction('crawlStudentCourse'));
+        Route::get('schedule', CrawlController::getControllerWithAction('crawlSchedule'));
+        Route::get('schedule/course', CrawlController::getControllerWithAction('crawlScheduleCourse'));
+        Route::get('schedule-exam', CrawlController::getControllerWithAction('crawlScheduleExam'));
+        Route::get('schedule-exam/course', CrawlController::getControllerWithAction('crawlScheduleExamCourse'));
+        Route::get('semester', CrawlController::getControllerWithAction('crawlSemester'));
+    });
+    /*crawl*/
 });

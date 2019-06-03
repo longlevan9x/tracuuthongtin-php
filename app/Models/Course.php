@@ -34,6 +34,9 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereDepartmentId($value)
  * @property int|null $year
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereYear($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course query()
  */
 class Course extends Model
 {
