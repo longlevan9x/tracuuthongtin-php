@@ -1,0 +1,25 @@
+{
+    "name": "pika/api-query-builder-laravel",
+    "description": "API QUERY Builer for laravel framework",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["Laravel", "API"],
+    "authors": [
+        {
+            "name": "Long",
+            "email": "vanlong121996@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "illuminate/support": ">=5.0.0",
+        "illuminate/database": ">=5.0.0",
+        "illuminate/http": ">=5.0.0"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "Pika\\Api\\": "src"
+        }
+    }
+}
