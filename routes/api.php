@@ -41,6 +41,9 @@ Route::prefix('v1')->namespace('Api\V1')->group(function() {
 	//test
     /*crawl*/
     Route::prefix('crawl')->group(function() {
+        Route::get('debt', function () {
+            (new \App\Crawler\CongNo(false, 16103100001))->asArray();
+        });
         Route::get('student', CrawlController::getControllerWithAction('crawlStudent'));
         Route::get('student/course', CrawlController::getControllerWithAction('crawlStudentCourse'));
         Route::get('schedule', CrawlController::getControllerWithAction('crawlSchedule'));
