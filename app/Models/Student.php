@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Commons\CRequest;
 use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;

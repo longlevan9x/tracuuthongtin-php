@@ -41,16 +41,14 @@ Route::prefix('v1')->namespace('Api\V1')->group(function() {
 	//test
     /*crawl*/
     Route::prefix('crawl')->group(function() {
-        Route::get('debt', function () {
-            (new \App\Crawler\CongNo(false, 16103100001))->asArray();
-        });
-        Route::get('student', CrawlController::getControllerWithAction('crawlStudent'));
-        Route::get('student/course', CrawlController::getControllerWithAction('crawlStudentCourse'));
-        Route::get('schedule', CrawlController::getControllerWithAction('crawlSchedule'));
-        Route::get('schedule/course', CrawlController::getControllerWithAction('crawlScheduleCourse'));
-        Route::get('schedule-exam', CrawlController::getControllerWithAction('crawlScheduleExam'));
-        Route::get('schedule-exam/course', CrawlController::getControllerWithAction('crawlScheduleExamCourse'));
+        Route::get('student/{student_code}', CrawlController::getControllerWithAction('crawlStudent'));
+        Route::get('student/course/{course_code}', CrawlController::getControllerWithAction('crawlStudentCourse'));
+        Route::get('schedule/{student_code}', CrawlController::getControllerWithAction('crawlSchedule'));
+        Route::get('schedule/course/{course_code}', CrawlController::getControllerWithAction('crawlScheduleCourse'));
+        Route::get('schedule-exam/{student_code}', CrawlController::getControllerWithAction('crawlScheduleExam'));
+        Route::get('schedule-exam/course/{course_code}', CrawlController::getControllerWithAction('crawlScheduleExamCourse'));
         Route::get('semester', CrawlController::getControllerWithAction('crawlSemester'));
+        Route::get('money-pay/{student_code}', CrawlController::getControllerWithAction('crawlMoneyPay'));
     });
     /*crawl*/
 });

@@ -8,7 +8,8 @@ return [
     ],
     'message' => [
         'success' => 'success',
-        'fail' => 'fail'
+        'fail' => 'fail',
+        'error' => 'error'
     ],
     'status' => [
         'success' => 1,
