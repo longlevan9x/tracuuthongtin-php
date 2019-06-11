@@ -59,42 +59,11 @@ class Crawl
 			$infoStudent->msv = Helper::getMsv($course_code, $index);
 			$student_info     = $infoStudent->getThongTinSinhVien()->asArray();
 			if (!empty($student_info)) {
-				if ($student_info['co_so'] == 'Hà Nội') {
-					$coso = 10;
-				}
-				else {
-					$coso = 20;
-				}
 
-				$gpa    = $student_info['diem_tb_tich_luy'];
-				$gpa    = str_replace(' ', '', $gpa);
-				$gpas   = explode('-', $gpa);
-				$gpa_10 = $gpas[0] ?? 0;
-				$gpa_4  = $gpas[1] ?? 0;
+                $student_info['department_id'] = $course->department->id;
+                $student_info['course_id']     = $course->id;
 
-				$students[] = [
-					'code'            => $infoStudent->msv,
-					'name'            => $student_info['name'],
-					'status'          => $student_info['trang_thai'],
-					'gender'          => $student_info['gioi_tinh'],
-					'day_admission'   => $student_info['ngay_vao_truong'],
-					'department_id'   => $course->department->id,
-					'course_id'       => $course->id,
-					'area'            => $coso,
-					'education_level' => $student_info['bac_dao_tao'],
-					'type_education'  => $student_info['loai_hinh_dao_tao'],
-					'branch_group'    => $student_info['nganh'],
-					'branch'          => $student_info['chuyen_nganh'],
-					'class'           => $student_info['lop'],
-					'gpa_10'          => $gpa_10,
-					'gpa_4'           => $gpa_4,
-					'school_year'     => $student_info['nien_khoa'],
-					'total_term'      => $student_info['tong_so_tc_tich_luy'],
-					//'course'             => $student_info['khoa_hoc'],
-					'is_active'       => 1,
-					'created_at'      => date('Y-m-d H:i:s'),
-					'updated_at'      => date('Y-m-d H:i:s')
-				];
+				$students[] = $student_info;
 			}
 
 		}
@@ -121,53 +90,18 @@ class Crawl
 		$student_info = $infoStudent->getThongTinSinhVien()->asArray();
 		$code         = substr($msv, 0, 6);
 		$course       = Course::whereCode($code)->first();
-		$students     = [];
+
 		$time         = -microtime(true);
 
 		if (!empty($student_info)) {
-			if ($student_info['co_so'] == 'Hà Nội') {
-				$coso = 10;
-			}
-			else {
-				$coso = 20;
-			}
-
-			$gpa        = $student_info['diem_tb_tich_luy'];
-			$gpa        = str_replace(' ', '', $gpa);
-			$gpas       = explode('-', $gpa);
-			$gpa_10     = $gpas[0] ?? 0;
-			$gpa_4      = $gpas[1] ?? 0;
-			$students[] = [
-				'code'            => $infoStudent->msv,
-				'name'            => $student_info['name'],
-				'status'          => $student_info['trang_thai'],
-				'gender'          => $student_info['gioi_tinh'],
-				'day_admission'   => $student_info['ngay_vao_truong'],
-				'department_id'   => $course->department->id,
-				'course_id'       => $course->id,
-				'area'            => $coso,
-				'education_level' => $student_info['bac_dao_tao'],
-				'type_education'  => $student_info['loai_hinh_dao_tao'],
-				'branch_group'    => $student_info['nganh'],
-				'branch'          => $student_info['chuyen_nganh'],
-				'class'           => $student_info['lop'],
-				'gpa_10'          => $gpa_10,
-				'gpa_4'           => $gpa_4,
-				'school_year'     => $student_info['nien_khoa'],
-				'total_term'      => $student_info['tong_so_tc_tich_luy'],
-				//'course'             => $student_info['khoa_hoc'],
-				'is_active'       => 1,
-				'created_at'      => date('Y-m-d H:i:s'),
-				'updated_at'      => date('Y-m-d H:i:s')
-			];
-
-			$time += microtime(true);
-
-			Student::insertOnDuplicateKey($students);
-			$this->saveCrawlHistory(count($students), $time, 1);
+            $student_info['department_id'] = $course->department->id;
+            $student_info['course_id']     = $course->id;
+			Student::insertOnDuplicateKey($student_info);
+            $time += microtime(true);
+			$this->saveCrawlHistory(count([$student_info]), $time, 1);
 
 			return responseJson(CConstant::STATUS_SUCCESS, [
-				'student' => count($students),
+				'student' => count([$student_info]),
 				'time'    => $time
 			]);
 		}
@@ -436,7 +370,18 @@ class Crawl
 			$money_pays = $cong_no->asArray();
 			$moneyPayList += $money_pays;
 		}
-		dd($moneyPayList);
+
+        if (!empty($moneyPayList)) {
+            MoneyPay::insertOnDuplicateKey($moneyPayList);
+            return responseJson(config('api_response.http_code.200'), [
+                'total' => count($moneyPayList),
+                'time'  => $time
+            ], config('api_response.status.success'));
+        }
+
+        return responseJson(config('api_response.message.error'), [
+            'total' => 0
+        ], config('api_response.status.error'));
 	}
 
 	/**

@@ -49,6 +49,7 @@ Route::prefix('v1')->namespace('Api\V1')->group(function() {
         Route::get('schedule-exam/course/{course_code}', CrawlController::getControllerWithAction('crawlScheduleExamCourse'));
         Route::get('semester', CrawlController::getControllerWithAction('crawlSemester'));
         Route::get('money-pay/{student_code}', CrawlController::getControllerWithAction('crawlMoneyPay'));
+        Route::get('money-pay/course/{course_code}', CrawlController::getControllerWithAction('crawlMoneyPayCourse'));
     });
     /*crawl*/
 });

@@ -31,41 +31,61 @@ class ThongTinSinhVien extends Crawler
 		if($this->crawler->count() == 0) {
 			return $this->list = [];
 		}
-		if( ! $this->checkTrangThai()) {
+		if(!$this->checkTrangThai()) {
 			return $this->list = [];
 		}
 
+        $name = trim($this->crawler->filter('.title-group')->text());
+        $name = str_replace('BẢNG KẾT QUẢ HỌC TẬP', '', $name);
+        $name = trim($name);
+        $studentInfo = [];
 		// TODO: Implement prepare() method.
-		$this->crawler->filter('.body-group')->filter('table')->filter('tr')->each(function($node) {
-			$name = trim($this->crawler->filter('.title-group')->text());
-			$name = str_replace('BẢNG KẾT QUẢ HỌC TẬP', '', $name);
-			$name = trim($name);
+        $this->crawler->filter('.body-group')->filter('table')->filter('tr')->each(function($node) use (&$studentInfo){
+
 			/** @var \Symfony\Component\DomCrawler\Crawler $node */
-			if($this->get_with_key) {
-				$this->list['name'] = $name;
-				$arr                = explode(":", trim($node->filter('td')->text())); // chuyen chuoi ve mang theo dau ':'
-				if($arr[0] == 'Khóa') {
-					$arr[0] = 'khoa_hoc';
-				}
-				$this->list[vn2latin(trim($arr[0]), '_')] = isset($arr[1]) ? trim($arr[1]) : '';
-				$arr                                      = explode(":", trim($node->filter('td:last-child')->text()));
-				$this->list[vn2latin(trim($arr[0]), '_')] = isset($arr[1]) ? trim($arr[1]) : '';
-			} else {
-				$this->list[] = $name;
-				$this->list[] = trim($node->filter('td')->text());
-				$this->list[] = trim($node->filter('td:last-child')->text());
-			}
+            $arr = explode(":", trim($node->filter('td')->text())); // chuyen chuoi ve mang theo dau ':'
+            if($arr[0] == 'Khóa') {
+                $arr[0] = 'khoa_hoc';
+            }
+            $studentInfo[vn2latin(trim($arr[0]), '_')] = isset($arr[1]) ? trim($arr[1]) : '';
+            $arr = explode(":", trim($node->filter('td:last-child')->text()));
+            $studentInfo[vn2latin(trim($arr[0]), '_')] = isset($arr[1]) ? trim($arr[1]) : '';
 		});
 
 		$tong_so_tc_tich_luy = $this->crawler->filter('#ctl00_ContentPlaceHolder_ucThongTinTotNghiepTinChi1_lblTongTinChi')->text();
 		$diem_tb_tich_luy = $this->crawler->filter('#ctl00_ContentPlaceHolder_ucThongTinTotNghiepTinChi1_lblTBCTL')->text();
 
-		if($this->get_with_key) {
-			$this->list['tong_so_tc_tich_luy'] = $tong_so_tc_tich_luy;
-			$this->list['diem_tb_tich_luy']    = $diem_tb_tich_luy;
-		} else {
+        $gpa    = $diem_tb_tich_luy;
+        $gpa    = str_replace(' ', '', $gpa);
+        $gpas   = explode('-', $gpa);
+        $gpa_10 = $gpas[0] ?? 0;
+        $gpa_4  = $gpas[1] ?? 0;
 
-		}
+        if ($studentInfo['co_so'] == 'Hà Nội') {
+            $coso = 10;
+        }
+        else {
+            $coso = 20;
+        }
+
+        $this->list['code'] = $this->msv;
+        $this->list['name'] = $name;
+        $this->list['status'] = $studentInfo['trang_thai'];
+        $this->list['gender'] = $studentInfo['gioi_tinh'];
+        $this->list['day_admission'] = $studentInfo['ngay_vao_truong'];
+        $this->list['area'] = $coso;
+        $this->list['education_level'] = $studentInfo['bac_dao_tao'];
+        $this->list['type_education'] = $studentInfo['loai_hinh_dao_tao'];
+        $this->list['branch_group'] = $studentInfo['nganh'];
+        $this->list['branch'] = $studentInfo['chuyen_nganh'];
+        $this->list['class'] = $studentInfo['lop'];
+        $this->list['gpa_10'] = $gpa_10;
+        $this->list['gpa_4'] = $gpa_4;
+        $this->list['school_year'] = $studentInfo['nien_khoa'];
+        $this->list['total_term'] = $tong_so_tc_tich_luy;
+        $this->list['is_active'] = 1;
+        $this->list['created_at'] = date('Y-m-d H:i:s');
+        $this->list['updated_at'] = date('Y-m-d H:i:s');
 	}
 
 	/**

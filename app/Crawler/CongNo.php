@@ -30,6 +30,7 @@ class CongNo extends Crawler
 	 */
 	protected function prepare() {
 		// TODO: Implement prepare() method.
+        $this->setRequest();
 		set_time_limit(0);
 		$tr_node       = $this->crawler->filter('#tblDetail')->filter('tr:nth-of-type(n+2)');
 		$total_tr_node = $tr_node->count();
@@ -43,7 +44,7 @@ class CongNo extends Crawler
 
 					$this->list[] = [
 						'student_code' => $this->msv,
-						'number'       => trim($td_node->getNode(0)->textContent),
+						'number'       => $total_tr_node - $index - 1,
 						'code_money'   => trim($td_node->getNode(1)->textContent),
 						'content'      => trim($td_node->getNode(2)->textContent),
 						'credit'       => trim($td_node->getNode(3)->textContent),

@@ -90,9 +90,10 @@ class CrawlController extends Controller
 		return $this->crawl->crawlScheduleExamCourse($course_code, $request->get('total_student', 0));
 	}
 
-	/**
-	 * get list semester
-	 */
+    /**
+     * get list semester
+     * @throws \Exception
+     */
 	public function crawlSemester() {
 		return $this->crawl->crawlSemester();
 	}
