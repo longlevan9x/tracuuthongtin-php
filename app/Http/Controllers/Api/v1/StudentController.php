@@ -135,14 +135,14 @@ class StudentController extends Controller
 
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/money-pay/'. $student_code);
-//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
                 curl_setopt($ch, CURLOPT_TIMEOUT, 1);
                 $result = curl_exec($ch);
                 curl_close($ch);
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/schedule-exam/'. $student_code);
-//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
                 curl_setopt($ch, CURLOPT_TIMEOUT, 1);
                 $result = curl_exec($ch);
