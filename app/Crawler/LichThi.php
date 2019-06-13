@@ -138,39 +138,22 @@ class LichThi extends Crawler
 						$this->data = [];
 					}
 
-					if($this->get_with_key) {
-						$this->data[] = [
-							'code'        => replace_multiple_space(trim($note_tr->filter('td:nth-of-type(2)')->text()), ''),
-							'name'        => replace_multiple_space(trim($note_tr->filter('td:nth-of-type(3)')->text())),
-							'group'       => trim($note_tr->filter('td:nth-of-type(4)')->text()),
-							'serial'      => trim($note_tr->filter('td:nth-of-type(5)')->text()),
-							'test_day'    => replace_multiple_space(trim($note_tr->filter('td:nth-of-type(6)')->text())),
-							'semester'    => trim($this->tenDotThi),
-							'examination' => replace_multiple_space(trim($note_tr->filter('td:nth-of-type(7)')->text())),
-							'room'        => trim($note_tr->filter('td:nth-of-type(8)')->text()),
-							'type'        => trim($note_tr->filter('td:nth-of-type(9)')->text()),
-							'note'        => trim($note_tr->filter('td:nth-of-type(10)')->text()),
-							'is_active'   => 1,
-							'created_at'  => date("Y-m-d H:i:s"),
-							'updated_at'  => date("Y-m-d H:i:s"),
-						];
-					} else {
-						/*
-						 *  lay ra het cac cot
-						 */
-						$this->data1 = [];
-						$note_tr->filter('td')->each(function($node_td) {
-							/**
-							 * @var \Symfony\Component\DomCrawler\Crawler $node_td
-							 * lay het cac   cot dua vao 1 mang
-							 */
-							$this->data1[] = replace_multiple_space(trim($node_td->text()));
-						});
-						/**
-						 * dua cac dong vao 1 mang
-						 */
-						$this->data[] = $this->data1;
-					}
+                    $this->data[] = [
+                        'code'        => replace_multiple_space(trim($note_tr->filter('td:nth-of-type(2)')->text()), ''),
+                        'name'        => replace_multiple_space(trim($note_tr->filter('td:nth-of-type(3)')->text())),
+                        'group'       => trim($note_tr->filter('td:nth-of-type(4)')->text()),
+                        'serial'      => trim($note_tr->filter('td:nth-of-type(5)')->text()),
+                        'test_day'    => replace_multiple_space(trim($note_tr->filter('td:nth-of-type(6)')->text())),
+                        'semester'    => trim($this->tenDotThi),
+                        'examination' => replace_multiple_space(trim($note_tr->filter('td:nth-of-type(7)')->text())),
+                        'room'        => trim($note_tr->filter('td:nth-of-type(8)')->text()),
+                        'type'        => trim($note_tr->filter('td:nth-of-type(9)')->text()),
+                        'note'        => trim($note_tr->filter('td:nth-of-type(10)')->text()),
+                        'is_active'   => 1,
+                        'created_at'  => date("Y-m-d H:i:s"),
+                        'updated_at'  => date("Y-m-d H:i:s"),
+                    ];
+
 					$this->code_class_prev = trim($note_tr->filter('td:nth-of-type(2)')->text());
 				}
 			});

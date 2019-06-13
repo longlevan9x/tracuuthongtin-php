@@ -60,8 +60,8 @@ class Crawl
 			$student_info     = $infoStudent->getThongTinSinhVien()->asArray();
 			if (!empty($student_info)) {
 
-                $student_info['department_id'] = $course->department->id;
-                $student_info['course_id']     = $course->id;
+                $student_info['department_id'] = isset($course, $course->department) ? $course->department->id : 0;
+                $student_info['course_id']     = isset($course) ? $course->id : 0;
 
 				$students[] = $student_info;
 			}
@@ -94,13 +94,13 @@ class Crawl
 		$time         = -microtime(true);
 
 		if (!empty($student_info)) {
-            $student_info['department_id'] = $course->department->id;
-            $student_info['course_id']     = $course->id;
+            $student_info['department_id'] = isset($course, $course->department) ? $course->department->id : 0;
+            $student_info['course_id']     = isset($course) ? $course->id : 0;
 			Student::insertOnDuplicateKey($student_info);
             $time += microtime(true);
-			$this->saveCrawlHistory(count([$student_info]), $time, 1);
+			$this->saveCrawlHistory(count($student_info), $time, 1);
 
-			return responseJson(CConstant::STATUS_SUCCESS, [
+			return responseJson(config('api_response.http_code.200'), [
 				'student' => count([$student_info]),
 				'time'    => $time
 			]);
@@ -322,7 +322,7 @@ class Crawl
 
 		ScheduleExam::insertOnDuplicateKey(array_values($scheduleExams));
 		StudentScheduleExam::insertOnDuplicateKey($studentScheduleExamList);
-		$this->saveCrawlHistory($scheduleExams, $time, 1);
+		$this->saveCrawlHistory(count($scheduleExams), $time, 1);
 
 		return responseJson(CConstant::STATUS_SUCCESS, [
 			'schedule'              => count($scheduleExams),
