@@ -104,7 +104,12 @@ class Student extends Model
 		'area',
 		'gpa_10',
 		'gpa_4',
-		'total_term'
+		'total_term',
+		'teacher_lead',
+		'phone_teacher_lead',
+		'teacher_counselor',
+		'phone_teacher_counselor',
+		'education_time',
 	];
 
 	protected $hidden = ['area'];
@@ -178,6 +183,8 @@ class Student extends Model
 		'area'       => 'integer',
 		'gpa_10'     => 'float',
 		'gpa_4'      => 'float',
+        'phone_teacher_lead' => 'string',
+        'phone_teacher_counselor' => 'string',
 		'total_term' => 'integer',
 		'course_id' => 'integer',
 		'department_id' => 'integer',

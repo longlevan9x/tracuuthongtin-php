@@ -132,21 +132,30 @@ class StudentController extends Controller
 			$response = $crawl->crawlStudent($student_code);
             $date1 = date("Y-m-d H:i:s");
 			if ($response->original['status'] == 1) {
-
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/money-pay/'. $student_code);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
-                curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-                $result = curl_exec($ch);
-                curl_close($ch);
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/schedule-exam/'. $student_code);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
-                curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-                $result = curl_exec($ch);
-                curl_close($ch);
+                $crawl->crawlMoneyPay($student_code);
+                $crawl->crawlScheduleExam($student_code);
+                $crawl->crawlSchedule($student_code);
+//                $ch = curl_init();
+//                curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/money-pay/'. $student_code);
+//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//                curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
+//                curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+//                $result = curl_exec($ch);
+//                curl_close($ch);
+//                $ch = curl_init();
+//                curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/schedule-exam/'. $student_code);
+//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//                curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
+//                curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+//                $result = curl_exec($ch);
+//                curl_close($ch);
+//                $ch = curl_init();
+//                curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/schedule/'. $student_code);
+//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//                curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
+//                curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+//                $result = curl_exec($ch);
+//                curl_close($ch);
                 $date2 = date("Y-m-d H:i:s");
 				return responseJson(config('api_response.http_code.200'), [$student_code, $date1,$date2], config('api_response.status.success'));
 			}

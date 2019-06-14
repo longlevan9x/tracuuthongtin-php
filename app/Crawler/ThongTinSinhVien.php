@@ -43,13 +43,22 @@ class ThongTinSinhVien extends Crawler
         $this->crawler->filter('.body-group')->filter('table')->filter('tr')->each(function($node) use (&$studentInfo){
 
 			/** @var \Symfony\Component\DomCrawler\Crawler $node */
-            $arr = explode(":", trim($node->filter('td')->text())); // chuyen chuoi ve mang theo dau ':'
-            if($arr[0] == 'Khóa') {
-                $arr[0] = 'khoa_hoc';
+            $arr_1 = explode(":", trim($node->filter('td')->text())); // chuyen chuoi ve mang theo dau ':'
+            if($arr_1[0] == 'Khóa') {
+                $arr_1[0] = 'khoa_hoc';
             }
-            $studentInfo[vn2latin(trim($arr[0]), '_')] = isset($arr[1]) ? trim($arr[1]) : '';
-            $arr = explode(":", trim($node->filter('td:last-child')->text()));
-            $studentInfo[vn2latin(trim($arr[0]), '_')] = isset($arr[1]) ? trim($arr[1]) : '';
+            $key1 = vn2latin(trim($arr_1[0]), '_');
+            $studentInfo[$key1] = isset($arr_1[1]) ? trim($arr_1[1]) : '';
+
+            $arr_2 = explode(":", trim($node->filter('td:last-child')->text()));
+            if (vn2latin(trim($arr_1[0]), '_') == "co_van_hoc_tap") {
+                $key2 = "sdt_co_van_hoc_tap";
+            }
+            else {
+                $key2 = vn2latin(trim($arr_2[0]), '_');
+            }
+
+            $studentInfo[$key2] = isset($arr_2[1]) ? trim($arr_2[1]) : '';
 		});
 
 		$tong_so_tc_tich_luy = $this->crawler->filter('#ctl00_ContentPlaceHolder_ucThongTinTotNghiepTinChi1_lblTongTinChi')->text();
@@ -79,6 +88,11 @@ class ThongTinSinhVien extends Crawler
         $this->list['branch_group'] = $studentInfo['nganh'];
         $this->list['branch'] = $studentInfo['chuyen_nganh'];
         $this->list['class'] = $studentInfo['lop'];
+        $this->list['teacher_lead'] = $studentInfo['gvcn'];
+        $this->list['phone_teacher_lead'] = $studentInfo['so_dt'];
+        $this->list['teacher_counselor'] = $studentInfo['co_van_hoc_tap'];
+        $this->list['phone_teacher_counselor'] = $studentInfo['sdt_co_van_hoc_tap'];
+        $this->list['education_time'] = $studentInfo['thoi_gian_dao_tao'];
         $this->list['gpa_10'] = $gpa_10;
         $this->list['gpa_4'] = $gpa_4;
         $this->list['school_year'] = $studentInfo['nien_khoa'];
@@ -97,6 +111,90 @@ class ThongTinSinhVien extends Crawler
 
 		return $this;
 	}
+
+	public function getMarkStudent() {
+        $mark_list = [];
+        $semester = '';
+        $this->crawler->filter('.tblKetQuaHocTap')->first()->filter('tr:nth-of-type(n+3)')->each(function ($tr_node) use ($mark_list, &$semester) {
+            /** @var \Symfony\Component\DomCrawler\Crawler $tr_node */
+            /** @var \Symfony\Component\DomCrawler\Crawler $td_node */
+            $td_node = $tr_node->filter('td');
+
+            $total_td = $td_node->count();
+
+            $tableThucHanh = $tr_node->filter('.tableThucHanh');
+
+            if ($total_td == 25) {
+                // truong hop lay duoc hoc ky
+                $position_start = 1;
+                $semester = trim($td_node->getNode(1)->textContent);
+            }
+            else {
+                // truong hop ko kay duoc hoc ky
+                $position_start = 0;
+            }
+            \Log::info($total_td);
+            \Log::info($position_start);
+//            dd($td_node->getNode(3)->textContent);
+            $mark['student_code'] = $this->msv;
+            $mark['semester'] = $semester;
+            $mark['name_subject'] = trim($td_node->getNode($position_start + 1)->textContent);
+            $mark['code_class'] = trim($td_node->getNode($position_start + 2)->textContent);
+            $mark['credit'] = trim($td_node->getNode($position_start + 3)->textContent);
+            $mark['mark_training'] = trim($td_node->getNode($position_start + 4)->textContent);
+
+            if ($tableThucHanh->count() == 1) {
+                $tr_node_tbth = $tableThucHanh->filter('tr')->last();
+                if ($tr_node_tbth->count() > 0) {
+                    $mark_practice_list = [];
+                    $tr_node_tbth->filter('td')->each(function ($td_node) use (&$mark_practice_list) {
+                        /** @var \Symfony\Component\DomCrawler\Crawler $td_node */
+                        $mark_practice_list[] = trim($td_node->text());
+                    });
+
+                    $mark['mark_practice'] = json_encode($mark_practice_list, JSON_NUMERIC_CHECK);
+                }
+            }
+            else {
+                $coefficient1 = [
+                    trim($td_node->getNode($position_start + 5)->textContent),
+                    trim($td_node->getNode($position_start + 6)->textContent),
+                    trim($td_node->getNode($position_start + 7)->textContent),
+                    trim($td_node->getNode($position_start + 8)->textContent),
+                    trim($td_node->getNode($position_start + 9)->textContent),
+                    trim($td_node->getNode($position_start + 10)->textContent),
+                ];
+                $coefficient2 = [
+                    trim($td_node->getNode($position_start + 11)->textContent),
+                    trim($td_node->getNode($position_start + 12)->textContent),
+                    trim($td_node->getNode($position_start + 13)->textContent),
+                    trim($td_node->getNode($position_start + 14)->textContent),
+                    trim($td_node->getNode($position_start + 15)->textContent),
+                    trim($td_node->getNode($position_start + 16)->textContent),
+                ];
+                $mark['coefficient1'] = json_encode($coefficient1, JSON_NUMERIC_CHECK);
+                $mark['coefficient2'] = json_encode($coefficient2, JSON_NUMERIC_CHECK);
+            }
+
+            $mark['mark_average_subject'] = trim($td_node->getNode($position_start + 17)->textContent);
+            if ($total_td == 20) {
+                $note = trim($td_node->getNode($position_start + 18)->textContent);
+            }
+            else {
+                $mark['mark_exam'] = trim($td_node->getNode($position_start + 18)->textContent);
+                $mark['mark_average'] = trim($td_node->getNode($position_start + 19)->textContent);
+                $mark['mark_exam2'] = trim($td_node->getNode($position_start + 20)->textContent);
+                $mark['exam_foul'] = trim($td_node->getNode($position_start + 21)->textContent);
+                $mark['degree'] = trim($td_node->getNode($position_start + 22)->textContent);
+                $note = trim($td_node->getNode($position_start + 23)->textContent);
+            }
+            $mark['note'] = $note;
+            \Log::info($mark);
+            $mark_list[] = $mark;
+        });
+        dd($mark_list);
+        return $mark_list;
+    }
 
 	public function checkTrangThai() {
 		$text = $this->crawler->filter('.main-content')->filter('.body-group')->filter('table')->text();

@@ -11,6 +11,7 @@ namespace App\Crawler;
 
 use App\Commons\CConstant;
 use App\Models\Course;
+use App\Models\Mark;
 use App\Models\MoneyPay;
 use App\Models\Schedule;
 use App\Models\ScheduleExam;
@@ -92,11 +93,14 @@ class Crawl
 		$course       = Course::whereCode($code)->first();
 
 		$time         = -microtime(true);
-
 		if (!empty($student_info)) {
+            $mark_student = $infoStudent->getMarkStudent();
             $student_info['department_id'] = isset($course, $course->department) ? $course->department->id : 0;
             $student_info['course_id']     = isset($course) ? $course->id : 0;
 			Student::insertOnDuplicateKey($student_info);
+			if (!empty($mark_student)) {
+			    Mark::insertOnDuplicateKey($mark_student);
+            }
             $time += microtime(true);
 			$this->saveCrawlHistory(count($student_info), $time, 1);
 
