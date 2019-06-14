@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Crawler\Crawl;
 use App\Http\Controllers\Api\Controller;
+use App\Models\Mark;
 use App\Models\Schedule;
 use App\Models\ScheduleExam;
 use App\Models\Semester;
@@ -89,6 +90,24 @@ class StudentController extends Controller
 
 	/**
 	 * @param Request $request
+	 * @param string  $student_code
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function getMarks(Request $request, $student_code) {
+		$queryBuilder = new QueryBuilder(new Schedule, $request);
+
+		$queryBuilder->setQuery(Mark::whereStudentCode($student_code));
+		$models = $queryBuilder->build()->get();
+
+		if ($models->isNotEmpty()) {
+			return responseJson(config("api_response.http_code.200"), $models, config('api_response.status.success'));
+		}
+
+		return responseJson(config('api_response.http_code.204'), null, config('api_response.status.error'));
+	}
+
+	/**
+	 * @param Request $request
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function showRanking(Request $request) {
@@ -112,12 +131,12 @@ class StudentController extends Controller
 		return responseJson(config('api_response.http_code.204'), null, config('api_response.status.error'));
 	}
 
-    /**
-     * @param $student_code
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function checkStudent($student_code) {
+	/**
+	 * @param $student_code
+	 * @return \Illuminate\Http\JsonResponse
+	 * @throws \Exception
+	 */
+	public function checkStudent($student_code) {
 		$student = Student::whereCode($student_code)->first();
 		if (isset($student)) {
 			if ($student->is_active == 1) {
@@ -130,34 +149,35 @@ class StudentController extends Controller
 		else {
 			$crawl    = new Crawl;
 			$response = $crawl->crawlStudent($student_code);
-            $date1 = date("Y-m-d H:i:s");
+			$date1    = date("Y-m-d H:i:s");
 			if ($response->original['status'] == 1) {
-                $crawl->crawlMoneyPay($student_code);
-                $crawl->crawlScheduleExam($student_code);
-                $crawl->crawlSchedule($student_code);
-//                $ch = curl_init();
-//                curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/money-pay/'. $student_code);
-//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//                curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
-//                curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-//                $result = curl_exec($ch);
-//                curl_close($ch);
-//                $ch = curl_init();
-//                curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/schedule-exam/'. $student_code);
-//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//                curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
-//                curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-//                $result = curl_exec($ch);
-//                curl_close($ch);
-//                $ch = curl_init();
-//                curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/schedule/'. $student_code);
-//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//                curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
-//                curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-//                $result = curl_exec($ch);
-//                curl_close($ch);
-                $date2 = date("Y-m-d H:i:s");
-				return responseJson(config('api_response.http_code.200'), [$student_code, $date1,$date2], config('api_response.status.success'));
+				$crawl->crawlMoneyPay($student_code);
+				$crawl->crawlScheduleExam($student_code);
+				$crawl->crawlSchedule($student_code);
+				//                $ch = curl_init();
+				//                curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/money-pay/'. $student_code);
+				//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				//                curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
+				//                curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+				//                $result = curl_exec($ch);
+				//                curl_close($ch);
+				//                $ch = curl_init();
+				//                curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/schedule-exam/'. $student_code);
+				//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				//                curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
+				//                curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+				//                $result = curl_exec($ch);
+				//                curl_close($ch);
+				//                $ch = curl_init();
+				//                curl_setopt($ch, CURLOPT_URL, 'http://localhost/tracuuthongtin-php/api/v1/crawl/schedule/'. $student_code);
+				//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				//                curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
+				//                curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+				//                $result = curl_exec($ch);
+				//                curl_close($ch);
+				$date2 = date("Y-m-d H:i:s");
+
+				return responseJson(config('api_response.http_code.200'), [$student_code, $date1, $date2], config('api_response.status.success'));
 			}
 			else {
 				Student::updateOrInsert(['code' => $student_code, 'is_active' => 0, 'created_at' => Carbon::now()]);

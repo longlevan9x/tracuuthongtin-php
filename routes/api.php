@@ -26,6 +26,7 @@ Route::prefix('v1')->namespace('Api\V1')->group(function() {
 	Route::get('student/{student_code}/schedules', StudentController::getControllerWithAction('getSchedules'));
 	Route::get('student/{student_code}/schedule-exams', StudentController::getControllerWithAction('getScheduleExams'));
 	Route::get('student/{student_code}/check', StudentController::getControllerWithAction('checkStudent'));
+	Route::get('student/{student_code}/marks', StudentController::getControllerWithAction('getMarks'));
 	//Route::resource(SemesterController::getResourceName(), SemesterController::getClassName())->except(['create', 'update']);
 	Route::get('student/ranking', StudentController::getControllerWithAction('showRanking'));
 

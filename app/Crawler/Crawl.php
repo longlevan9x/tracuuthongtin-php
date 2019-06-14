@@ -68,7 +68,8 @@ class Crawl
 			}
 
 		}
-
+		Log::info("log", $students);
+		dd($students);
 		Student::insertOnDuplicateKey($students);
 
 		$time += microtime(true);

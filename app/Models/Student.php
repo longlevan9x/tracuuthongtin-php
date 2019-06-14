@@ -13,6 +13,7 @@ use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * Class Student
+ *
  * @package App\Models
  * @property-read Department                                                          $department
  * @property-read Collection                                                          $schedule_exams
@@ -78,6 +79,19 @@ use Yadakhov\InsertOnDuplicateKey;
  * @property string|null                                                              $gpa_4              trung binh tich luy he 4
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereGpa10($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereGpa4($value)
+ * @property int|null $is_active
+ * @property string|null $teacher_lead
+ * @property string|null $phone_teacher_lead
+ * @property string|null $teacher_counselor
+ * @property string|null $phone_teacher_counselor
+ * @property string|null $education_time
+ * @property-read mixed $area_name
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereEducationTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student wherePhoneTeacherCounselor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student wherePhoneTeacherLead($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereTeacherCounselor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereTeacherLead($value)
  */
 class Student extends Model
 {

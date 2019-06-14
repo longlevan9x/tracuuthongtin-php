@@ -32,6 +32,7 @@ class CreateMarks extends Migration
             $table->string('exam_foul')->nullable();
             $table->string('note')->nullable();
             $table->timestamps();
+            $table->unique(['student_code', 'name_subject']);
         });
     }
 
