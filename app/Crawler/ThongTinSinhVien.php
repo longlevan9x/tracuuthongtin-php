@@ -149,19 +149,21 @@ class ThongTinSinhVien extends Crawler
 				$mark['semester']      = $semester;
 				$mark['name_subject']  = trim($td_node->getNode($position_start + 1)->textContent);
 				$mark['code_class']    = trim($td_node->getNode($position_start + 2)->textContent);
-				$mark['credit']        = intval(trim($td_node->getNode($position_start + 3)->textContent) ?: 0);
-				$mark['mark_training'] = floatval(trim($td_node->getNode($position_start + 4)->textContent) ?: 0);
+                $credit = trim($td_node->getNode($position_start + 3)->textContent) ?: null;
+                $mark_training = trim($td_node->getNode($position_start + 4)->textContent);
+                $mark['credit'] = $mark_training == "" ? null : intval($credit);
+                $mark['mark_training'] = $mark_training == "" ? null : floatval($mark_training);
 
+                $mark_practice_list = [];
+                $coefficient1 = $coefficient2 = [];
 				if ($tableThucHanh->count() == 1) {
 					$tr_node_tbth = $tableThucHanh->filter('tr')->last();
 					if ($tr_node_tbth->count() > 0) {
-						$mark_practice_list = [];
+
 						$tr_node_tbth->filter('td')->each(function($td_node) use (&$mark_practice_list) {
 							/** @var \Symfony\Component\DomCrawler\Crawler $td_node */
-							$mark_practice_list[] = trim($td_node->text());
+							$mark_practice_list[] = str_replace("&nbsp;", "", htmlentities(trim($td_node->text())));
 						});
-//						$mark['mark_practice'] = implode(",",$mark_practice_list);
-//						$mark['mark_practice'] = json_encode($mark_practice_list, JSON_NUMERIC_CHECK | JSON_FORCE_OBJECT);
 					}
 				}
 				else {
@@ -181,30 +183,43 @@ class ThongTinSinhVien extends Crawler
 						trim($td_node->getNode($position_start + 15)->textContent),
 						trim($td_node->getNode($position_start + 16)->textContent),
 					];
-//					$mark['coefficient1'] = json_encode($coefficient1, JSON_NUMERIC_CHECK | JSON_FORCE_OBJECT);
-//					$mark['coefficient2'] = json_encode($coefficient2, JSON_NUMERIC_CHECK | JSON_FORCE_OBJECT);
-//					$mark['coefficient1'] = implode(",",$coefficient1);
-//					$mark['coefficient2'] = implode(",",$coefficient1);
 				}
 
-				$mark['mark_average_subject'] = floatval(trim($td_node->getNode($position_start + 17)->textContent) ?: 0);
+                $mark['mark_practice'] = json_encode(empty($mark_practice_list) ? [] : $mark_practice_list, JSON_NUMERIC_CHECK);
+
+                $mark['coefficient1'] = json_encode(empty($coefficient1) ? [] : $coefficient1, JSON_NUMERIC_CHECK);
+                $mark['coefficient2'] = json_encode(empty($coefficient2) ? [] : $coefficient2, JSON_NUMERIC_CHECK);
+
+                $mark_average_subject = trim($td_node->getNode($position_start + 17)->textContent);
+                $mark['mark_average_subject']  = $mark_average_subject == "" ? null : floatval($mark_average_subject);
 				if ($total_td == 20) {
 					$note = trim($td_node->getNode($position_start + 18)->textContent);
 				}
 				else {
-					if ($total_td == 23 || $total_td == 24) {
+					if ($total_td == 23) {
 						$position_start = -1;
 					}
+                    if ($tableThucHanh->count() == 1 && $total_td == 24) {
+                        $position_start = 0;
+                    }
 
-					$mark['mark_exam']    = floatval(trim($td_node->getNode($position_start + 18)->textContent) ?: 0);
-					$mark['mark_average'] = floatval(trim($td_node->getNode($position_start + 19)->textContent) ?: 0);
-					$mark['mark_exam2']   = floatval(trim($td_node->getNode($position_start + 20)->textContent) ?: 0);
+					$mark_exam = trim($td_node->getNode($position_start + 18)->textContent);
+                    $mark['mark_exam']  = $mark_exam == "" ? null : floatval($mark_exam);
+
+					$mark_average = trim($td_node->getNode($position_start + 19)->textContent);
+                    $mark['mark_average']  = $mark_average == "" ? null : floatval($mark_average);
+
+                    $mark_exam2 = trim($td_node->getNode($position_start + 20)->textContent);
+                    $mark['mark_exam2']  = $mark_exam2 == "" ? null : floatval($mark_exam2);
 					$mark['exam_foul']    = trim($td_node->getNode($position_start + 21)->textContent);
 					$mark['degree']       = trim($td_node->getNode($position_start + 22)->textContent);
 					$note                 = trim($td_node->getNode($position_start + 23)->textContent);
 				}
 				$mark['note'] = $note;
+				$mark['created_at'] = date('Y-m-d H:i:s');
+				$mark['updated_at'] = date('Y-m-d H:i:s');
 //		        \Log::info($mark);
+//                dd($mark);
 				$mark_list[] = $mark;
 			} catch (\Exception $e) {
 				\Log::error($e);

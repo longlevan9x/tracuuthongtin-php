@@ -137,4 +137,11 @@ abstract class Crawler {
 	protected function setRequest() {
 		return $this->crawler = $this->gouteClient->request( $this->method, $this->getUrl() . $this->msv );
 	}
+
+    /**
+     * @return array
+     */
+    public function getList(): array {
+        return $this->list;
+    }
 }

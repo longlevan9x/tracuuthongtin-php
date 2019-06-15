@@ -94,7 +94,7 @@ class StudentController extends Controller
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function getMarks(Request $request, $student_code) {
-		$queryBuilder = new QueryBuilder(new Schedule, $request);
+		$queryBuilder = new QueryBuilder(new Mark(), $request);
 
 		$queryBuilder->setQuery(Mark::whereStudentCode($student_code));
 		$models = $queryBuilder->build()->get();

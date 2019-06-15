@@ -55,29 +55,30 @@ class Crawl
 		$time = -microtime(true);
 
 		$infoStudent = new ThongTinSinhVien;
-
+		$mark_student_list = [];
 		for ($index = 1; $index <= $total_student; $index++) {
 			$infoStudent->msv = Helper::getMsv($course_code, $index);
 			$student_info     = $infoStudent->getThongTinSinhVien()->asArray();
 			if (!empty($student_info)) {
-
+                $mark_student = $infoStudent->getMarkStudent();
                 $student_info['department_id'] = isset($course, $course->department) ? $course->department->id : 0;
                 $student_info['course_id']     = isset($course) ? $course->id : 0;
 
 				$students[] = $student_info;
+                $mark_student_list = array_merge($mark_student_list, $mark_student);
 			}
-
 		}
 		Log::info("log", $students);
-		dd($students);
-		Student::insertOnDuplicateKey($students);
 
+		Student::insertOnDuplicateKey($students);
+        Mark::insertOnDuplicateKey($mark_student_list);
 		$time += microtime(true);
 
 		Log::info("crawlScheduleCourse", [count($students), $time]);
 
 		return responseJson(config("api_response.http_code.200"), [
 			'student' => count($students),
+			'marks' => count($mark_student_list),
 			'time'    => $time
 		]);
 	}
