@@ -114,8 +114,6 @@ class Crawl
 		else {
 			return responseJson(config('api_response.message.fail'), null, config('api_response.status.error'));
 		}
-
-
 	}
 
 	/**
@@ -361,7 +359,12 @@ class Crawl
 		], config('api_response.status.error'));
 	}
 
-	public function crawlMoneyPayCourse($course_code) {
+    /**
+     * @param $course_code
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function crawlMoneyPayCourse($course_code) {
 		$course        = Course::whereCode($course_code)->first();
 		$total_student = $course->total_student;
 
@@ -390,6 +393,64 @@ class Crawl
         ], config('api_response.status.error'));
 	}
 
+    /**
+     * @param $msv
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function crawlMark($msv) {
+        $infoStudent  = new ThongTinSinhVien(true, $msv);
+
+        $mark_student = $infoStudent->getMarkStudent();
+        $time         = -microtime(true);
+        if (!empty($mark_student)) {
+            Mark::insertOnDuplicateKey($mark_student);
+
+            $time += microtime(true);
+            $this->saveCrawlHistory(count($mark_student), $time, 1);
+
+            return responseJson(config('api_response.http_code.200'), [
+                'student' => count($mark_student),
+                'time'    => $time
+            ]);
+        }
+        else {
+            return responseJson(config('api_response.message.fail'), null, config('api_response.status.error'));
+        }
+    }
+
+    public function crawlMarkCourse($course_code, $total_student = 0) {
+        if ($total_student == 0) {
+            $course        = Course::whereCode($course_code)->first();
+            $total_student = $course->total_student;
+            $course_code   = $course->code;
+        }
+
+        set_time_limit(0);
+
+        $time = -microtime(true);
+
+        $infoStudent = new ThongTinSinhVien;
+        $mark_student_list = [];
+        for ($index = 1; $index <= $total_student; $index++) {
+            $infoStudent->msv = Helper::getMsv($course_code, $index);
+            $mark_student = $infoStudent->getMarkStudent();
+            if (!empty($mark_student)) {
+                $mark_student_list = array_merge($mark_student_list, $mark_student);
+            }
+        }
+        Log::info("log", $mark_student_list);
+
+        Mark::insertOnDuplicateKey($mark_student_list);
+        $time += microtime(true);
+
+        Log::info("crawlMarkCourse", [count($mark_student_list), $time]);
+
+        return responseJson(config("api_response.http_code.200"), [
+            'marks' => count($mark_student_list),
+            'time'    => $time
+        ]);
+    }
 	/**
 	 * @param int       $total
 	 * @param int|float $time

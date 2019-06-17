@@ -107,7 +107,29 @@ class CrawlController extends Controller
 		return $this->crawl->crawlMoneyPay($student_code);
 	}
 
-	public function crawlMoneyPayCourse($course_code) {
+    /**
+     * @param $course_code
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function crawlMoneyPayCourse($course_code) {
 		return $this->crawl->crawlMoneyPayCourse($course_code);
+	}
+
+    /**
+     * @param $student_code
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function crawlMark($student_code) {
+		return $this->crawl->crawlMark($student_code);
+	}
+
+    /**
+     * @param $course_code
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function crawlMarkCourse($course_code) {
+		return $this->crawl->crawlMarkCourse($course_code);
 	}
 }

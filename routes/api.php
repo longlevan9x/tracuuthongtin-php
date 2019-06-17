@@ -51,6 +51,7 @@ Route::prefix('v1')->namespace('Api\V1')->group(function() {
         Route::get('semester', CrawlController::getControllerWithAction('crawlSemester'));
         Route::get('money-pay/{student_code}', CrawlController::getControllerWithAction('crawlMoneyPay'));
         Route::get('money-pay/course/{course_code}', CrawlController::getControllerWithAction('crawlMoneyPayCourse'));
+        Route::get('/mark/{student_code}', CrawlController::getControllerWithAction(''));
     });
     /*crawl*/
 });
