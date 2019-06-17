@@ -15,7 +15,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-	    $models = Course::all();
+	    $models = Course::with('department')->get();
 	    return view('admin.course.index', compact('models'));
     }
 
@@ -60,7 +60,7 @@ class CourseController extends Controller
     public function edit(Course $course)
     {
 	    $model = $course;
-	    $models = Course::all();
+	    $models = Course::with('department')->get();
 	    return view('admin.course.index', compact('models', 'model'));
     }
 

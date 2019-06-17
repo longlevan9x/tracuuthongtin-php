@@ -14,7 +14,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $models = Department::all();
+        $models = Department::with('school')->get();
         return view('admin.department.index', compact('models'));
     }
 
@@ -60,7 +60,7 @@ class DepartmentController extends Controller
     public function edit(Department $department)
     {
         $model = $department;
-        $models = Department::all();
+	    $models = Department::with('school')->get();
         return view('admin.department.index', compact('models', 'model'));
     }
 

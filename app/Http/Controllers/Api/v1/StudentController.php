@@ -32,8 +32,9 @@ class StudentController extends Controller
 		$queryBuilder = new QueryBuilder(new Student, $request);
 		$queryBuilder->setDefaultUri(RequestCreator::createWithParameters(['code' => $student_code]));
 		$model = $queryBuilder->build()->first();
-		$model->makeHidden(['department_id', 'course_id', 'department']);
+
 		if (isset($model)) {
+			$model->makeHidden(['department_id', 'course_id', 'department']);
 			return responseJson(config('api_response.http_code.200'), $model, config('api_response.status.success'));
 		}
 

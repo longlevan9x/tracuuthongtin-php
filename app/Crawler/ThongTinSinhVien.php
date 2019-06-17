@@ -97,6 +97,7 @@ class ThongTinSinhVien extends Crawler
 		$this->list['gpa_10']                  = $gpa_10;
 		$this->list['gpa_4']                   = $gpa_4;
 		$this->list['school_year']             = $studentInfo['nien_khoa'];
+		$this->list['profile_code']             = $studentInfo['ma_ho_so'];
 		$this->list['total_term']              = $tong_so_tc_tich_luy;
 		$this->list['is_active']               = 1;
 		$this->list['created_at']              = date('Y-m-d H:i:s');

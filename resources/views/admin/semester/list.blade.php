@@ -2,17 +2,16 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="row">
         <div class="x_panel">
-            @include('admin.layouts.title_table', ['text' => 'List Semester'])
+            @include('admin.layouts.title_table', ['text' => __('abilities.semester.resource.index')])
             <div class="x_content">
-                @include('admin.semester._form_sync', compact('model'))
                 <div class="clearfix"></div>
                 <br>
                 <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
                     <thead>
                     <tr>
                         <th><input type="checkbox" id="check-all"></th>
-                        <th>Name</th>
-                        <th>Is Active</th>
+                        <th>@lang('admin/common.name')</th>
+                        <th>@lang('admin/common.label.is.active')</th>
                         <th>Action</th>
                     </tr>
                     </thead>

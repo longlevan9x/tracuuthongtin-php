@@ -82,6 +82,60 @@ return [
 		'name' => "Website"
 	],
 
-	'translation-manager' => 'Dịch đa ngữ'
+	'translation-manager' => 'Dịch đa ngữ',
 	//can remove
+	'area' => [
+		'name' => "Khu vực",
+		'resource' => [
+			'index'  => 'Danh sách khu vực',
+			'create' => 'Tạo khu vực',
+			'edit'   => 'Sửa khu vực',
+			'delete' => 'Xóa khu vực',
+		]
+	],
+	'school' => [
+		'name' => "Trường",
+		'resource' => [
+			'index'  => 'Danh sách trường học',
+			'create' => 'Tạo trường học',
+			'edit'   => 'Sửa trường học',
+			'delete' => 'Xóa trường học',
+		]
+	],
+	'department' => [
+		'name' => "Khoa",
+		'resource' => [
+			'index'  => 'Danh sách khoa',
+			'create' => 'Tạo khoa',
+			'edit'   => 'Sửa khoa',
+			'delete' => 'Xóa khoa',
+		]
+	],
+	'course' => [
+		'name' => "Khóa học",
+		'resource' => [
+			'index'  => 'Danh sách khóa học',
+			'create' => 'Tạo khóa học',
+			'edit'   => 'Sửa khóa học',
+			'delete' => 'Xóa khóa học',
+		]
+	],
+	'semester' => [
+		'name' => "Học kỳ",
+		'resource' => [
+			'index'  => 'Danh sách học kỳ',
+			'create' => 'Tạo học kỳ',
+			'edit'   => 'Sửa học kỳ',
+			'delete' => 'Xóa học kỳ',
+		]
+	],
+	'student' => [
+		'name' => "Sinh viên",
+		'resource' => [
+			'index'  => 'Danh sách sinh viên',
+			'create' => 'Tạo sinh viên',
+			'edit'   => 'Sửa sinh viên',
+			'delete' => 'Xóa sinh viên',
+		]
+	]
 ];

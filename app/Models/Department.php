@@ -42,6 +42,7 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Department postTime($time = '')
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Department query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Department whereSchoolId($value)
+ * @property-read \App\Models\School|null $school
  */
 class Department extends Model
 {
@@ -49,12 +50,19 @@ class Department extends Model
 	/**
 	 * @var array
 	 */
-	protected $fillable = ['name', 'is_active'];
+	protected $fillable = ['name', 'is_active', 'school_id'];
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
 	public function course() {
 		return $this->hasMany(Course::class);
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function school() {
+		return $this->belongsTo(School::class);
 	}
 }
