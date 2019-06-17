@@ -46,10 +46,6 @@ abstract class Crawler {
 	 * @var array
 	 */
 	protected $dotList = array();
-	/**
-	 * @var bool
-	 */
-	protected $get_with_key = true;
 
 	/**
 	 * Crawler constructor.
@@ -136,28 +132,16 @@ abstract class Crawler {
 	abstract public function setUrl( $url );
 
 	/**
-	 * lay du lieu ve gom ca key value
-	 * @return bool
-	 */
-	public function isGetWithKey() {
-		return $this->get_with_key;
-	}
-
-	/**
-	 * @param bool $get_with_key
-	 *
-	 * @return Crawler
-	 */
-	public function setGetWithKey( $get_with_key = false ) {
-		$this->get_with_key = $get_with_key;
-
-		return $this;
-	}
-
-	/**
 	 * @return \Symfony\Component\DomCrawler\Crawler
 	 */
 	protected function setRequest() {
 		return $this->crawler = $this->gouteClient->request( $this->method, $this->getUrl() . $this->msv );
 	}
+
+    /**
+     * @return array
+     */
+    public function getList(): array {
+        return $this->list;
+    }
 }

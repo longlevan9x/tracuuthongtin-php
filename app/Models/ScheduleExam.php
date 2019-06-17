@@ -58,6 +58,7 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam postTime($time = '')
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ScheduleExam query()
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\StudentScheduleExam[] $studentScheduleExams
  */
 class ScheduleExam extends Model
 {

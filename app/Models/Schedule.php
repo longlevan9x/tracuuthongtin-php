@@ -51,6 +51,12 @@ use Yadakhov\InsertOnDuplicateKey;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Schedule orderBySortOrder()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Schedule orderBySortOrderDesc()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Schedule whereSlug($slug)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Relationship[] $relationships
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\StudentSchedule[] $studentSchedules
+ * @method static \Fico7489\Laravel\EloquentJoin\EloquentJoinBuilder|\App\Models\Schedule newModelQuery()
+ * @method static \Fico7489\Laravel\EloquentJoin\EloquentJoinBuilder|\App\Models\Schedule newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Schedule postTime($time = '')
+ * @method static \Fico7489\Laravel\EloquentJoin\EloquentJoinBuilder|\App\Models\Schedule query()
  */
 class Schedule extends Model
 {

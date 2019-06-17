@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Commons\CRequest;
 use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,6 +13,7 @@ use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * Class Student
+ *
  * @package App\Models
  * @property-read Department                                                          $department
  * @property-read Collection                                                          $schedule_exams
@@ -79,6 +79,19 @@ use Yadakhov\InsertOnDuplicateKey;
  * @property string|null                                                              $gpa_4              trung binh tich luy he 4
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereGpa10($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereGpa4($value)
+ * @property int|null $is_active
+ * @property string|null $teacher_lead
+ * @property string|null $phone_teacher_lead
+ * @property string|null $teacher_counselor
+ * @property string|null $phone_teacher_counselor
+ * @property string|null $education_time
+ * @property-read mixed $area_name
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereEducationTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student wherePhoneTeacherCounselor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student wherePhoneTeacherLead($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereTeacherCounselor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Student whereTeacherLead($value)
  */
 class Student extends Model
 {
@@ -105,7 +118,12 @@ class Student extends Model
 		'area',
 		'gpa_10',
 		'gpa_4',
-		'total_term'
+		'total_term',
+		'teacher_lead',
+		'phone_teacher_lead',
+		'teacher_counselor',
+		'phone_teacher_counselor',
+		'education_time',
 	];
 
 	protected $hidden = ['area'];
@@ -179,6 +197,8 @@ class Student extends Model
 		'area'       => 'integer',
 		'gpa_10'     => 'float',
 		'gpa_4'      => 'float',
+        'phone_teacher_lead' => 'string',
+        'phone_teacher_counselor' => 'string',
 		'total_term' => 'integer',
 		'course_id' => 'integer',
 		'department_id' => 'integer',

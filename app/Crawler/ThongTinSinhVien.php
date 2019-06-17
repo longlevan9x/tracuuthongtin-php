@@ -10,6 +10,7 @@ namespace App\Crawler;
 
 
 use function foo\func;
+use League\Flysystem\Exception;
 
 class ThongTinSinhVien extends Crawler
 {
@@ -28,44 +29,78 @@ class ThongTinSinhVien extends Crawler
 	}
 
 	protected function prepare() {
-		if($this->crawler->count() == 0) {
+		if ($this->crawler->count() == 0) {
 			return $this->list = [];
 		}
-		if( ! $this->checkTrangThai()) {
+		if (!$this->checkTrangThai()) {
 			return $this->list = [];
 		}
 
+		$name        = trim($this->crawler->filter('.title-group')->text());
+		$name        = str_replace('BẢNG KẾT QUẢ HỌC TẬP', '', $name);
+		$name        = trim($name);
+		$studentInfo = [];
 		// TODO: Implement prepare() method.
-		$this->crawler->filter('.body-group')->filter('table')->filter('tr')->each(function($node) {
-			$name = trim($this->crawler->filter('.title-group')->text());
-			$name = str_replace('BẢNG KẾT QUẢ HỌC TẬP', '', $name);
-			$name = trim($name);
+		$this->crawler->filter('.body-group')->filter('table')->filter('tr')->each(function($node) use (&$studentInfo) {
+
 			/** @var \Symfony\Component\DomCrawler\Crawler $node */
-			if($this->get_with_key) {
-				$this->list['name'] = $name;
-				$arr                = explode(":", trim($node->filter('td')->text())); // chuyen chuoi ve mang theo dau ':'
-				if($arr[0] == 'Khóa') {
-					$arr[0] = 'khoa_hoc';
-				}
-				$this->list[vn2latin(trim($arr[0]), '_')] = isset($arr[1]) ? trim($arr[1]) : '';
-				$arr                                      = explode(":", trim($node->filter('td:last-child')->text()));
-				$this->list[vn2latin(trim($arr[0]), '_')] = isset($arr[1]) ? trim($arr[1]) : '';
-			} else {
-				$this->list[] = $name;
-				$this->list[] = trim($node->filter('td')->text());
-				$this->list[] = trim($node->filter('td:last-child')->text());
+			$arr_1 = explode(":", trim($node->filter('td')->text())); // chuyen chuoi ve mang theo dau ':'
+			if ($arr_1[0] == 'Khóa') {
+				$arr_1[0] = 'khoa_hoc';
 			}
+			$key1               = vn2latin(trim($arr_1[0]), '_');
+			$studentInfo[$key1] = isset($arr_1[1]) ? trim($arr_1[1]) : '';
+
+			$arr_2 = explode(":", trim($node->filter('td:last-child')->text()));
+			if (vn2latin(trim($arr_1[0]), '_') == "co_van_hoc_tap") {
+				$key2 = "sdt_co_van_hoc_tap";
+			}
+			else {
+				$key2 = vn2latin(trim($arr_2[0]), '_');
+			}
+
+			$studentInfo[$key2] = isset($arr_2[1]) ? trim($arr_2[1]) : '';
 		});
 
 		$tong_so_tc_tich_luy = $this->crawler->filter('#ctl00_ContentPlaceHolder_ucThongTinTotNghiepTinChi1_lblTongTinChi')->text();
-		$diem_tb_tich_luy = $this->crawler->filter('#ctl00_ContentPlaceHolder_ucThongTinTotNghiepTinChi1_lblTBCTL')->text();
+		$diem_tb_tich_luy    = $this->crawler->filter('#ctl00_ContentPlaceHolder_ucThongTinTotNghiepTinChi1_lblTBCTL')->text();
 
-		if($this->get_with_key) {
-			$this->list['tong_so_tc_tich_luy'] = $tong_so_tc_tich_luy;
-			$this->list['diem_tb_tich_luy']    = $diem_tb_tich_luy;
-		} else {
+		$gpa    = $diem_tb_tich_luy;
+		$gpa    = str_replace(' ', '', $gpa);
+		$gpas   = explode('-', $gpa);
+		$gpa_10 = $gpas[0] ?? 0;
+		$gpa_4  = $gpas[1] ?? 0;
 
+		if ($studentInfo['co_so'] == 'Hà Nội') {
+			$coso = 10;
 		}
+		else {
+			$coso = 20;
+		}
+
+		$this->list['code']                    = $this->msv;
+		$this->list['name']                    = $name;
+		$this->list['status']                  = $studentInfo['trang_thai'];
+		$this->list['gender']                  = $studentInfo['gioi_tinh'];
+		$this->list['day_admission']           = $studentInfo['ngay_vao_truong'];
+		$this->list['area']                    = $coso;
+		$this->list['education_level']         = $studentInfo['bac_dao_tao'];
+		$this->list['type_education']          = $studentInfo['loai_hinh_dao_tao'];
+		$this->list['branch_group']            = $studentInfo['nganh'];
+		$this->list['branch']                  = $studentInfo['chuyen_nganh'];
+		$this->list['class']                   = $studentInfo['lop'];
+		$this->list['teacher_lead']            = $studentInfo['gvcn'];
+		$this->list['phone_teacher_lead']      = $studentInfo['so_dt'];
+		$this->list['teacher_counselor']       = $studentInfo['co_van_hoc_tap'];
+		$this->list['phone_teacher_counselor'] = $studentInfo['sdt_co_van_hoc_tap'];
+		$this->list['education_time']          = $studentInfo['thoi_gian_dao_tao'];
+		$this->list['gpa_10']                  = $gpa_10;
+		$this->list['gpa_4']                   = $gpa_4;
+		$this->list['school_year']             = $studentInfo['nien_khoa'];
+		$this->list['total_term']              = $tong_so_tc_tich_luy;
+		$this->list['is_active']               = 1;
+		$this->list['created_at']              = date('Y-m-d H:i:s');
+		$this->list['updated_at']              = date('Y-m-d H:i:s');
 	}
 
 	/**
@@ -78,11 +113,131 @@ class ThongTinSinhVien extends Crawler
 		return $this;
 	}
 
+	public function getMarkStudent() {
+		$mark_list = [];
+		$semester  = '';
+		$this->crawler->filter('.tblKetQuaHocTap')->first()->filter('tr:nth-of-type(n+3)')->each(function($tr_node) use (&$mark_list, &$semester) {
+			try {
+				/** @var \Symfony\Component\DomCrawler\Crawler $tr_node */
+				/** @var \Symfony\Component\DomCrawler\Crawler $td_node */
+				$td_node = $tr_node->filter('td');
+
+				$total_td = $td_node->count();
+
+				$tableThucHanh = $tr_node->filter('.tableThucHanh');
+
+				if ($total_td == 25) {
+					// truong hop lay duoc hoc ky
+					$position_start = 1;
+					$semester       = trim($td_node->getNode(1)->textContent);
+				}
+				else {
+					if ($tableThucHanh->count() == 1 && $total_td == 24) {
+						// truong hop lay duoc hoc ky va mon hoc la mon thuc hanh
+						$semester       = trim($td_node->getNode(1)->textContent);
+						$position_start = 1;
+					}
+					else {
+						// truong hop ko kay duoc hoc ky
+						$position_start = 0;
+					}
+				}
+//						        \Log::info($total_td);
+//						        \Log::info($position_start);
+				//            dd($td_node->getNode(3)->textContent);
+				$mark['student_code']  = $this->msv;
+				$mark['semester']      = $semester;
+				$mark['name_subject']  = trim($td_node->getNode($position_start + 1)->textContent);
+				$mark['code_class']    = trim($td_node->getNode($position_start + 2)->textContent);
+                $credit = trim($td_node->getNode($position_start + 3)->textContent) ?: null;
+                $mark_training = trim($td_node->getNode($position_start + 4)->textContent);
+                $mark['credit'] = $mark_training == "" ? null : intval($credit);
+                $mark['mark_training'] = $mark_training == "" ? null : floatval($mark_training);
+
+                $mark_practice_list = [];
+                $coefficient1 = $coefficient2 = [];
+				if ($tableThucHanh->count() == 1) {
+					$tr_node_tbth = $tableThucHanh->filter('tr')->last();
+					if ($tr_node_tbth->count() > 0) {
+
+						$tr_node_tbth->filter('td')->each(function($td_node) use (&$mark_practice_list) {
+							/** @var \Symfony\Component\DomCrawler\Crawler $td_node */
+							$mark_practice_list[] = str_replace("&nbsp;", "", htmlentities(trim($td_node->text())));
+						});
+					}
+				}
+				else {
+					$coefficient1         = [
+						trim($td_node->getNode($position_start + 5)->textContent),
+						trim($td_node->getNode($position_start + 6)->textContent),
+						trim($td_node->getNode($position_start + 7)->textContent),
+						trim($td_node->getNode($position_start + 8)->textContent),
+						trim($td_node->getNode($position_start + 9)->textContent),
+						trim($td_node->getNode($position_start + 10)->textContent),
+					];
+					$coefficient2         = [
+						trim($td_node->getNode($position_start + 11)->textContent),
+						trim($td_node->getNode($position_start + 12)->textContent),
+						trim($td_node->getNode($position_start + 13)->textContent),
+						trim($td_node->getNode($position_start + 14)->textContent),
+						trim($td_node->getNode($position_start + 15)->textContent),
+						trim($td_node->getNode($position_start + 16)->textContent),
+					];
+				}
+
+                $mark['mark_practice'] = json_encode(empty($mark_practice_list) ? [] : $mark_practice_list, JSON_NUMERIC_CHECK);
+
+                $mark['coefficient1'] = json_encode(empty($coefficient1) ? [] : $coefficient1, JSON_NUMERIC_CHECK);
+                $mark['coefficient2'] = json_encode(empty($coefficient2) ? [] : $coefficient2, JSON_NUMERIC_CHECK);
+
+                $mark_average_subject = trim($td_node->getNode($position_start + 17)->textContent);
+                $mark['mark_average_subject']  = $mark_average_subject == "" ? null : floatval($mark_average_subject);
+				if ($total_td == 20) {
+					$note = trim($td_node->getNode($position_start + 18)->textContent);
+				}
+				else {
+					if ($total_td == 23) {
+						$position_start = -1;
+					}
+                    if ($tableThucHanh->count() == 1 && $total_td == 24) {
+                        $position_start = 0;
+                    }
+
+					$mark_exam = trim($td_node->getNode($position_start + 18)->textContent);
+                    $mark['mark_exam']  = $mark_exam == "" ? null : floatval($mark_exam);
+
+					$mark_average = trim($td_node->getNode($position_start + 19)->textContent);
+                    $mark['mark_average']  = $mark_average == "" ? null : floatval($mark_average);
+
+                    $mark_exam2 = trim($td_node->getNode($position_start + 20)->textContent);
+                    $mark['mark_exam2']  = $mark_exam2 == "" ? null : floatval($mark_exam2);
+					$mark['exam_foul']    = trim($td_node->getNode($position_start + 21)->textContent);
+					$mark['degree']       = trim($td_node->getNode($position_start + 22)->textContent);
+					$note                 = trim($td_node->getNode($position_start + 23)->textContent);
+				}
+				$mark['note'] = $note;
+				$mark['created_at'] = date('Y-m-d H:i:s');
+				$mark['updated_at'] = date('Y-m-d H:i:s');
+//		        \Log::info($mark);
+//                dd($mark);
+				$mark_list[] = $mark;
+			} catch (\Exception $e) {
+				\Log::error($e);
+			}
+
+		});
+//		\Log::info($mark_list);
+//		dd($mark_list);
+
+		return $mark_list;
+	}
+
 	public function checkTrangThai() {
 		$text = $this->crawler->filter('.main-content')->filter('.body-group')->filter('table')->text();
-		if(strpos($text, 'Bảo lưu') > 0 || strpos($text, 'Đình chỉ') > 0 || strpos($text, 'Thôi học') > 0 || strpos($text, 'Đã tốt nghiệp') > 0) {
+		if (strpos($text, 'Bảo lưu') > 0 || strpos($text, 'Đình chỉ') > 0 || strpos($text, 'Thôi học') > 0 || strpos($text, 'Đã tốt nghiệp') > 0) {
 			return false;
-		} else {
+		}
+		else {
 			return true;
 		}
 	}
