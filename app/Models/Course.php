@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Department;
+use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -37,9 +38,21 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course query()
+ * @property-read \App\Models\Admins $author
+ * @property-read \App\Models\Admins $authorUpdated
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Relationship[] $relationships
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course active($value = 1)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course findSimilarSlugs($attribute, $config, $slug)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course inActive()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course myPluck($column, $key = null, $title = '')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course orderBySortOrder()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course orderBySortOrderDesc()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course postTime($time = '')
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Course whereSlug($slug)
  */
 class Course extends Model
 {
+	use ModelTrait;
 	/**
 	 * @var array
 	 */

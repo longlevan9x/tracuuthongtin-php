@@ -57,6 +57,138 @@ class AdminMenu
 				'children' => []
 			],
 			/*Profile*/
+			/*Student*/
+			[
+				'name'     => __("abilities.student.name"),
+				'url'      => '#',
+				'visible'  => can_index('student'),
+				'icon'     => 'fa-users',
+				'children' => [
+					[
+						'name'    => __("admin/menu.list"),
+						'url'     => url_admin('student'),
+						'visible' => true,
+						'icon'    => 'fa-user-circle',
+					],
+					[
+						'name'    => __("admin/menu.add"),
+						'url'     => url_admin('student/create'),
+						'visible' => true,
+						'icon'    => 'fa-plus',
+					],
+				]
+			],
+			/*Student*/
+			/*Area*/
+			[
+				'name'     => __("abilities.area.name"),
+				'url'      => '#',
+				'visible'  => can_index('area'),
+				'icon'     => 'fa-users',
+				'children' => [
+					[
+						'name'    => __("admin/menu.list"),
+						'url'     => url_admin('area'),
+						'visible' => true,
+						'icon'    => 'fa-user-circle',
+					],
+					[
+						'name'    => __("admin/menu.add"),
+						'url'     => url_admin('area/create'),
+						'visible' => true,
+						'icon'    => 'fa-plus',
+					],
+				]
+			],
+			/*Area*/
+			/*School*/
+			[
+				'name'     => __("abilities.school.name"),
+				'url'      => '#',
+				'visible'  => can_index('school'),
+				'icon'     => 'fa-users',
+				'children' => [
+					[
+						'name'    => __("admin/menu.list"),
+						'url'     => url_admin('school'),
+						'visible' => true,
+						'icon'    => 'fa-user-circle',
+					],
+					[
+						'name'    => __("admin/menu.add"),
+						'url'     => url_admin('school/create'),
+						'visible' => true,
+						'icon'    => 'fa-plus',
+					],
+				]
+			],
+			/*School*/
+			/*Department*/
+			[
+				'name'     => __("abilities.department.name"),
+				'url'      => '#',
+				'visible'  => can_index('department'),
+				'icon'     => 'fa-users',
+				'children' => [
+					[
+						'name'    => __("admin/menu.list"),
+						'url'     => url_admin('department'),
+						'visible' => true,
+						'icon'    => 'fa-user-circle',
+					],
+					[
+						'name'    => __("admin/menu.add"),
+						'url'     => url_admin('department/create'),
+						'visible' => true,
+						'icon'    => 'fa-plus',
+					],
+				]
+			],
+			/*Department*/
+			/*Course*/
+			[
+				'name'     => __("abilities.course.name"),
+				'url'      => '#',
+				'visible'  => can_index('course'),
+				'icon'     => 'fa-users',
+				'children' => [
+					[
+						'name'    => __("admin/menu.list"),
+						'url'     => url_admin('course'),
+						'visible' => true,
+						'icon'    => 'fa-user-circle',
+					],
+					[
+						'name'    => __("admin/menu.add"),
+						'url'     => url_admin('course/create'),
+						'visible' => true,
+						'icon'    => 'fa-plus',
+					],
+				]
+			],
+			/*Course*/
+			/*Semester*/
+			[
+				'name'     => __("abilities.semester.name"),
+				'url'      => '#',
+				'visible'  => can_index('semester'),
+				'icon'     => 'fa-users',
+				'children' => [
+					[
+						'name'    => __("admin/menu.list"),
+						'url'     => url_admin('semester'),
+						'visible' => true,
+						'icon'    => 'fa-user-circle',
+					],
+					[
+						'name'    => __("admin/menu.add"),
+						'url'     => url_admin('semester/create'),
+						'visible' => true,
+						'icon'    => 'fa-plus',
+					],
+				]
+			],
+			/*Semester*/
 			/*Admin*/
 			[
 				'name'     => __("abilities.admin.name"),

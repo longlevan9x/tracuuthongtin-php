@@ -8,6 +8,7 @@ use Yadakhov\InsertOnDuplicateKey;
 
 /**
  * App\Models\Mark
+ *
  * @property int                                                                      $id
  * @property string                                                                   $student_code
  * @property string|null                                                              $semester             hoc ky

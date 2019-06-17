@@ -79,13 +79,4 @@ class SemesterController extends Controller
 	public function destroy($id) {
 		//
 	}
-
-	/**
-	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-	 */
-	public function syncSemester() {
-		\App\Models\Facade\SemesterFacade::syncSemester();
-
-		return redirect(route('semester.index'));
-	}
 }

@@ -36,15 +36,6 @@ return [
 		'notification'      => "Thông báo"
 	],
 
-	'product' => [
-		'name'        => 'Tên sản phẩm',
-		'price'       => 'Giá',
-		'price_sale'  => 'Giá khuyến mãi',
-		'top_relates' => "Sản phẩm hàng đầu",
-		'related'     => "Sản phẩm liên quan",
-		'add_to_cart' => "Thêm vào giỏ"
-	],
-
 	'account' => [
 		'name'        => "Tài khoản",
 		'info'        => "Thông tin tài khoản",
@@ -91,16 +82,7 @@ return [
 		'select_the_tag_available' => "Chọn tag có sẵn"
 	],
 
-	'projects'     => "Dự án",
-	'clients'      => "Khách hàng",
-	'who_we_are'   => 'Chúng ta là ai',
-	'latest_posts' => 'Tin tức',
-
-	'contact_message' => [
-		'please_enter_your_name'             => '',
-		'please_enter_your_email_address'    => '',
-		'please_enter_a_valid_email_address' => '',
-		'please_enter_the_phone'             => '',
-		'please_enter_your_message'          => '',
-	],
+	'course' => [
+		'total_student' => 'Tổng số sinh viên'
+	]
 ];

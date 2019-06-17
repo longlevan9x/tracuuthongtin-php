@@ -5,12 +5,23 @@
  * Date: 5/7/2018
  * Time: 10:56 PM
  */
+$action     = request()->route()->getActionMethod();
+
+$form_title = '';
+switch ($action) {
+	case "edit":
+		$form_title = __('abilities.semester.resource.edit');
+		break;
+	case "index":
+		$form_title = __('abilities.semester.resource.create');
+		break;
+}
 ?>
 
-<div class="col-md-6 col-sm-6 col-xs-12">
+<div class="col-md-12 col-sm-12 col-xs-12">
     <div class="row">
         <div class="x_panel">
-            @include('admin.layouts.title_form', ['title' => 'Form Semester'])
+            @include('admin.layouts.title_form', ['title' => $form_title])
             <div class="x_content">
                 {{ Form::model(isset($model) ? $model : null, [
                     'url' => url('admin/semester', [isset($model) ? $model->id : '']),
@@ -21,7 +32,7 @@
                     'method' => isset($model) ? 'put' : 'post'
                 ]) }}
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">Name <span
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="code">@lang('admin/common.name') <span
                                 class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
@@ -29,7 +40,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Is active</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">@lang('admin/common.label.is.active')</label>
                     <div class="col-md-9 col-sm-9 col-xs-12">
                         <div class="">
                             <label>
@@ -42,8 +53,8 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button type="submit" class="btn btn-success">Submit</button>
-                        <button class="btn btn-primary" type="reset">Reset</button>
+                        <button type="submit" class="btn btn-success">@lang('admin.buttons.submit')</button>
+                        <button class="btn btn-primary" type="reset">@lang('admin.buttons.reset')</button>
                     </div>
                 </div>
 

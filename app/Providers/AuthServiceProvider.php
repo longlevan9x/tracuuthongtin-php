@@ -13,11 +13,17 @@ class AuthServiceProvider extends ServiceProvider
 	protected $policies = [
 		'App\Model'                    => 'App\Policies\ModelPolicy',
 		"App\User"                     => "App\Policies\UserPolicy",
-		"App\Models\Menu"               => "App\Policies\MenuPolicy",
+		"App\Models\Menu"              => "App\Policies\MenuPolicy",
 		"App\Models\Category"          => "App\Policies\CategoryPolicy",
 		"App\Models\Admins"            => "App\Policies\AdminPolicy",
 		"Silber\Bouncer\Database\Role" => "App\Policies\RolePolicy",
 		//can remove
+		"App\Models\Student"           => "App\Policies\StudentPolicy",
+		"App\Models\Department"        => "App\Policies\DepartmentPolicy",
+		"App\Models\School"            => "App\Policies\SchoolPolicy",
+		"App\Models\Area"              => "App\Policies\AreaPolicy",
+		"App\Models\Semester"          => "App\Policies\SemesterPolicy",
+		"App\Models\Course"            => "App\Policies\CoursePolicy",
 	];
 
 	/**

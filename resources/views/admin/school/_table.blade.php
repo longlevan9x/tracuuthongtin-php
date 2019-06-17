@@ -7,7 +7,7 @@
     <td>{{$model->name}}</td>
     <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">@component('admin.layouts.widget.labels.active'){{$model->is_active}} @endcomponent</td>
     <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
-        <a href="{{url('admin/area', [$model->id, 'edit'])}}" class="btn btn-sm btn-primary"><i class='fa fa-edit'></i></a>
+        <a href="{{url('admin/school', [$model->id, 'edit'])}}" class="btn btn-sm btn-primary"><i class='fa fa-edit'></i></a>
         <a class="btn btn-sm btn-danger"><i class="fa fa-remove"></i></a>
     </td>
 </tr>

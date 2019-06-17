@@ -41,8 +41,6 @@ Route::middleware(['admin', 'auth:admin'])->group(function() {
 	/*===========Dashboard Route============*/
 
 	Route::get(CategoryController::getResourceName('get-category'), CategoryController::getControllerWithAction('getOptionCategoryWithType'));
-	Route::get(WebsiteController::getResourceName('video'), WebsiteController::getControllerWithAction('showVideo'));
-	Route::post(WebsiteController::getResourceName('video'), WebsiteController::getControllerWithAction('postVideo'));
 	Route::get(WebsiteController::getResourceName('config'), WebsiteController::getControllerWithAction('showConfig'));
 	Route::post(WebsiteController::getResourceName('config'), WebsiteController::getControllerWithAction('postConfig'));
 	Route::get(WebsiteController::getResourceName('message'), WebsiteController::getControllerWithAction('showMessage'));
@@ -63,6 +61,12 @@ Route::middleware(['admin', 'auth:admin'])->group(function() {
 	Route::get(CategoryController::getResourceName('type/{type}'), CategoryController::getControllerWithAction('type'));
 
 	//can remove
+	Route::resource(\App\Http\Controllers\Admin\AreaController::getResourceName(), \App\Http\Controllers\Admin\AreaController::getClassName());
+	Route::resource(\App\Http\Controllers\Admin\SchoolController::getResourceName(), \App\Http\Controllers\Admin\SchoolController::getClassName());
+	Route::resource(\App\Http\Controllers\Admin\SemesterController::getResourceName(), \App\Http\Controllers\Admin\SemesterController::getClassName());
+	Route::resource(\App\Http\Controllers\Admin\DepartmentController::getResourceName(), \App\Http\Controllers\Admin\DepartmentController::getClassName());
+	Route::resource(\App\Http\Controllers\Admin\CourseController::getResourceName(), \App\Http\Controllers\Admin\CourseController::getClassName());
+	Route::resource(\App\Http\Controllers\Admin\StudentController::getResourceName(), \App\Http\Controllers\Admin\StudentController::getClassName());
 	/*===========Route Ajax===========*/
 	Route::post(AjaxController::getResourceName('delete-file/{table}/{key}/{id?}'), AjaxController::getControllerWithAction('deleteFile'));
 	Route::get(AjaxController::getResourceName('select2/{table}/{column}'), AjaxController::getControllerWithAction('select2'));
