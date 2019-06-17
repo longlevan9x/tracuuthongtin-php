@@ -419,7 +419,13 @@ class Crawl
         }
     }
 
-    public function crawlMarkCourse($course_code, $total_student = 0) {
+	/**
+	 * @param     $course_code
+	 * @param int $total_student
+	 * @return \Illuminate\Http\JsonResponse
+	 * @throws \Exception
+	 */
+	public function crawlMarkCourse($course_code, $total_student = 0) {
         if ($total_student == 0) {
             $course        = Course::whereCode($course_code)->first();
             $total_student = $course->total_student;

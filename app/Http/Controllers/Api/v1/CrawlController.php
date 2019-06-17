@@ -125,10 +125,11 @@ class CrawlController extends Controller
 		return $this->crawl->crawlMark($student_code);
 	}
 
-    /**
-     * @param $course_code
-     * @return \Illuminate\Http\JsonResponse
-     */
+	/**
+	 * @param $course_code
+	 * @return \Illuminate\Http\JsonResponse
+	 * @throws \Exception
+	 */
     public function crawlMarkCourse($course_code) {
 		return $this->crawl->crawlMarkCourse($course_code);
 	}
